@@ -5,6 +5,7 @@
  */
 package com.oasys.ips;
 
+import general.controlador.GestorJava;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -18,9 +19,11 @@ import org.primefaces.context.RequestContext;
 @SessionScoped
 public class java {
 
-    public void hola() {
+    public void hola() throws Exception {
         RequestContext context = RequestContext.getCurrentInstance();
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Hola desde java.");
+        GestorJava gestorJava = new GestorJava();
+        String dato = gestorJava.cargarDato();
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Hola desde java - bd : " + dato);
         context.showMessageInDialog(message);
     }
 }
