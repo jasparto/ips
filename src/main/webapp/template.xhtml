@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"  
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:head>         
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
+        <title>Oasys</title>
+        <link rel="shortcut icon" href="../resources/imagenes/icono.ico"/>
+
+    </h:head>
+
+    <f:view locale="#{i18nBean.locale}" >
+        <h:body id="template">
+            <h:outputScript library="js" name="general.js"/>
+            <h:outputStylesheet library="css" name="global.css"/> 
+            <h:outputStylesheet library="css" name="style.css"/> 
+            <div align="center">
+                <div class="cta-1">
+                    <div class="container">
+                        <div class="row text-center white">
+                            <h1 style="height: 20px;" class="cta-title"> <h:outputText value="#{sesion.establecimiento.nombre}"/></h1>
+                        </div>
+                    </div>
+                </div>
+                <p:separator style="height: 3px"/>
+            </div>
+            <div style="width: 80%; margin:auto auto">
+                <h:form id="menu" style="font-size: 15px;">
+                    <ui:include src="/inicio/menu.xhtml"/>
+                    <div align="right">
+                        <h:outputText value="#{sesion.establecimiento.nombre}" styleClass="letra"/>
+                        <br></br>
+                        <p:outputLabel value="#{sesion.usuario.nombre} " styleClass="letra"/>
+                        <p:outputLabel value="#{sesion.usuario.apellido}" styleClass="letra"/>                        
+                    </div>
+                </h:form>
+            </div>
+
+            <p:outputPanel id="contenido">
+                <div id="msnUp" align="center">
+                    <h:panelGrid columns="1">
+                        <p:messages id="messagesUp" showDetail="true" autoUpdate="true">
+                            <p:effect type="pulsate" event="load" delay="1000"/>
+                        </p:messages>
+                    </h:panelGrid>
+                </div>
+                <div id="content" align="center">
+                    <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">
+                        <f:facet name="start">  
+                            <h:graphicImage value="./../resources/imagenes/barra.gif" />  
+                        </f:facet>        
+                        <f:facet name="complete">  
+                            <h:outputText value="" />  
+                        </f:facet>
+                    </p:ajaxStatus> 
+                    <br/>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" style="font-size: small;">
+                        <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
+                        <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
+                    </p:confirmDialog>
+                    <ui:insert name="content">Contenido sin definir</ui:insert>
+                </div>
+                <div id="msn" align="center">
+                    <br/>
+                    <h:panelGrid columns="1">
+                        <p:messages id="messages" showDetail="true" autoUpdate="true">
+                            <p:effect type="pulsate" event="load" delay="1000"/>
+                        </p:messages>
+                    </h:panelGrid>
+                </div>
+                
+            </p:outputPanel>
+        </h:body>
+    </f:view>
+</html>
