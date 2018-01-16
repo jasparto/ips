@@ -17,8 +17,8 @@ public class GestorPropiedades {
         try {
 //            p.setProperty("urlbd", "jdbc:postgresql://127.0.0.1:5434/ipsbd");
 //            p.setProperty("urlbd", "jdbc:postgresql://postgresql.ipsbd.svc:5432/ipsbd");
-            p.setProperty("urlbd", "jdbc:postgresql://10.128.27.142:5432/ipsbd");
-            System.out.println("jdbc:postgresql://10.128.27.142:5432/ipsbd");
+            p.setProperty("urlbd", "jdbc:postgresql://postgresql.rsapp.svc:5432/ipsbd");
+            System.out.println("jdbc:postgresql://postgresql.rsapp.svc:5432/ipsbd");
             
             
 //            p.setProperty("urlbd", "jdbc:postgresql://127.3.226.130:5432/cuponio");
