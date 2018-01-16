@@ -26,8 +26,8 @@ public class GestorPropiedades {
             p.setProperty("controlador", "org.postgresql.Driver");
 //            p.setProperty("usuario", "adminvqltilx");
 //            p.setProperty("clave", "2cbRV4EurrpR");
-            p.setProperty("usuario", "userQA6");
-            p.setProperty("clave", "Cnhw2OnLIHRINdg0");
+            p.setProperty("usuario", "userLAH");
+            p.setProperty("clave", "Gvp0BPQ1P57eQ1BJ");
 
         } catch (Exception e) {
             throw e;

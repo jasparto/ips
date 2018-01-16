@@ -8,6 +8,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World V6!</h1>
+        <h1>Hello World V7!</h1>
     </body>
 </html>
