@@ -1,13 +1,16 @@
 package conexion;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
+import utilidades.modelo.UtilLog;
 
 /**
  *
- * @author carlosf
+ * @author waltero
  */
 public class BaseDatos {
 
@@ -19,7 +22,14 @@ public class BaseDatos {
         this.propiedades = propiedades;
     }
 
-    public Connection getConexion() throws SQLException {
+    public Connection getConexion() throws SQLException, UnknownHostException {
+//        InetAddress ip;
+//        try {
+//            ip = InetAddress.getLocalHost();
+//            System.out.println("Current IP address : " + ip.getHostAddress());
+//        } catch (Exception e) {
+//        }
+//        System.out.println(propiedades.getProperty("urlbd"));
         return java.sql.DriverManager.getConnection(propiedades.getProperty("urlbd"), propiedades.getProperty("usuario"), propiedades.getProperty("clave"));
     }
 

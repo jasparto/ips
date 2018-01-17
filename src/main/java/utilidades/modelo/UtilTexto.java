@@ -4,23 +4,23 @@
  */
 package utilidades.modelo;
 
-import java.security.MessageDigest;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  *
- * @author carlosf
+ * @author juliano
  */
 public class UtilTexto {
 
     public static String CARACTER_COMILLA = "'";
+
     /*
      * Toma una cadena y la transforma reemplazando todos los caracteres especiales como tildes, ñ, etc.
      */
-
     public static String normalizar(String cadena) {
         String cadenaNormalizada = Normalizer.normalize(cadena, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
@@ -39,6 +39,19 @@ public class UtilTexto {
         StringBuilder cadenaAuxiliar = new StringBuilder(cadena);
         while (cadenaAuxiliar.indexOf(caracter) == 0) {
             cadenaAuxiliar.deleteCharAt(0);
+        }
+        return cadenaAuxiliar.toString();
+    }
+
+    /*
+     * Elimina el caracter de la cadena recorriendo desde la derecha
+     * Ej:  eliminarCaracterDerecha(0,441000) -> 441000 = 441.
+     */
+    public static String eliminarCaracterDerecha(String caracter, String cadena) {
+        StringBuilder cadenaAuxiliar = new StringBuilder(cadena);
+        while (cadenaAuxiliar.lastIndexOf(caracter) >= 0
+                && cadenaAuxiliar.substring(cadenaAuxiliar.lastIndexOf(caracter)).equalsIgnoreCase(caracter)) {
+            cadenaAuxiliar.deleteCharAt(cadenaAuxiliar.lastIndexOf(caracter));
         }
         return cadenaAuxiliar.toString();
     }
@@ -86,66 +99,12 @@ public class UtilTexto {
         return cadena;
     }
 
-    /**
-     * Method Description: separar nombres y apellidos a partir de una ca
-     *
-     * @param nombreapellido
-     */
-    public static List<String> separarNombresApellidos(String nombreapellido) {
-        List<String> nombresapellidos = new ArrayList<String>();
-        nombreapellido = nombreapellido.replaceAll("  ", " ");
-        String[] datos = nombreapellido.split(" ");
-        if (nombreapellido.length() > 0) {
-            if (datos.length == 2) {
-                nombresapellidos.add(datos[0]);
-                nombresapellidos.add("");
-                nombresapellidos.add("");
-                nombresapellidos.add("");
-            } else if (datos.length == 3) {
-                nombresapellidos.add(datos[0]);
-                nombresapellidos.add(datos[1]);
-                nombresapellidos.add(datos[2]);
-                nombresapellidos.add("");
-            } else if (datos.length == 4) {
-                nombresapellidos.add(datos[0]);
-                nombresapellidos.add(datos[1]);
-                nombresapellidos.add(datos[2]);
-                nombresapellidos.add(datos[3]);
-            } else if (datos.length == 5) {
-                nombresapellidos.add(datos[0]);
-                nombresapellidos.add(datos[1] + " " + datos[2]);
-                nombresapellidos.add(datos[3]);
-                nombresapellidos.add(datos[4]);
-            } else if (datos.length == 6) {
-                nombresapellidos.add(datos[0]);
-                nombresapellidos.add(datos[1] + " " + datos[2]);
-                nombresapellidos.add(datos[3]);
-                nombresapellidos.add(datos[4] + " " + datos[5]);
-            } else {
-                return null;
-            }
-        }
-        return nombresapellidos;
-    }
-
     public static List<String> transformarLista(final List<?> objects) {
         List<String> lista = new ArrayList<String>();
         for (Object ob : objects) {
             lista.add(ob.toString());
         }
         return lista;
-    }
-
-    public static String replazarParametros(String mensajeOriginal, List<String> params) {
-        int cont = 0;
-        String mensajeNuevo = "";
-        for (String parametro : params) {
-            String cadena1 = "_" + String.valueOf(cont);
-            String cadena2 = parametro;
-            mensajeNuevo = mensajeOriginal.replace(cadena1, cadena2);
-            cont++;
-        }
-        return mensajeNuevo;
     }
 
     public static String cadenaDefecto(final String cadena, final String caracter) {
@@ -155,34 +114,52 @@ public class UtilTexto {
         return null;
     }
 
-    public static final String capitalizarCadena(String string) {
-        String s = "";
-        if (string != null) {
-            string = string.toLowerCase();
-            String[] words = string.split(" ");
-            for (String w : words) {
-                w = w.toUpperCase().replace(w.toUpperCase().substring(1), w.substring(1).toLowerCase());
-                s += w + " ";
-            }
-            s = s.trim();
+    /**
+     *
+     * @param cadena
+     * @param defecto
+     * @param caracter
+     * @return
+     */
+    public static String cadenaDefecto(final String cadena, final String defecto, final String caracter) {
+        if (cadena != null && cadena.length() > 0) {
+            return (caracter + cadena + caracter).trim();
         }
-        return s;
+        if (defecto != null && defecto.length() > 0) {
+            return defecto.trim();
+        }
+        return null;
     }
 
-//    public static String obtenerMD5(String clave) throws Exception {
-//        try {
-//            MessageDigest m = MessageDigest.getInstance("MD5");
-//            m.update(clave.getBytes("UTF-8"));
-//            byte s[] = m.digest();
-//            String md5 = "";
-//            for (int i = 0; i < s.length; i++) {
-//                md5 += Integer.toHexString((0x000000ff & s[i]) | 0xffffff00).substring(6);
-//            }
-//            return md5;
-//        } catch (Exception ex) {
-//            UtilMSG.addSupportMsg();
-//            UtilLog.generarLog(null, ex);
-//            throw ex;
-//        }
-//    }
+    /**
+     * Evalua una cadena si es valida la retorna en mayuscula de lo contrario
+     * retorna null, se le puede adicionar un caracter para realizar
+     * insercciones en bases de datos.
+     *
+     * @param cadena
+     * @param caracter
+     * @return String
+     *
+     */
+    public static String upper(final String cadena, final String caracter) {
+        if (cadena != null && cadena.length() > 0) {
+            return (caracter + cadena.toUpperCase().trim() + caracter).trim();
+        }
+        return null;
+    }
+
+    /**
+     * Evalua una expresión regular o patron definido.
+     *
+     * @param cadena
+     * @param patron
+     * @return boolean
+     *
+     */
+    public static boolean patternMatcher(final String cadena, final String patron) {
+        Pattern pattern = Pattern.compile(patron);
+        Matcher matcher = pattern.matcher(cadena);
+        return matcher.matches();
+    }
+
 }

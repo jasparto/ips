@@ -4,7 +4,6 @@
  */
 package general.modelo;
 
-
 import general.controlador.GestorPropiedades;
 import java.util.Properties;
 import utilidades.modelo.UtilLog;

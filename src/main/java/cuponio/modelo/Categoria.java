@@ -3,33 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package general.modelo;
+package cuponio.modelo;
 
 /**
  *
  * @author jose
  */
-public class Pais {
-   private Integer codigo=0; 
-   private String nombre="";    
-   
-   public Pais(){
-   
-   }
+public class Categoria {
 
-    /**
-     * @return the codigo
-     */
-    public Integer getCodigo() {
-        return codigo;
+    private int codigo;
+    private String nombre;
+
+    
+    public Categoria() {
     }
 
-    /**
-     * @param codigo the codigo to set
-     */
-    public void setCodigo(Integer codigo) {
+    public Categoria(int codigo) {
         this.codigo = codigo;
     }
+    
+    
+
+  
 
     /**
      * @return the nombre
@@ -44,5 +39,20 @@ public class Pais {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
+
+    /**
+     * @return the codigo
+     */
+    public int getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
+    }
+
+
 }

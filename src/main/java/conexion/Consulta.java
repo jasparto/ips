@@ -11,15 +11,13 @@ import java.sql.Statement;
 
 /**
  *
- * @author carlosp
+ * @author waltero
  */
 public class Consulta {
 
-    private Connection conexion;
     private Statement query;
 
     public Consulta(Connection conexion) throws SQLException {
-        this.conexion = conexion;
         query = conexion.createStatement();
     }
 
@@ -47,8 +45,5 @@ public class Consulta {
             }
             query = null;
         }
-    }
-    public Connection getConexion() {
-        return conexion;
     }
 }

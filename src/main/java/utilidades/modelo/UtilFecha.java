@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.sinergia.utilidades.modelo;
+package utilidades.modelo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,9 +17,7 @@ public class UtilFecha {
     public static String PATRON_FECHA_YYYYMMDD = "yyyy-MM-dd";
     public static String PATRON_FECHA_YYYYMMDDHHMM = "yyyy-MM-dd HH:mm";
     public static String PATRON_FECHA_YYYYMMDD_HH_MM = "yyyy-MM-dd_HH_mm";
-    public static String PATRON_FECHA_DD_MM_YYYY = "dd/MM/yyyy";
     public static String CARACTER_COMILLA = "'";
-    
 
     /**
      * Calcula la diferencia en días entre dos fechas.

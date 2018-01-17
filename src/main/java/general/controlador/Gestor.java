@@ -5,7 +5,6 @@
 package general.controlador;
 
 
-
 import conexion.BaseDatos;
 import general.modelo.Propiedades;
 import java.sql.Connection;
