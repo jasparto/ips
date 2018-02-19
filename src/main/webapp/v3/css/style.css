@@ -30,7 +30,11 @@ p {
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: "Montserrat", sans-serif;
+    /*  font-family: "Montserrat", sans-serif;
+      font-weight: 400;
+      margin: 0 0 20px 0;
+      padding: 0;*/
+    font-family: "Raleway", sans-serif;
     font-weight: 400;
     margin: 0 0 20px 0;
     padding: 0;
@@ -58,12 +62,6 @@ h1, h2, h3, h4, h5, h6 {
 .back-to-top i {
     padding-top: 12px;
     color: #fff;
-}
-
-.rotate{
-    -ms-transform: rotate(90deg); /* IE 9 */
-    -webkit-transform: rotate(90deg); /* Safari 3-8 */
-    transform: rotate(90deg);
 }
 
 @media (max-width: 768px) {
@@ -153,7 +151,8 @@ h1, h2, h3, h4, h5, h6 {
 
 #intro .carousel-item::before {
     content: '';
-    background-color: rgba(0, 0, 0, 0.7);
+    /*background-color: rgba(0, 0, 0, 0.7);*/
+    background-color: rgba(192,192,192,0.3);
     position: absolute;
     height: 100%;
     width: 100%;
@@ -179,7 +178,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #intro h2 {
-    color: #fff;
+    color: #000;
+    /*color: #fff;*/
     margin-bottom: 30px;
     font-size: 48px;
     font-weight: 700;
@@ -194,7 +194,8 @@ h1, h2, h3, h4, h5, h6 {
 #intro p {
     width: 80%;
     margin: 0 auto 30px auto;
-    color: #fff;
+    /*color: #fff;*/
+    color: #000;
 }
 
 @media (min-width: 1024px) {
@@ -211,7 +212,7 @@ h1, h2, h3, h4, h5, h6 {
 #intro .carousel-fade .carousel-inner .carousel-item,
 #intro .carousel-fade .carousel-inner .active.carousel-item-left,
 #intro .carousel-fade .carousel-inner .active.carousel-item-right {
-    opacity: 0;
+    opacity: 1.0;
 }
 
 #intro .carousel-fade .carousel-inner .active,
