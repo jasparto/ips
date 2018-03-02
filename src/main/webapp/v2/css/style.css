@@ -16,17 +16,20 @@ body {
 a {
   color: #18d26e;
   transition: 0.5s;
+  
 }
 
 a:hover, a:active, a:focus {
   color: #18d36e;
   outline: none;
   text-decoration: none;
+
 }
 
 p {
   padding: 0;
   margin: 0 0 30px 0;
+
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -148,7 +151,7 @@ h1, h2, h3, h4, h5, h6 {
 #intro .carousel-item::before {
   content: '';
   /*background-color: rgba(0, 0, 0, 0.7);*/
-  background-color: rgba(192,192,192,0.3);
+  background-color: rgba(36, 37, 36, 0.3);
   position: absolute;
   height: 100%;
   width: 100%;
@@ -176,20 +179,24 @@ h1, h2, h3, h4, h5, h6 {
 #intro h2 {
   color: #fff;
   margin-bottom: 30px;
-  font-size: 48px;
-  font-weight: 700;
+  font-size: 68px;
+  font-weight: 1000;
+
 }
 
 @media (max-width: 768px) {
   #intro h2 {
-    font-size: 28px;
+    font-size: 38px;
   }
 }
 
 #intro p {
   width: 80%;
   margin: 0 auto 30px auto;
-  color: #fff;
+  color: #f8f9fa;
+  font-size: 35px;
+
+  
 }
 
 @media (min-width: 1024px) {
@@ -228,6 +235,7 @@ h1, h2, h3, h4, h5, h6 {
 #intro .carousel-control-prev, #intro .carousel-control-next {
   width: 10%;
 }
+
 
 @media (min-width: 1024px) {
   #intro .carousel-control-prev, #intro .carousel-control-next {
