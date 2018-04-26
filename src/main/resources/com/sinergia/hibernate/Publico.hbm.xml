@@ -1,0 +1,453 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>    
+    <class name="com.sinergia.publico.modelo.Establecimiento" table="establecimiento"
+           schema="public">
+        
+        <composite-id class="com.sinergia.publico.modelo.EstablecimientoPK" name="establecimientoPK" >
+            <key-property name="codInstitucion" type="int" column="cod_institucion"/>
+            <key-property name="codEstablecimiento" type="int" column="cod_establecimiento"/>
+        </composite-id>
+        
+        <property name="nombre" type="string">
+            <column name="nombre" length="30" not-null="true" />
+        </property>
+        <property name="nit" type="string">
+            <column name="nit" length="25" not-null="true" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="80" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="20" />
+        </property>
+        <property name="correo" type="string">
+            <column name="correo" length="70" />
+        </property>
+        <property name="fechaCierreDiario" type="date">
+            <column name="fecha_cierre_diario" not-null="true"/>
+        </property>
+        <property name="tipoEstablecimiento" type="string">
+            <column name="tipo_establecimiento" length="1" />
+        </property> 
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="municipios" class="com.sinergia.publico.modelo.Municipios" fetch="select">
+            <column name="cod_municipio" not-null="true" />
+        </many-to-one>
+        
+        <set name="relUsuariosEstablecimientoSet" table="rel_usuarios_establecimiento" 
+             schema="usuario" inverse="true">
+            <key>
+                <column name="cod_institucion" not-null="true" />   
+                <column name="cod_establecimiento" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.usuario.modelo.Usuarios">
+                <column name="cod_documento" not-null="true" />
+                <column name="documento_usuario" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <set name="facturasConfiguracionSet" table="facturas_configuracion" inverse="true" lazy="true" fetch="select"
+             schema="facturacion" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.facturacion.modelo.FacturasConfiguracion" />
+        </set>
+        
+        <set name="recursoSet" table="establecimiento_recurso" inverse="false" lazy="true" fetch="select"
+             schema="atencion">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.sinergia.atencion.modelo.Recurso">
+                <column name="cod_recurso" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <set name="establecimientoParametrosSet" table="establecimiento_parametros" inverse="true" lazy="true" fetch="select"
+             schema="public" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.publico.modelo.EstablecimientoParametros" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.publico.modelo.Lista" table="lista"
+           schema="public">
+        <id name="codLista" type="int" column="cod_lista"/>
+        <property name="nombre" type="string">
+            <column name="nombre" length="100" not-null="true" unique="true" />
+        </property>
+        <property name="aplicativo" type="string">
+            <column name="aplicativo" length="20" />
+        </property>
+        <set name="detalleListaSet" table="detalle_lista" 
+             inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_lista" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.publico.modelo.DetalleLista" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.publico.modelo.DetalleLista" table="detalle_lista"
+           schema="public">
+        <composite-id class="com.sinergia.publico.modelo.DetalleListaPK" name="detalleListaPK" >
+            <key-property name="codLista" type="int" column="cod_lista"/>
+            <key-property name="codDetalle" type="int" column="cod_detalle"/>
+        </composite-id>
+        <many-to-one name="lista" class="com.sinergia.publico.modelo.Lista" fetch="select"
+                     insert="false" update="false" >
+            <column name="cod_lista" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="200" not-null="true"/>
+        </property>
+        <property name="activo" type="string">
+            <column name="activo" length="1" />
+        </property>
+        <property name="detalle" type="string">
+            <column name="detalle" length="100" />
+        </property>
+    </class>
+    
+    <class name="com.sinergia.publico.modelo.TipoComponentes" table="tipo_componentes">
+        <id name="codComponente" type="int">
+            <column name="cod_componente" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="60" />
+        </property>
+        <set name="seccionDetallesSet" table="seccion_detalle" inverse="true" lazy="true" fetch="select"
+             schema="atencion">
+            <key>
+                <column name="cod_componente" />
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.SeccionDetalle" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.publico.modelo.Municipios" table="municipios"
+           schema="public">
+        <id name="codMunicipio" type="string">
+            <column name="cod_municipio" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="departamentos" class="com.sinergia.publico.modelo.Departamentos" fetch="select">
+            <column name="cod_departamento" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" />
+        </property>
+        <set name="establecimientosSet" table="establecimiento" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_municipio" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.publico.modelo.Establecimiento" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.publico.modelo.Departamentos" table="departamentos"
+           schema="public">
+        <id name="codDepartamento" type="string">
+            <column name="cod_departamento" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="pais" class="com.sinergia.publico.modelo.Pais" fetch="select">
+            <column name="cod_pais" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" />
+        </property>
+        <set name="municipiosSet" table="municipios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_departamento" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.publico.modelo.Municipios" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.publico.modelo.Pais" table="pais">
+        <id name="codPais" type="short">
+            <column name="cod_pais" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" />
+        </property>
+        <set name="departamentosSet" table="departamentos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_pais" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.publico.modelo.Departamentos" />
+        </set>
+    </class>
+   
+    <class name="com.sinergia.publico.modelo.Institucion" table="institucion">
+        <id name="codInstitucion" type="int">
+            <column name="cod_institucion" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <property name="nit" type="string">
+            <column name="nit" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="40" />
+        </property>
+        <property name="razonSocial" type="string">
+            <column name="razon_social" length="40" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" />
+        </property>
+        <set name="recursoSet" table="recurso" inverse="true" lazy="true" fetch="select"
+             schema="atencion" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.Recurso" />
+        </set>
+        <!--  <set name="prefijoses" table="prefijos" inverse="true" lazy="true" fetch="select">
+                    <key>
+                        <column name="cod_institucion" not-null="true" />
+                    </key>
+                    <one-to-many class="Prefijos" />
+                </set>
+                <set name="tiposMovimientos" table="tipos_movimiento" inverse="true" lazy="true" fetch="select">
+                    <key>
+                        <column name="cod_institucion" not-null="true" />
+                    </key>
+                    <one-to-many class="TiposMovimiento" />
+                </set>
+                <set name="proveedoreses" table="proveedores" inverse="true" lazy="true" fetch="select">
+                    <key>
+                        <column name="cod_institucion" not-null="true" />
+                    </key>
+                    <one-to-many class="Proveedores" />
+                </set>
+        -->        
+        <set name="tipoRecursosSet" table="tipo_recurso" inverse="true" lazy="true" fetch="select"
+             schema="atencion" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.TipoRecurso" />
+        </set>
+        <set name="listasPreciosSet" table="listas_precios" inverse="true" lazy="true" fetch="select"
+             schema="cliente" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.ListasPrecios" />
+        </set>
+        <set name="programasSet" table="programas" inverse="true" lazy="true" fetch="select"
+             schema="cliente" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.Programas" />
+        </set>
+        <set name="programasConfiguracionSet" table="programas_configuracion" inverse="true" lazy="true" fetch="select"
+             schema="cliente" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.ProgramasConfiguracion" />
+        </set>
+        <!--
+                <set name="transaccioneses" table="transacciones" inverse="true" lazy="true" fetch="select">
+                    <key>
+                        <column name="cod_institucion" not-null="true" />
+                    </key>
+                    <one-to-many class="Transacciones" />
+                </set>
+        -->        
+        <set name="establecimientosSet" table="establecimiento" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.publico.modelo.Establecimiento" />
+        </set>
+        <!--
+        <set name="operacioneses" table="operaciones" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="Operaciones" />
+        </set>
+        
+        <set name="cuentases" table="cuentas" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="Cuentas" />
+        </set>
+        <set name="seccions" table="seccion" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="Seccion" />
+        </set>-->
+        
+        <set name="institucionParametrosSet" table="institucion_parametros" inverse="true" lazy="true" fetch="select"
+             schema="public">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.publico.modelo.InstitucionParametros" />
+        </set>
+        
+        <set name="usuariosSet" table="usuarios_institucion" inverse="false" lazy="true" fetch="select"
+             schema="usuario" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.sinergia.usuario.modelo.Usuarios">
+                <column name="cod_documento" not-null="true" />
+                <column name="documento_usuario" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <set name="clientesSet" table="clientes" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.Clientes" />
+        </set>
+        
+        <set name="entidadesSet" table="entidades" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.Entidades" />
+        </set>
+        
+        <set name="subcuentasSet" table="subcuentas" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.Subcuentas" />
+        </set>
+        
+        <set name="tiposContratoSet" table="tipos_contrato" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.TiposContrato" />
+        </set>
+        
+        <set name="parametrosConfiguracionSet" table="parametros_configuracion" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.ParametrosConfiguracion" />
+        </set>
+        
+        <set name="menusSet" table="menus" inverse="true" lazy="true" fetch="select"
+             schema="usuario">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.usuario.modelo.Menus" />
+        </set>
+        <set name="rolesSet" table="roles" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.usuario.modelo.Roles" />
+        </set>
+        
+    </class>
+    
+    <class name="com.sinergia.publico.modelo.Parametros" table="parametros"
+           schema="public">
+        <id name="codParametro" type="long">
+            <column name="cod_parametro" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="30" not-null="true" />
+        </property>
+        <property name="entidad" type="string">
+            <column name="entidad" length="20" not-null="true" />
+        </property>
+        <set name="establecimientoParametrosSet" table="establecimiento_parametros" inverse="true" lazy="true" fetch="select"
+             schema="public">
+            <key>
+                <column name="cod_parametro" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.publico.modelo.EstablecimientoParametros" />
+        </set>
+        <set name="institucionParametrosSet" table="institucion_parametros" inverse="true" lazy="true" fetch="select"
+             schema="public">
+            <key>
+                <column name="cod_parametro" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.publico.modelo.InstitucionParametros" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.publico.modelo.InstitucionParametros" table="institucion_parametros"
+           schema="public">
+        <composite-id name="institucionParametrosPK" class="com.sinergia.publico.modelo.InstitucionParametrosPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codParametro" type="long">
+                <column name="cod_parametro" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="parametros" class="com.sinergia.publico.modelo.Parametros" update="false" insert="false" fetch="select">
+            <column name="cod_parametro" not-null="true" />
+        </many-to-one>
+        <property name="valor" type="string">
+            <column name="valor" length="40" not-null="true" />
+        </property>
+    </class>
+    
+    <class name="com.sinergia.publico.modelo.EstablecimientoParametros" table="establecimiento_parametros"
+           schema="public">
+        <composite-id name="establecimientoParametrosPK" class="com.sinergia.publico.modelo.EstablecimientoParametrosPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codParametro" type="long">
+                <column name="cod_parametro" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="establecimiento" class="com.sinergia.publico.modelo.Establecimiento" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+        </many-to-one>
+        <many-to-one name="parametros" class="com.sinergia.publico.modelo.Parametros" update="false" insert="false" fetch="select">
+            <column name="cod_parametro" not-null="true" />
+        </many-to-one>
+        <property name="valor" type="string">
+            <column name="valor" length="40" not-null="true" />
+        </property>
+    </class>
+    
+</hibernate-mapping>

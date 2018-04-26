@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+    <!--    <h:form enctype="multipart/form-data" id="formDescargarRips" style="font-size: small;">-->
+    <div style="margin-top: 10px; text-align: center;">
+        <h:panelGroup id="zonaDescargas">
+            <center>
+                <h:panelGroup rendered="#{uiRips.archivosGenerados}" >
+                    <h:panelGrid columns="2">    
+                        <p:commandButton actionListener="#{uiRips.descargarArchivoCt(actionEvent)}" value="" ajax="false"
+                                         style="background-image:url(./../resources/imagenes/CT.png); background-repeat:no-repeat; background-size: 100px; width: 100px; height: 100px;"/>
+                        <p:commandButton actionListener="#{uiRips.descargarArchivoAf(actionEvent)}" value="" ajax="false"
+                                         style="background-image:url(./../resources/imagenes/AF.png); background-repeat:no-repeat; background-size: 100px; width: 100px; height: 100px;"/>
+
+                        <p:commandButton actionListener="#{uiRips.descargarArchivoUs(actionEvent)}" value="" ajax="false"
+                                         style="background-image:url(./../resources/imagenes/US.png); background-repeat:no-repeat; background-size: 100px; width: 100px; height: 100px;"/>
+                        <p:commandButton actionListener="#{uiRips.descargarArchivoAd(actionEvent)}" value="" ajax="false"
+                                         style="background-image:url(./../resources/imagenes/AD.png); background-repeat:no-repeat; background-size: 100px; width: 100px; height: 100px;"/>
+
+                        <p:commandButton actionListener="#{uiRips.descargarArchivoAc(actionEvent)}" value="" ajax="false"
+                                         style="background-image:url(./../resources/imagenes/AC.png); background-repeat:no-repeat; background-size: 100px; width: 100px; height: 100px;"/>
+                        <p:commandButton actionListener="#{uiRips.descargarArchivoAp(actionEvent)}" value="" ajax="false"
+                                         style="background-image:url(./../resources/imagenes/AP.png); background-repeat:no-repeat; background-size: 100px; width: 100px; height: 100px;"/>
+
+                        <p:commandButton actionListener="#{uiRips.descargarArchivoAm(actionEvent)}" value="" ajax="false"
+                                         style="background-image:url(./../resources/imagenes/AM.png); background-repeat:no-repeat; background-size: 100px; width: 100px; height: 100px;"/>
+                    </h:panelGrid>
+                </h:panelGroup>
+            </center>
+
+            <h:panelGroup rendered="#{uiRips.erroresGenerados}">
+                <p:dataList value="#{uiRips.cadenaErrores}" var="error">
+                    #{error}
+                </p:dataList>
+            </h:panelGroup>
+        </h:panelGroup>
+    </div>
+    <!--</h:form>-->       
+</ui:composition>

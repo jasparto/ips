@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                >
+
+
+    <div style="margin-top: 10px; text-align: center;">
+        <p:panelGrid columns="2">
+            <h:outputText value="Establecimiento: "/>
+            <p:selectOneMenu value="#{uiProgramas.institucionSeleccionado.listasPrecios.serviciosLista.servicios.serviciosPK.codEstablecimiento}">
+                <f:selectItem itemLabel="Selecciona una establecimiento"/>
+                <f:selectItems value="#{uiProgramas.institucionSeleccionado.establecimientosSet}"  var="varEstablecimientoServicioLista"  
+                               itemLabel="#{varEstablecimientoServicioLista.nombre}" itemValue="#{varEstablecimientoServicioLista.establecimientoPK.codEstablecimiento}"/>
+                <p:ajax  listener="#{uiProgramas.cargarServiciosEstablecimiento()}"  update="somServiciosEstablecimiento"/>
+            </p:selectOneMenu>
+
+            <h:outputText value="Servicio: "/>
+            <p:selectOneMenu id="somServiciosEstablecimiento" value="#{uiProgramas.institucionSeleccionado.listasPrecios.serviciosLista.serviciosListaPK.codServicio}">
+                <f:selectItem itemLabel="Selecciona un servicio"/>
+                <f:selectItems value="#{uiProgramas.serviciosEstablecimientoList}"  var="varItemServicio"  
+                               itemLabel="#{varItemServicio.nombre}" itemValue="#{varItemServicio.serviciosPK.codServicio}"/>
+            </p:selectOneMenu>
+
+
+            <h:outputText value="Valor: "/>
+            <p:inputText value="#{uiProgramas.institucionSeleccionado.listasPrecios.serviciosLista.valor}"/>
+        </p:panelGrid>
+        <p:commandButton value="Asignar Servicio Lista" action="#{uiProgramas.crearServicioListaPrecios()}" 
+                         update="@parent:@parent"/>
+    </div>
+</ui:composition>

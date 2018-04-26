@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                >
+
+    <h:panelGrid id="eventDetails" columns="2">
+        <h:outputLabel for="title" value="Información:" />
+        <h:outputLabel id="title" value="#{uiAgenda.event.title}"  style="overflow-x: visible; font-size: smaller"/>
+
+        <h:outputLabel for="from" value="Desde:" />
+        <p:inputMask id="from" value="#{uiAgenda.event.startDate}" mask="99/99/9999 99:99:99" readonly="true">
+            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="co" timeZone="GMT-5"/>
+        </p:inputMask>
+
+        <h:outputLabel for="to" value="Hasta:" />
+        <p:inputMask id="to" value="#{uiAgenda.event.endDate}" mask="99/99/9999 99:99:99" readonly="true">
+            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" locale="co" timeZone="GMT-5"/>
+        </p:inputMask>
+    </h:panelGrid>
+
+    <p:commandButton id="addButton" value="Agendar" action="#{uiAgenda.agendarCita(actionEvent)}"/>
+</ui:composition>

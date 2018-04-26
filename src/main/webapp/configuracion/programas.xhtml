@@ -1,0 +1,436 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml"
+                >
+
+    <ui:define name="content">
+        <h:form enctype="multipart/form-data" id="formProgramas" style="font-size: small;">
+            <p:panel id="panelProgramas"  header="Administrar Clientes y Programas" >
+
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="somItemsInstitucion" value="Institucion:" />
+                    <p:selectOneMenu id="somItemsInstitucion" value="#{uiProgramas.institucionSeleccionado}" converter="convertidorGenerico"
+                                     effect="fade" style="text-align: center;width: 180px;"
+                                     >  
+                        <f:selectItems value="#{uiProgramas.institucionList}" var="ins" itemLabel="#{ins.nombre}" itemValue="#{ins}"/>
+                    </p:selectOneMenu>
+                    <p:commandButton action="#{uiProgramas.cargarConfiguracionInstitucion()}" process="@parent" 
+                                     icon="ui-icon-search" update="somItemsInstitucion,pgProgramasInstitucion"/>
+                </h:panelGrid>
+                <p:outputPanel>
+                    <h:panelGroup id="pgProgramasInstitucion" rendered="#{not empty uiProgramas.institucionSeleccionado}">
+                        <h2>
+                            <h:outputText id="otInstitucionPrograma" 
+                                          value="Administrar Cliente/Programa - #{uiProgramas.institucionSeleccionado.nombre}"/>
+                        </h2>
+
+                        <p:tabView id="tvProgramasInstitucion" rendered="#{not empty uiProgramas.institucionSeleccionado.codInstitucion}">
+                            <p:tab id="tabClientesInstitucion" title="Clientes">
+                                <p:dataTable id="dtClientesInstitucion" value="#{uiProgramas.institucionSeleccionado.clientesSet}" var="varParametroClientes"
+                                             styleClass="Centro" emptyMessage="Institucion sin Clientes">
+
+                                    <p:columnGroup type="header">
+                                        <div align="left">
+                                            <p:commandButton icon="ui-icon-plus" title="Crear Cliente" style="width: 100px;"
+                                                             action="#{uiProgramas.cargarDialogoCrearCliente()}" update=":formProgramas:dialog"/>
+                                        </div><br/>
+                                        <p:row>  
+                                            <p:column headerText="Codigo"/>
+                                            <p:column  headerText="Nombre"/>
+                                            <p:column  headerText="Nit"/>
+                                            <p:column  headerText="Dirección"/>
+                                            <p:column  headerText="Telefono"/>
+                                            <p:column  headerText="activo"/>
+                                            <p:column  headerText="Opciones"/>
+                                        </p:row>
+                                    </p:columnGroup>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroClientes.clientesPK.codCliente}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroClientes.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroClientes.nit}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroClientes.direccion}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroClientes.telefono}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroClientes.activo?'SI':'NO'}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:commandButton icon="ui-icon-minus" action="#{uiProgramas.cargarDialogoModificarCliente()}"
+                                                         update=":formProgramas:dialog"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:tab>
+
+                            <p:tab id="tabEntidadesInstitucion" title="Aseguradoras">
+                                <p:dataTable id="dtEntidadesInstitucion" value="#{uiProgramas.institucionSeleccionado.entidadesSet}" var="varParametroEntidades"
+                                             styleClass="Centro" emptyMessage="Institucion sin Aseguradoras">
+                                    <p:columnGroup type="header">
+                                        <div align="left">
+                                            <p:commandButton icon="ui-icon-plus" title="Crear Aseguradora" style="width: 100px;"
+                                                             action="#{uiProgramas.cargarDialogoCrearEntidad()}" update=":formProgramas:dialog"/>
+                                        </div><br/>
+                                        <p:row>  
+                                            <p:column headerText="Codigo"/>
+                                            <p:column  headerText="Nombre"/>
+                                            <p:column  headerText="Dirección"/>
+                                            <p:column  headerText="Activo"/>
+                                            <p:column  headerText="Opciones"/>
+                                        </p:row>
+                                    </p:columnGroup>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroEntidades.entidadesPK.codEntidad}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroEntidades.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroEntidades.direccion}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanButton onLabel="SI" offLabel="NO" value="#{varParametroEntidades.activo}" 
+                                                               disabled="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton icon="ui-icon-minus" action="#{uiProgramas.cargarDialogoModificarEntidad()}"
+                                                         update=":formProgramas:dialog"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:tab>
+
+                            <p:tab id="tabSubcuentasInstitucion" title="Subcuentas">
+                                <p:dataTable  id="dtSubcuentasInstitucion" value="#{uiProgramas.institucionSeleccionado.subcuentasSet}" var="varParametroSubcuentas"
+                                              styleClass="Centro" emptyMessage="Institucion sin Subcuentas">
+                                    <p:columnGroup type="header">
+                                        <div align="left">
+                                            <p:commandButton icon="ui-icon-plus" title="Crear Subcuenta" style="width: 100px;"
+                                                             action="#{uiProgramas.cargarDialogoCrearSubcuenta()}"
+                                                             update=":formProgramas:dialog"/>
+                                        </div><br/>
+                                        <p:row>  
+                                            <p:column headerText="Codigo"/>
+                                            <p:column  headerText="Nombre"/>
+                                            <p:column  headerText="Activo"/>
+                                            <p:column  headerText="Opciones"/>
+                                        </p:row>
+                                    </p:columnGroup>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroSubcuentas.subcuentasPK.codSubcuenta}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroSubcuentas.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanButton onLabel="SI" offLabel="NO" value="#{varParametroSubcuentas.activo}" 
+                                                               disabled="true"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton icon="ui-icon-minus" action="#{uiProgramas.cargarDialogoModificarSubcuenta()}"
+                                                         update=":formProgramas:dialog"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:tab>
+
+                            <p:tab id="tabTiposContratoInstitucion" title="Tipos Contrato">
+                                <p:dataTable id="dtTiposContratoInstitucion"  value="#{uiProgramas.institucionSeleccionado.tiposContratoSet}" var="varParametroTiposContrato"
+                                             styleClass="Centro" emptyMessage="Institucion sin Conratos">
+                                    <p:columnGroup type="header">
+                                        <div align="left">
+                                            <p:commandButton icon="ui-icon-plus" title="Crear Contrato" style="width: 100px;"
+                                                             action="#{uiProgramas.cargarDialogoCrearTipoContrato()}"
+                                                             update=":formProgramas:dialog"/>
+                                        </div><br/>
+                                        <p:row>  
+                                            <p:column headerText="Codigo"/>
+                                            <p:column  headerText="Nombre"/>
+                                            <p:column  headerText="Opciones"/>
+                                        </p:row>
+                                    </p:columnGroup>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroTiposContrato.tiposContratoPK.codContrato}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varParametroTiposContrato.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:commandButton icon="ui-icon-minus" action="#{uiProgramas.cargarDialogoModificarTipoContrato()}" 
+                                                         update=":formProgramas:dialog"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:tab>
+
+                            <p:tab id="tabListaPreciosInstitucion" title="Lista Precios">
+                                <p:tabView orientation="left">
+                                    <p:tab title="Listas Institución">
+                                        <p:dataTable id="dtListaPreciosInstitucion"  value="#{uiProgramas.institucionSeleccionado.listasPreciosSet}" var="varListaPreciosInstitucion"
+                                                     styleClass="Centro" emptyMessage="Institucion sin Listas de Precios">
+                                            <p:columnGroup type="header">
+                                                <div align="left">
+                                                    <p:commandButton icon="ui-icon-plus" title="Crear Lista de Precios" style="width: 100px;"
+                                                                     action="#{uiProgramas.cargarDialogoCrearListaPrecios()}"
+                                                                     update=":formProgramas:dialog"/>
+                                                </div><br/>
+                                                <p:row>
+                                                    <p:column headerText="Codigo"/>
+                                                    <p:column  headerText="Nombre"/>
+                                                    <p:column  headerText="Tipo"/>
+                                                    <p:column  headerText="Opciones"/>
+                                                </p:row>
+                                            </p:columnGroup>
+                                            <p:column>
+                                                <h:outputText value="#{varListaPreciosInstitucion.listasPreciosPK.codLista}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{varListaPreciosInstitucion.nombre}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{varListaPreciosInstitucion.tipo}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:commandButton icon="ui-icon-minus" action="#{uiProgramas.cargarDialogoModificarListaPrecios()}" 
+                                                                 update=":formProgramas:dialog"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:tab>
+                                    <p:tab title="Servicios Lista Institución">
+                                        <p:selectOneMenu value="#{uiProgramas.institucionSeleccionado.listasPrecios}" converter="convertidorGenerico">
+                                            <f:selectItem itemLabel="Selecciona una configuración de programa"/>
+                                            <f:selectItems value="#{uiProgramas.institucionSeleccionado.listasPreciosSetToList}"  var="varItemListaPrecios"  
+                                                           itemLabel="#{varItemListaPrecios.nombre}" itemValue="#{varItemListaPrecios}"/>
+                                            <p:ajax update="dtServiciosLista" listener="#{uiProgramas.cargarServiciosListaEstablecimiento()}"/>
+                                        </p:selectOneMenu>
+                                        <p:dataTable id="dtServiciosLista"  value="#{uiProgramas.serviciosListasEstablecimientoList}" var="varServiciosLista"
+                                                     emptyMessage="Lista de precios sin servicios" styleClass="Centro">
+
+                                            <p:columnGroup type="header">
+                                                <div align="left">
+                                                    <p:commandButton icon="ui-icon-plus" title="Crear Lista de Precios" style="width: 100px;"
+                                                                     action="#{uiProgramas.cargarDialogoCrearServiciosLista()}"
+                                                                     update=":formProgramas:dialog"/>
+                                                </div><br/>
+                                                <p:row>
+                                                    <p:column headerText="Codigo"/>
+                                                    <p:column  headerText="Nombre"/>
+                                                    <p:column  headerText="Servicio"/>
+                                                    <p:column  headerText="Valor"/>
+                                                    <p:column  headerText="Establecimientos"/>
+                                                    <p:column  headerText="Opciones"/>
+                                                </p:row>
+                                            </p:columnGroup>
+
+                                            <p:column>
+                                                <h:outputText value="#{varServiciosLista.serviciosListaPK.codLista}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{varServiciosLista.listasPrecios.nombre}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{varServiciosLista.servicios.nombre}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{varServiciosLista.valor}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:dataList value="#{varServiciosLista.establecimientoList}" var="varServicioListaEstablecimiento">
+                                                    <h:outputText value="#{varServicioListaEstablecimiento.nombre}" style="text-align: left"/>
+                                                </p:dataList>
+                                            </p:column>
+                                            <p:column>
+                                                <p:commandButton icon="ui-icon-minus" action="#{uiProgramas.cargarDialogoModificarServiciosLista()}" 
+                                                                 update=":formProgramas:dialog"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:tab>
+                                </p:tabView>
+                            </p:tab>
+
+                            <p:tab id="tabConfiguracionProgramasInstitucion" title="Configuración Programas">
+                                <p:tabView id="tvConfiguracionProgramasInstitucion" orientation="left">
+                                    <p:tab title="Configuraciones Programas">
+                                        <p:dataTable id="dtConfiguracionProgramasInstitucion"  value="#{uiProgramas.institucionSeleccionado.programasConfiguracionSet}" var="varConfiguracionProgramasInstitucion"
+                                                     styleClass="Centro" emptyMessage="Institucion sin Configuración Programas">
+                                            <p:columnGroup type="header">
+                                                <div align="left">
+                                                    <p:commandButton icon="ui-icon-plus" title="Crear Configuración" style="width: 100px;" process="dtConfiguracionProgramasInstitucion"
+                                                                     action="#{uiProgramas.cargarDialogoCrearConfiguracionPrograma()}"
+                                                                     update=":formProgramas:dialog"/>
+                                                </div><br/>
+                                                <p:row>  
+                                                    <p:column headerText="Codigo"/>
+                                                    <p:column  headerText="Nombre"/>
+                                                    <p:column  headerText="Activo"/>
+                                                    <p:column  headerText="Opciones"/>
+                                                </p:row>
+                                            </p:columnGroup>
+                                            <p:column>
+                                                <h:outputText value="#{varConfiguracionProgramasInstitucion.programasConfiguracionPK.codConfiguracion}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{varConfiguracionProgramasInstitucion.nombre}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{varConfiguracionProgramasInstitucion.activo}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <p:commandButton icon="ui-icon-minus" action="#{uiProgramas.cargarDialogoModificarConfiguracionPrograma()}" 
+                                                                 update=":formProgramas:dialog"/>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:tab>
+                                    <p:tab title="Parametros Configuración">
+                                        <p:selectOneMenu value="#{uiProgramas.programasConfiguracion}" converter="convertidorGenerico">
+                                            <f:selectItem itemLabel="Selecciona una configuración de programa"/>
+                                            <f:selectItems value="#{uiProgramas.institucionSeleccionado.programasConfiguracionSetToList}"  var="varConfiguracionPrograma"  
+                                                           itemLabel="#{varConfiguracionPrograma.nombre}" itemValue="#{varConfiguracionPrograma}"/>
+                                            <p:ajax update="dtProgramasConfiguracionParametros"/>
+                                        </p:selectOneMenu>
+                                        <p:dataTable id="dtProgramasConfiguracionParametros"  value="#{uiProgramas.programasConfiguracion.programasConfiguracionParametrosSet.toArray()}" 
+                                                     var="varProgramasConfiguracionParametros" styleClass="Centro"
+                                                     emptyMessage="Institucion sin Parametros Configuración Programas" rendered="#{not empty uiProgramas.programasConfiguracion}">
+                                            <p:columnGroup type="header">
+                                                <div align="left">
+                                                    <p:commandButton icon="ui-icon-plus" title="Crear Parametro Configuración" style="width: 100px;"
+                                                                     action="#{uiProgramas.cargarDialogoCrearParametroConfiguracionPrograma()}" 
+                                                                     process="@parent:@parent" update=":formProgramas:dialog"/>
+                                                </div><br/>
+                                                <p:row>  
+                                                    <p:column headerText="Codigo"/>
+                                                    <p:column  headerText="Nombre Parametro"/>
+                                                    <p:column  headerText="Valor"/>
+                                                </p:row>
+                                            </p:columnGroup>
+                                            <p:column>
+                                                <h:outputText value="#{varProgramasConfiguracionParametros.programasConfiguracionParametrosPK.codParametro}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{varProgramasConfiguracionParametros.parametrosConfiguracion.nombre}"/>
+                                            </p:column>
+                                            <p:column>
+                                                <h:outputText value="#{varProgramasConfiguracionParametros.valor}"/>
+                                            </p:column>
+
+                                        </p:dataTable>
+                                    </p:tab>
+                                </p:tabView>
+                            </p:tab>
+
+                            <p:tab id="tabProgramasInstitucion" title="Programas">
+                                <p:dataTable id="dtProgramasInstitucion"  value="#{uiProgramas.institucionSeleccionado.programasSet}" var="varProgramasInstitucion"
+                                             emptyMessage="Institucion sin Programas" styleClass="Centro">
+                                    <p:columnGroup type="header">
+                                        <div align="left">
+                                            <p:commandButton icon="ui-icon-plus" title="Crear Programa" style="width: 100px;"
+                                                             action="#{uiProgramas.cargarDialogoCrearPrograma()}"
+                                                             update=":formProgramas:dialog"/>
+                                        </div><br/>
+                                        <p:row>  
+                                            <p:column headerText="Codigo"/>
+                                            <p:column  headerText="Nombre"/>
+                                            <p:column headerText="Cliente"/>
+                                            <p:column headerText="Aseguradora"/>
+                                            <p:column headerText="Contrato"/>
+                                            <p:column headerText="Subcuenta"/>
+                                            <!--<p:column headerText="Configuración Programa"/>-->
+                                            <p:column  headerText="Opciones"/>
+                                        </p:row>
+                                    </p:columnGroup>
+                                    <p:column>
+                                        <h:outputText value="#{varProgramasInstitucion.programasPK.codPrograma}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varProgramasInstitucion.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varProgramasInstitucion.clientes.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varProgramasInstitucion.entidades.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varProgramasInstitucion.tiposContrato.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varProgramasInstitucion.subcuentas.nombre}"/>
+                                    </p:column>
+                                    
+                                    <p:column>
+                                        <p:commandButton icon="ui-icon-minus" action="#{uiProgramas.cargarDialogoModificarPrograma()}" 
+                                                         update=":formProgramas:dialog"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:tab>
+
+                            <p:tab id="tabProgramasEstablecimiento" title="Programas Establecimiento">
+                                <h:panelGrid>
+                                    <p:selectOneMenu value="#{uiProgramas.programas}" converter="convertidorGenerico"
+                                                     style="width: 250px;">
+                                        <f:selectItem itemLabel="Selecciona un programa"/>
+                                        <f:selectItems value="#{uiProgramas.institucionSeleccionado.programasSetToList}" 
+                                                       var="varProgramaEstablecimiento"  
+                                                       itemLabel="#{varProgramaEstablecimiento.nombre}" itemValue="#{varProgramaEstablecimiento}"/>
+                                        <p:ajax update="@parent" listener="#{uiProgramas.cargarEstablecimientosProgramaConfiguracion()}"/>
+                                    </p:selectOneMenu>
+                                    <p:selectOneMenu value="#{uiProgramas.programasConfiguracion}" converter="convertidorGenerico"
+                                                     style="width: 250px;">
+                                        <f:selectItem itemLabel="Selecciona una configuración"/>
+                                        <f:selectItems value="#{uiProgramas.institucionSeleccionado.programasConfiguracionSetToList}" 
+                                                       var="varConfiguracionEstablecimiento"  
+                                                       itemLabel="#{varConfiguracionEstablecimiento.nombre}" itemValue="#{varConfiguracionEstablecimiento}"/>
+                                        <p:ajax update="plEstalecimientosProgramaConfiguracion" listener="#{uiProgramas.cargarEstablecimientosProgramaConfiguracion()}"/>
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                                <p:pickList id="plEstalecimientosProgramaConfiguracion" value="#{uiProgramas.establecimientoDualList}" 
+                                            converter="primeFacesPickListConverter"
+                                            var="varDualEstablecimiento"  
+                                            itemLabel="#{varDualEstablecimiento.nombre}"  
+                                            itemValue="#{varDualEstablecimiento}"
+                                            addLabel="Agregar" addAllLabel="Agregar todos"
+                                            removeLabel="Remover" removeAllLabel="Remover Todos"
+                                            > 
+                                    <f:facet name="sourceCaption">Establecimientos disponibles</f:facet>  
+                                    <f:facet name="targetCaption">Establecimientos asignados</f:facet> 
+                                    <p:ajax event="transfer" update="plEstalecimientosProgramaConfiguracion" listener="#{uiProgramas.asignarEstablecimientosProgramaConfiguracion()}" />
+                                </p:pickList> 
+                            </p:tab>
+
+
+                        </p:tabView>
+
+
+
+
+
+                    </h:panelGroup>
+                </p:outputPanel>
+
+                <h:panelGrid>
+                    <ui:include src="/barra.xhtml">
+                        <ui:param name="bean" value="#{uiProgramas}"/>
+                    </ui:include>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:dialog id="dialog" widgetVar="dialog" header="#{sesion.dialogo.header}" showEffect="#{sesion.dialogo.effect}" hideEffect="#{sesion.dialogo.effect}"
+                      onHide="limpiarModal()">
+                <ui:include src="#{sesion.dialogo.src}"/>
+            </p:dialog>
+            <p:remoteCommand name="limpiarModal" action="#{uiSesion.limpiarDialogo()}" update=":formProgramas:dialog" 
+                             ignoreAutoUpdate="true"/>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

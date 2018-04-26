@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+
+    <div style="margin-top: 10px; text-align: center;">
+        <h3>                
+            <h:outputText value="Crear Parametro"/>
+            <div align="right">
+                <p:commandButton icon="ui-icon-plus" title="Nuevo Parametro" style="width: 100px;"
+                                 oncomplete="PF('dialogNuevoParametro').show()" update="dialogNuevoParametro"/>
+            </div>
+        </h3>
+        <p:panelGrid columns="2">
+            <h:outputText value="Parametro: "/>
+            <p:selectOneMenu id="somParametrosInstitucion" value="#{uiEstablecimiento.establecimiento.establecimientoParametros.parametros}" 
+                             converter="convertidorGenerico">
+                <f:selectItem itemLabel="Seleccione un parametro"/>
+                <f:selectItems value="#{uiEstablecimiento.parametrosList}" var="varParametro" itemLabel="#{varParametro.nombre}" itemValue="#{varParametro}"/>
+            </p:selectOneMenu>
+            <h:outputText value="Valor: "/>
+            <h:inputText value="#{uiEstablecimiento.establecimiento.establecimientoParametros.valor}"/>
+        </p:panelGrid>
+        <p:commandButton value="Adicionar" action="#{uiEstablecimiento.asignarParametro()}"
+                         update=":formEstablecimientos:tvEstablecimientos"/>
+    </div>
+
+    <p:dialog id="dialogNuevoParametro" widgetVar="dialogNuevoParametro" header="Nuevo Parametro" showEffect="clip" hideEffect="clip">
+        <p:panelGrid columns="2">
+            <h:outputText value="Parametro: "/>
+            <h:inputText id="itNombreNuevoParametro" value="#{uiEstablecimiento.parametrosNuevo.nombre}"/>
+        </p:panelGrid>
+        <p:commandButton icon="ui-icon-plus" title="Crear Parametro" style="width: 100px;"
+                         action="#{uiEstablecimiento.crearParametro()}" process="@parent"
+                         update="somParametrosInstitucion" />
+    </p:dialog>
+</ui:composition>

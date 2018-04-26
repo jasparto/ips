@@ -1,0 +1,83 @@
+body {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+
+.letra{
+    font-weight: bold;
+    font-family: Helvetica;
+    font-size: 13px;
+}
+
+.letraTabla{
+    font-size: small;
+    text-align: center;
+}
+
+.labelMenu{
+    font-weight: bold;
+    font-family: Helvetica;
+    font-size: 20px;
+}
+
+.letraTitulo{
+    font-weight: bold;
+    font-family: Calibri;
+    font-size: 40px;
+    color: #255329;
+}
+
+.mensajeError {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 10px;
+    color: #FF0000;
+}
+
+.tooltip {
+    border-width: 2px;
+    font-weight: bold;
+    padding: 5px;
+    text-align: center;
+    width: 150px;
+}
+
+.letraVentana {
+    background-image: url(../imagenes/barramenu.gif);
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.menuCabecera{
+    text-align: center;
+}
+
+.botonOpcion{
+    width: 80px;
+}
+
+.Centro {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: small;
+    text-align: center;
+}
+
+.value {
+    width: 1000px;
+}
+
+.selectOneMenu {
+    width: 250px;
+}
+
+.som .ui-selectonemenu-label { 
+    width: 150px;
+}
+
+.panelGrid .inputTextarea .inputText{
+    width: 100%;
+}

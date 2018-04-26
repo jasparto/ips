@@ -1,0 +1,461 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>    
+    <class name="com.sinergia.cliente.modelo.Clientes" table="clientes"
+           schema="cliente">
+        <composite-id name="clientesPK" class="com.sinergia.cliente.modelo.ClientesPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <!--            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>-->
+            <key-property name="codCliente" type="int">
+                <column name="cod_cliente" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="false" insert="false" 
+                     fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="160" not-null="true" />
+        </property>
+        <property name="nit" type="string">
+            <column name="nit" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="150" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="150" />
+        </property>
+        <property name="activo" type="boolean">
+            <column name="activo" />
+        </property>
+        <set name="programasSet" table="programas" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_cliente" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.Programas" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.cliente.modelo.Programas" table="programas"
+           schema="cliente">
+        <composite-id name="programasPK" class="com.sinergia.cliente.modelo.ProgramasPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <!--            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>-->
+            <key-property name="codPrograma" type="long">
+                <column name="cod_programa" />
+            </key-property>
+            <key-property name="codEntidad" type="int">
+                <column name="cod_entidad" />
+            </key-property>
+            <key-property name="codContrato" type="int">
+                <column name="cod_contrato" />
+            </key-property>
+            <key-property name="codCliente" type="int">
+                <column name="cod_cliente" />
+            </key-property>
+            <key-property name="codSubcuenta" type="int">
+                <column name="cod_subcuenta" />
+            </key-property>
+        </composite-id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" not-null="true" />
+        </property>
+        
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion"  insert="false" update="false" fetch="select" >
+            <column name="cod_institucion" not-null="true"  />
+        </many-to-one>
+        
+        <many-to-one name="entidades" class="com.sinergia.cliente.modelo.Entidades" update="false" 
+                     insert="false" fetch="select" >
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_entidad" not-null="true" />
+        </many-to-one>
+        <many-to-one name="clientes" class="com.sinergia.cliente.modelo.Clientes" update="false" 
+                     insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_cliente" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tiposContrato" class="com.sinergia.cliente.modelo.TiposContrato" update="false" 
+                     insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_contrato" not-null="true" />
+        </many-to-one>
+        <many-to-one name="subcuentas" class="com.sinergia.cliente.modelo.Subcuentas" update="false" 
+                     insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_subcuenta" not-null="true" />
+        </many-to-one>
+        <set name="programasConfiguracionSet" table="rel_programas_configuracion" inverse="false" lazy="true" fetch="select"
+             schema="cliente" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_programa" not-null="true" />
+                <column name="cod_entidad" not-null="true" />
+                <column name="cod_contrato" not-null="true" />
+                <column name="cod_cliente" not-null="true" />
+                <column name="cod_subcuenta" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.sinergia.cliente.modelo.ProgramasConfiguracion" 
+                          class="com.sinergia.cliente.modelo.ProgramasConfiguracion" >
+                <!--<column name="cod_institucion" not-null="true" />-->
+                <column name="cod_configuracion" not-null="true" />
+                <!--<column name="cod_establecimiento" not-null="true" />-->
+            </many-to-many>
+        </set>
+    </class>
+    
+    <class name="com.sinergia.cliente.modelo.ProgramasConfiguracion" table="programas_configuracion"
+           schema="cliente">
+        <composite-id name="programasConfiguracionPK" class="com.sinergia.cliente.modelo.ProgramasConfiguracionPK">
+            <!--                        <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>-->
+            <!--           <key-property name="codEstablecimiento" type="int"> 
+                <column name="cod_establecimiento" />
+            </key-property>-->
+            <key-property name="codConfiguracion" type="long">
+                <column name="cod_configuracion" />
+            </key-property>
+        </composite-id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" not-null="true" />
+        </property>
+        <property name="codLista" type="int">
+            <column name="cod_lista" not-null="true" />
+        </property>
+        <property name="activo" type="boolean">
+            <column name="activo" />
+        </property>
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="true" insert="true" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="listasPrecios" class="com.sinergia.cliente.modelo.ListasPrecios" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <!--<column name="cod_establecimiento" not-null="true" />-->
+            <column name="cod_lista" not-null="true" />
+        </many-to-one>
+        <set name="programasConfiguracionParametrosSet" table="programas_configuracion_parametros" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <!--<column name="cod_establecimiento" not-null="true" />-->
+                <!--<column name="cod_institucion" not-null="true" />-->
+                <column name="cod_configuracion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.ProgramasConfiguracionParametros" />
+        </set>
+        <set name="programasSet" table="rel_programas_configuracion" inverse="false" lazy="true" fetch="select"
+             schema="cliente" >
+            <key>
+                <!--<column name="cod_establecimiento" not-null="true" />-->
+                <!--<column name="cod_institucion" not-null="true" />-->
+                <column name="cod_configuracion" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.sinergia.cliente.modelo.Programas" class="com.sinergia.cliente.modelo.Programas">
+                <!--                <column name="cod_establecimiento" not-null="true"  />-->
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_programa" />                    
+                <column name="cod_entidad" />
+                <column name="cod_contrato" />
+                <column name="cod_cliente" />                
+                <column name="cod_subcuenta" />
+            </many-to-many>
+        </set>
+        
+        
+        
+        <!--        <set name="categories" table="stock_category" 
+                inverse="false" lazy="true" fetch="select" cascade="all" >
+            <key>
+                <column name="STOCK_ID" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.mkyong.stock.Category">
+                <column name="CATEGORY_ID" not-null="true" />
+            </many-to-many>
+        </set>-->
+        
+    </class>
+    
+    <class name="com.sinergia.cliente.modelo.ListasPrecios" table="listas_precios"
+           schema="cliente">
+        <composite-id name="listasPreciosPK" class="com.sinergia.cliente.modelo.ListasPreciosPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <!--            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>-->
+            <key-property name="codLista" type="int">
+                <column name="cod_lista" />
+            </key-property>
+        </composite-id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="180" not-null="true" />
+        </property>
+        <property name="tipo" type="string">
+            <column name="tipo" length="15" not-null="true" />
+        </property>
+        
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion"  insert="false" update="false" fetch="select" >
+            <column name="cod_institucion" not-null="true"  />
+        </many-to-one>
+        
+        
+        <set name="serviciosListaSet" table="servicios_lista" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <!--<column name="cod_establecimiento" not-null="true" />-->
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_lista" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.ServiciosLista" />
+        </set>
+        <set name="programasConfiguracionSet" table="programas_configuracion" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <!--                <column name="cod_establecimiento" not-null="true" />-->
+                <column name="cod_lista" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.ProgramasConfiguracion" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.cliente.modelo.ServiciosLista" table="servicios_lista"
+           schema="cliente">
+        <composite-id name="serviciosListaPK" class="com.sinergia.cliente.modelo.ServiciosListaPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <!--            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>-->
+            <key-property name="codLista" type="int">
+                <column name="cod_lista" />
+            </key-property>
+            <key-property name="codServicio" type="long">
+                <column name="cod_servicio" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="listasPrecios" class="com.sinergia.cliente.modelo.ListasPrecios" update="false" insert="false" fetch="select">
+            <!--<column name="cod_establecimiento" not-null="true" />-->
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_lista" not-null="true" />
+        </many-to-one>
+        <!--        <many-to-one name="servicios" class="com.sinergia.atencion.modelo.Servicios" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+            <column name="cod_servicio" not-null="true" />
+        </many-to-one>-->
+        <property name="valor" type="float">
+            <column name="valor" precision="8" scale="8" not-null="true" />
+        </property>
+    </class>
+
+    <class name="com.sinergia.cliente.modelo.Entidades" table="entidades"
+           schema="cliente">
+        <composite-id name="entidadesPK" class="com.sinergia.cliente.modelo.EntidadesPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <!--            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>-->
+            <key-property name="codEntidad" type="int">
+                <column name="cod_entidad" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="80" not-null="true" />
+        </property>
+        <property name="regimen" type="string">
+            <column name="regimen" length="3" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="150" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="80" />
+        </property>
+        <property name="activo" type="boolean">
+            <column name="activo" />
+        </property>
+        <set name="programasSet" table="programas" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <!--                <column name="cod_establecimiento" not-null="true" />-->
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_entidad" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.Programas" />
+        </set>
+    </class>
+
+    <class name="com.sinergia.cliente.modelo.ParametrosConfiguracion" table="parametros_configuracion"
+           schema="cliente">
+        <composite-id name="parametrosConfiguracionPK" class="com.sinergia.cliente.modelo.ParametrosConfiguracionPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <!--            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>-->
+            <key-property name="codParametro" type="long">
+                <column name="cod_parametro" />
+            </key-property>
+        </composite-id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" />
+        </property>
+        <set name="programasConfiguracionParametrosSet" table="programas_configuracion_parametros" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_parametro" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.ProgramasConfiguracionParametros" />
+        </set>
+    </class>
+
+    <class name="com.sinergia.cliente.modelo.Subcuentas" table="subcuentas"
+           schema="cliente">
+        <composite-id name="subcuentasPK" class="com.sinergia.cliente.modelo.SubcuentasPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <!--            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>-->
+            <key-property name="codSubcuenta" type="int">
+                <column name="cod_subcuenta" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="80" not-null="true" />
+        </property>
+        <property name="activo" type="boolean">
+            <column name="activo" />
+        </property>
+        <set name="programasSet" table="programas" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <!--<column name="cod_establecimiento" not-null="true" />-->
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_subcuenta" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.Programas" />
+        </set>
+    </class>
+
+    <class name="com.sinergia.cliente.modelo.TiposContrato" table="tipos_contrato"
+           schema="cliente">
+        <composite-id name="tiposContratoPK" class="com.sinergia.cliente.modelo.TiposContratoPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <!--            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>-->
+            <key-property name="codContrato" type="int">
+                <column name="cod_contrato" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="20" not-null="true" />
+        </property>
+        <set name="programasSet" table="programas" inverse="true" lazy="true" fetch="select"
+             schema="cliente">
+            <key>
+                <!--<column name="cod_establecimiento" not-null="true" />-->
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_contrato" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.cliente.modelo.Programas" />
+        </set>
+    </class>
+
+    <class name="com.sinergia.cliente.modelo.ProgramasConfiguracionParametros" table="programas_configuracion_parametros"
+           schema="cliente">
+        <composite-id name="programasConfiguracionParametrosPK" class="com.sinergia.cliente.modelo.ProgramasConfiguracionParametrosPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codConfiguracion" type="long">
+                <column name="cod_configuracion" />
+            </key-property>
+            <key-property name="codParametro" type="long">
+                <column name="cod_parametro" />
+            </key-property>
+        </composite-id>
+        <property name="valor" type="string">
+            <column name="valor" length="40" />
+        </property>
+        <!--        <many-to-one name="parametrosConfiguracion" class="ParametrosConfiguracion" update="false" insert="false" fetch="select">
+            <column name="cod_establecimiento" not-null="true" />
+            <column name="cod_parametro" not-null="true" />
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>-->        
+        <many-to-one name="programasConfiguracion" class="com.sinergia.cliente.modelo.ProgramasConfiguracion" update="false" insert="false" fetch="select">
+            <!--<column name="cod_institucion" not-null="true" />-->
+            <column name="cod_configuracion" not-null="true" />
+        </many-to-one>
+        <many-to-one name="parametrosConfiguracion" class="com.sinergia.cliente.modelo.ParametrosConfiguracion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_parametro" not-null="true" />
+        </many-to-one>
+        
+    </class>
+    
+    <class name="com.sinergia.cliente.modelo.RelProgramasConfiguracion" table="rel_programas_configuracion"
+           schema="cliente">
+        <composite-id name="relProgramasConfiguracionPK" class="com.sinergia.cliente.modelo.RelProgramasConfiguracionPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codPrograma" type="long">
+                <column name="cod_programa" />
+            </key-property>
+            <key-property name="codEntidad" type="int">
+                <column name="cod_entidad" />
+            </key-property>
+            <key-property name="codContrato" type="int">
+                <column name="cod_contrato" />
+            </key-property>
+            <key-property name="codCliente" type="int">
+                <column name="cod_cliente" />
+            </key-property>
+            <key-property name="codSubcuenta" type="int">
+                <column name="cod_subcuenta" />
+            </key-property>
+            <key-property name="codConfiguracion" type="long">
+                <column name="cod_configuracion" />
+            </key-property>
+        </composite-id>
+    </class>
+    
+    
+</hibernate-mapping>

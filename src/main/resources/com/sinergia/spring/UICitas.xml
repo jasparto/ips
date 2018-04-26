@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+ 
+    <bean id="gestorCitas" 
+          class="com.sinergia.atencion.controlador.GestorCitas" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorPacientes" 
+          class="com.sinergia.paciente.controlador.GestorPacientes" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorEstablecimiento" 
+          class="com.sinergia.publico.controlador.GestorEstablecimiento" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorUsuario" 
+          class="com.sinergia.usuario.controlador.GestorUsuario" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorServicios" 
+          class="com.sinergia.atencion.controlador.GestorServicios" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorLista" 
+          class="com.sinergia.publico.controlador.GestorLista" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorRecursos" 
+          class="com.sinergia.atencion.controlador.GestorRecursos" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorSeccion" 
+          class="com.sinergia.atencion.controlador.GestorSeccion" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorClientes" 
+          class="com.sinergia.cliente.controlador.GestorClientes" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorFacturas" 
+          class="com.sinergia.facturacion.controlador.GestorFacturas" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorRips" 
+          class="com.sinergia.facturacion.controlador.GestorRips" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorEntidades" 
+          class="com.sinergia.cliente.controlador.GestorEntidades" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorGeneral" 
+          class="com.sinergia.controlador.GestorGeneral" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorMunicipios" 
+          class="com.sinergia.publico.controlador.GestorMunicipios" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorInstitucion" 
+          class="com.sinergia.publico.controlador.GestorInstitucion" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorTipoRecurso" 
+          class="com.sinergia.atencion.controlador.GestorTipoRecurso" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorSubcuentas" 
+          class="com.sinergia.cliente.controlador.GestorSubcuentas" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorTiposContrato" 
+          class="com.sinergia.cliente.controlador.GestorTiposContrato" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorListasPrecios" 
+          class="com.sinergia.cliente.controlador.GestorListasPrecios" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorProgramas"
+          class="com.sinergia.cliente.controlador.GestorProgramas" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorProgramasConfiguracion"
+          class="com.sinergia.cliente.controlador.GestorProgramasConfiguracion" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorProgramasConfiguracionParametros"
+          class="com.sinergia.cliente.controlador.GestorProgramasConfiguracionParametros" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorMenus"
+          class="com.sinergia.usuario.controlador.GestorMenus" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    <bean id="gestorRoles"
+          class="com.sinergia.usuario.controlador.GestorRoles" >
+        <property name="sessionFactory" ref="sessionFactory"></property>
+    </bean>
+    
+    
+</beans>

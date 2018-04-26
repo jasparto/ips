@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml"
+                >
+
+    <ui:define name="content">
+        <h:form enctype="multipart/form-data" id="formHistoriaClinica" style="font-size: small;">
+            <p:remoteCommand name="rcCargarCitasUsuario" action="#{uiHistoria.cargarCitasUsuario()}" update="dtHistoriasPacientes"/>
+            <p:panel id="panelHistoriaClinica"  header="Hisotria Clinica" >
+
+                <h:panelGrid columns="3">
+                    <h:outputLabel for="calFechaHistoria" value="Fecha Cita:" />
+                    <p:calendar id="calFechaHistoria" value="#{uiHistoria.fecha}"/>
+                    <p:commandButton action="#{uiHistoria.cargarCitasUsuario()}" icon="ui-icon-search" 
+                                     update="dtHistoriasPacientes"/>
+                </h:panelGrid>
+
+                <p:dataTable id="dtHistoriasPacientes" value="#{uiHistoria.citasList}"
+                             var="varCitasPaciente" emptyMessage="No hay citas día" styleClass="Centro,Centro,Centro,Centro,Centro,">
+                    <f:facet name="header">  
+                        Citas Día
+                    </f:facet>
+                    
+                    <p:columnGroup type="header">  
+                        <p:row>  
+                            <p:column headerText="Fecha" />
+                            <p:column  headerText="Documento Paciente" />
+                            <p:column  headerText="Codigo Cita" />
+                            <p:column  headerText="Estado" />
+                            <p:column  headerText="Acciones" />
+                        </p:row>  
+                    </p:columnGroup>
+
+                    <p:column >
+                        <p:calendar value="#{varCitasPaciente.fecha}" readonly="true"/>
+                    </p:column>
+                    <p:column >
+                        <h:outputText value="#{varCitasPaciente.documentoBeneficiario}"/>
+                    </p:column>
+                    <p:column >
+                        <h:outputText value="#{varCitasPaciente.pk.codCita}"/>
+                    </p:column>
+                    <p:column >
+                        <h:outputText value="#{varCitasPaciente.estado}"/>
+                    </p:column>
+                    <p:column >
+                        <h:panelGrid columns="2">
+                            <p:commandButton id="cbAbrirHistoria" icon="ui-icon-search" action="#{uiHistoria.cargarModalHistoriaPaciente()}" update=":formHistoriaClinica:dialog"
+                                             disabled="#{uiCitas.estadoAbrirHistoria(varCitasPaciente.estado)}"/>
+                        </h:panelGrid>
+                    </p:column>
+
+                </p:dataTable>
+
+                <h:panelGrid>
+                    <ui:include src="/barra.xhtml">
+                        <ui:param name="bean" value="#{uiHistoria}"/>
+                    </ui:include>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:dialog id="dialog" widgetVar="dialog" header="#{sesion.dialogo.header}" showEffect="#{sesion.dialogo.effect}" hideEffect="#{sesion.dialogo.effect}"
+                      width="80%"
+                      onHide="limpiarModal(); rcCargarCitasUsuario();">
+                <ui:include src="#{sesion.dialogo.src}"/>
+            </p:dialog>
+            <p:remoteCommand name="limpiarModal" action="#{uiSesion.limpiarDialogo()}" update="dialog" />
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

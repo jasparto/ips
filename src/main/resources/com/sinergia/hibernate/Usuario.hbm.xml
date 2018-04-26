@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>    
+    <class name="com.sinergia.usuario.modelo.Usuarios" table="usuarios"
+           schema="usuario">
+        
+        <composite-id class="com.sinergia.usuario.modelo.UsuariosPK" name="usuariosPK" >
+            <key-property name="codDocumento" type="int" column="cod_documento"/>
+            <key-property name="documentoUsuario" type="string" column="documento_usuario"/>
+        </composite-id>
+        
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" not-null="true" />
+        </property>
+        <property name="apellido" type="string">
+            <column name="apellido" length="40" not-null="true" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="usuario" length="32" />
+        </property>
+        <property name="clave" type="string">
+            <column name="clave" length="32" />
+        </property>
+        <property name="activo" type="boolean">
+            <column name="activo"/>
+        </property>
+        <property name="correo" type="string">
+            <column name="correo" length="70" />
+        </property>
+        <property name="fechaIngreso" type="date">
+            <column name="fecha_ingreso" />
+        </property>
+        <property name="fechaRetiro" type="date">
+            <column name="fecha_retiro" />
+        </property>
+        
+        <set name="relUsuariosEstablecimientoSet" table="rel_usuarios_establecimiento" 
+             schema="usuario" cascade="all">
+
+            <key>
+                <column name="cod_documento" not-null="true" />   
+                <column name="documento_usuario" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.publico.modelo.Establecimiento">
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <set name="relUsuariosRolesSet" table="roles_usuarios" 
+             schema="usuario" cascade="all">
+
+            <key>
+                <column name="cod_documento" not-null="true" />   
+                <column name="documento_usuario" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.usuario.modelo.Roles">
+                <column name="cod_institucion" not-null="true" />
+                <column name="codigo_rol" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <set name="recursoSet" table="recurso_usuarios" inverse="true" lazy="true" fetch="select"
+             schema="atencion">
+            <key>
+                <column name="cod_documento" not-null="true" />
+                <column name="documento_usuario" length="40" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.atencion.modelo.Recurso">
+                <!--<column name="cod_institucion" not-null="true" />-->
+                <column name="cod_recurso" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <set name="institucionSet" table="usuarios_institucion" fetch="select"
+             schema="usuario" cascade="all">
+            <!--inverse="true" lazy="true" cascade="save-update">-->
+            <key>
+                <column name="cod_documento" not-null="true" />
+                <column name="documento_usuario" length="40" not-null="true" />
+            </key>
+            <many-to-many entity-name="com.sinergia.publico.modelo.Institucion">
+                <column name="cod_institucion" not-null="true" />
+            </many-to-many>
+        </set>
+        
+    </class>
+    
+    <class name="com.sinergia.usuario.modelo.Roles" table="roles"
+           schema="usuario">
+        <composite-id class="com.sinergia.usuario.modelo.RolesPK" name="rolesPK" >
+            <key-property name="codInstitucion" type="int" column="cod_institucion"/>
+            <key-property name="codigoRol" type="long" column="codigo_rol"/>
+        </composite-id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" />
+        </property>
+        
+        <set name="relUsuariosRolesSet" table="roles_usuarios" 
+             schema="usuario" inverse="true">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="codigo_rol" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.usuario.modelo.Usuarios">
+                <column name="cod_documento" not-null="true" />   
+                <column name="documento_usuario" not-null="true" />
+            </many-to-many>
+        </set>
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        
+        <set name="rolesMenusSet" table="roles_menus" inverse="true" lazy="true" fetch="select"
+             schema="usuario" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_rol" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.usuario.modelo.RolesMenus" />
+        </set>
+        
+    </class>
+    
+    <class name="com.sinergia.usuario.modelo.RolesMenus" table="roles_menus"
+           schema="usuario">
+        <comment>En esta tabla se determinan las operaciones que puede realizar el perfil de usuario sobre cada uno de los tramites dispuestos en el aplicativo auditor. La idea es
+            que los registros de esta tabla permitan establecer el menu apropiado que se le cargara a cada usuario en el momento de logearse en la aplicacion.</comment>
+        <composite-id name="rolesMenusPK" class="com.sinergia.usuario.modelo.RolesMenusPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codRol" type="long">
+                <column name="cod_rol" />
+            </key-property>
+            <key-property name="codMenu" type="long">
+                <column name="cod_menu" />
+            </key-property>
+        </composite-id>
+        <property name="pemisoBinario" type="java.lang.Integer">
+            <column name="pemiso_binario" />
+        </property>
+        
+        <many-to-one name="roles" class="com.sinergia.usuario.modelo.Roles" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_rol" not-null="true" />
+        </many-to-one>
+    </class>
+    
+    <class name="com.sinergia.usuario.modelo.Menus" table="menus"
+           schema="usuario">
+        <comment>En esta tabla se encuentran todas las operaciones llevadas a cabo en el aplicativo auditor.</comment>
+        <composite-id name="menusPK" class="com.sinergia.usuario.modelo.MenusPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codMenu" type="long">
+                <column name="cod_menu" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="40" />
+        </property>
+    </class>
+    
+    <class name="com.sinergia.usuario.modelo.PermisosBinarios" table="permisos_binarios"
+           schema="usuario">
+        <id name="codPermisoBinario" type="int">
+            <column name="cod_permiso_binario" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" />
+        </property>
+    </class>
+    
+    
+</hibernate-mapping>

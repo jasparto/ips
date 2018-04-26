@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml">
+    <ui:define name="content">       
+        <h:form enctype="multipart/form-data" id="formNuevoUsuario" style="font-size: small; width: 70%">
+
+            <h3>
+                <h:outputText value="Administración de Usuarios"/>
+            </h3>
+
+
+            <p:panel style="font-size: small">
+                <h:panelGrid >
+                    <p:autoComplete id="acUsuario" value="#{uiUsuario.usuarioBuscar}" completeMethod="#{uiUsuario.autoCompletaUsuario}"  
+                                    placeholder="Ingresa los datos a buscar" style="font-size: x-small;"
+                                    inputStyle="width: 350px; font-size: small;" panelStyle="font-size: small;">
+                        <p:ajax event="itemSelect" listener="#{uiUsuario.cargarUsuario()}" update="formNuevoUsuario" />                    
+                    </p:autoComplete>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:outputPanel id="panelDatosUsuario" rendered="#{not empty uiUsuario.usuarioBuscar}" style="font-size: small;">
+                <h4>
+                    <h:outputText value="#{usuarios.nombre} #{usuarios.apellido} (#{usuarios.usuariosPK.documentoUsuario})"/>
+                </h4>
+                <p:tabView id="tvDatosUsuario" orientation="left" rendered="#{not empty usuarios.usuariosPK.documentoUsuario}" >
+                    <p:tab title="Datos Usuario">
+                        <p:panelGrid columns="2" style="font-size: small">
+                            <h:outputText value="Documento usuario:" />
+                            <h:outputText value="#{usuarios.usuariosPK.documentoUsuario}" />
+
+                            <h:outputText value="Nombre:" />
+                            <p:inplace id="inplaceNombre" editor="true">
+                                <h:inputText value="#{usuarios.nombre}" required="true" requiredMessage="El nombre es requerido"/>
+                            </p:inplace>  
+
+                            <h:outputText value="Apellido:" />
+                            <p:inplace id="inplaceApellido" editor="true">
+                                <h:inputText value="#{usuarios.apellido}" required="true" requiredMessage="El apellido es requerido"/>
+                            </p:inplace>  
+
+                            <h:outputText value="Correo:"/>
+                            <p:inplace id="inplaceCorreo" editor="true">  
+                                <h:inputText value="#{usuarios.correo}" />
+                            </p:inplace>
+                        </p:panelGrid>
+                    </p:tab>
+                    <p:tab title="Datos Acceso">
+                        <p:panelGrid columns="2" style="font-size: small"> 
+                            <h:outputText value="Usuario:"/>
+                            <p:inplace id="inplaceUsuario" editor="true">
+                                <h:inputText value="#{usuarios.usuario}" title="Usuario" required="true" requiredMessage="El usuario es requerido"/>
+                            </p:inplace>                               
+                            <h:outputText value="Clave:"/>
+                            <p:inplace id="inplaceClave" editor="true">
+                                <h:inputText value="#{usuarios.clave}" title="Clave" required="true" requiredMessage="La clave es requerida"/>
+                            </p:inplace>                           
+                            <h:outputText value="Rol:"/>
+                            <p:selectOneMenu value="#{usuarios.roles}" converter="convertidorGenerico" effect="fade" style="margin-left: 20px; width: 150px;" >  
+                                <f:selectItem itemLabel="Seleccionar rol" itemValue="" />  
+                                <f:selectItems value="#{uiUsuario.itemsRoles}" var="rol" itemLabel="#{rol.nombre}" itemValue="#{rol}"/>
+                            </p:selectOneMenu> 
+
+                            <h:outputText value="Estado:"/>
+                            <p:selectOneRadio id="options" value="#{usuarios.activo}" style="margin-top: -10px" >
+                                <f:selectItem itemLabel="Activo" itemValue="true" />  
+                                <p:spacer height="0" width="20" />
+                                <f:selectItem itemLabel="Inactivo" itemValue="false" />                                          
+                            </p:selectOneRadio>
+
+                        </p:panelGrid>
+
+                    </p:tab>
+
+                    <p:tab title="Gestión Instituciones">
+                        <p:pickList id="plInstitucionesUsuario" value="#{uiUsuario.institucionDualList}"
+                                    converter="primeFacesPickListConverter"
+                                    var="dualInstitucion"  
+                                    itemLabel="#{dualInstitucion.nombre}"  
+                                    itemValue="#{dualInstitucion}"
+                                    addLabel="Agregar" addAllLabel="Agregar todos"
+                                    removeLabel="Remover" removeAllLabel="Remover Todos"
+                                    > 
+                            <p:ajax event="transfer" update="somEstablecimientosUsuario" />
+                            <f:facet name="sourceCaption">Establecimientos disponibles</f:facet>  
+                            <f:facet name="targetCaption">Establecimientos asignados</f:facet> 
+                        </p:pickList> 
+
+                    </p:tab>
+
+                    <p:tab title="Gestión Establecimientos">
+                        <p:selectOneMenu id="somEstablecimientosUsuario" value="#{uiUsuario.institucion}" converter="convertidorGenerico">
+                            <f:selectItem itemLabel="Selecciona un establecimiento"/>
+                            <f:selectItems value="#{uiUsuario.institucionDualList.target}" var="varInstitucionAsignada" itemLabel="#{varInstitucionAsignada.nombre}" 
+                                           itemValue="#{varInstitucionAsignada}" />
+                            <p:ajax listener="#{uiUsuario.cargarEstablecimientosUsuario()}" update="plEstablecimientos"/>
+                        </p:selectOneMenu>
+                        <br/>
+                        <p:pickList id="plEstablecimientos" value="#{uiUsuario.institucion.establecimientoDualList}" rendered="#{not empty uiUsuario.institucion}"
+                                    converter="primeFacesPickListConverter"
+                                    var="dualEstablecimiento"  
+                                    itemLabel="#{dualEstablecimiento.nombre}"  
+                                    itemValue="#{dualEstablecimiento}"
+                                    addLabel="Agregar" addAllLabel="Agregar todos"
+                                    removeLabel="Remover" removeAllLabel="Remover Todos"
+                                    > 
+                            <f:facet name="sourceCaption">Establecimientos disponibles</f:facet>  
+                            <f:facet name="targetCaption">Establecimientos asignados</f:facet> 
+                        </p:pickList> 
+                    </p:tab>
+
+                    <p:tab title="Configuración Usuario" >
+                        <p:panelGrid columns="7" style="text-align: center">
+                            <h:panelGrid>
+                                <p:commandLink id="clTipoRecursoUsuario" action="#{uiUsuario.cargarDialogoTipoRecursoUsuario()}" update=":formNuevoUsuario:dialog">
+                                    <p:graphicImage value="/resources/imagenes/medico.png" width="60" height="60"/>
+                                </p:commandLink>
+                                <h:outputText value="Asignar Tipo Recurso" style="font-size: xx-small"/>
+                            </h:panelGrid>
+                            <h:panelGrid style="align-content: center">
+                                <p:commandLink>
+                                    <p:graphicImage value="/resources/imagenes/estetoscopio.png" width="60" height="60" />
+                                </p:commandLink>
+                                <h:outputText value="***Por Definir***" style="font-size: xx-small"/>
+                            </h:panelGrid>
+                        </p:panelGrid>
+                        <p:tooltip for="clTipoRecursoUsuario" value="Asignar Tipo Recurso"/>
+                    </p:tab>
+                </p:tabView>
+            </p:outputPanel> 
+            <br/>
+            <ui:include src="/barra.xhtml">
+                <ui:param name="bean" value="#{uiUsuario}"/>
+            </ui:include>
+
+            <p:dialog id="dialog" widgetVar="dialog" header="#{sesion.dialogo.header}" showEffect="#{sesion.dialogo.effect}" hideEffect="#{sesion.dialogo.effect}"
+                      onHide="limpiarModal()">
+                <ui:include src="#{sesion.dialogo.src}"/>
+            </p:dialog>
+            <p:remoteCommand name="limpiarModal" action="#{uiSesion.limpiarDialogo()}" update="dialog" />
+        </h:form>
+        <h:form enctype="multipart/form-data" id="formModalUsuario" style="font-size: small; width: 70%">
+            <p:outputPanel id="panelNuevoUsuario">
+                <p:dialog id="dialogoNuevoUsuario" modal="true" header="Registrar Usuario" widgetVar="dialogoNuevoUsuario"> 
+                    <h:panelGrid columns="3">
+                        <h:panelGrid columns="2" >
+                            <p:outputLabel for="somCodigoIdentidadNuevo" value="Tipo Documento Identidad" />
+                            <p:selectOneMenu id="somCodigoIdentidadNuevo" value="#{usuarios.usuariosPK.codDocumento}" styleClass="som">
+                                <f:selectItems value="#{uiPaciente.listaDocumentosIdentidad}" var="d" itemLabel="#{d.nombre}" itemValue="#{d.codIdentidad}"/>
+                            </p:selectOneMenu>
+                            <h:outputText value="Documento usuario:"/>
+                            <p:inputText value="#{usuarios.usuariosPK.documentoUsuario}"/>                            
+                            <h:outputText value="Nombre:" />                        
+                            <p:inputText value="#{usuarios.nombre}" />
+                            <h:outputText value="Apellido:" />                       
+                            <p:inputText value="#{usuarios.apellido}"/>                       
+                        </h:panelGrid>
+                        <p:spacer height="0" width="50" />
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Correo:"/>
+                            <p:inputText value="#{usuarios.correo}"/>
+
+                            <h:outputText value="Usuario:"/>
+                            <p:inputText id="usuario" value="#{usuarios.usuario}"/>
+
+                            <h:outputText value="Clave:"/>   
+                            <p:password id="clave" value="#{usuarios.clave}" feedback="true" />
+
+                            <h:outputText value="Rol:"/>
+                            <p:selectOneMenu value="#{usuarios.roles}" converter="convertidorGenerico" effect="fade" style="margin-left: 20px; width: 150px;" >  
+                                <f:selectItem itemLabel="Seleccionar rol" itemValue="" />  
+                                <f:selectItems value="#{uiUsuario.itemsRoles}" var="rol" itemLabel="#{rol.nombre}" itemValue="#{rol}"/>
+                            </p:selectOneMenu> 
+
+                        </h:panelGrid>
+                    </h:panelGrid> 
+                    <p:separator/>
+                    <p:commandButton value="Crear Usuario" action="#{uiUsuario.nuevo()}"  process="@parent"/> 
+                </p:dialog> 
+            </p:outputPanel>
+        </h:form>
+
+    </ui:define>
+</ui:composition>

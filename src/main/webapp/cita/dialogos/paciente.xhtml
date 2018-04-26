@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+
+    <p:outputPanel id="opDatosPaciente">
+        <h:panelGrid  columns="4" title="Datos Paciente">
+            <h:outputLabel for="itNombrePaciente" value="Nombre:" />
+            <p:inputText id="itNombrePaciente" value="#{uiAgenda.pacientes.nombre}" required="true" />
+            <h:outputLabel for="itApellidoPaciente" value="Apellido:" />
+            <p:inputText id="itApellidoPaciente" value="#{uiAgenda.pacientes.apellido}" required="true" />
+
+            <h:outputLabel for="somSexo" value="Sexo:" />
+            <p:selectOneMenu id="somSexo" value="#{uiAgenda.pacientes.sexo}" style="width: 150px;">
+                <f:selectItems value="#{uiPaciente.listaSexo}" var="i" itemLabel="#{i.detalle}" itemValue="#{i.nombre}"/>
+            </p:selectOneMenu>
+            <h:outputLabel for="calFechaNacimiento" value="Fecha Nacimiento:" />
+            <p:calendar id="calFechaNacimiento" value="#{uiAgenda.pacientes.fechaNacimiento}" navigator="true"/>
+            
+            <h:outputLabel for="somEstadoCivil" value="Estado Civil:" />
+            <p:selectOneMenu id="somEstadoCivil" value="#{uiAgenda.pacientes.estadoCivil}" style="width: 150px;">
+                <f:selectItems value="#{uiPaciente.listaEstadosCiviles}" var="i" itemLabel="#{i.nombre}" itemValue="#{i.nombre}"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+        <p:commandButton id="cbGuardarPaciente" value="Actualizar" action="#{uiAgenda.guardarPaciente()}" 
+                         process="opDatosPaciente" update="@parent:@parent"/>
+    </p:outputPanel>    
+</ui:composition>

@@ -26,9 +26,4 @@ function display(img) {
     span.onclick = function () {
         modal.style.display = "none";
     };
-    
-    span.onkeypress = function () {
-        modal.style.display = "none";
-    };
-
 }

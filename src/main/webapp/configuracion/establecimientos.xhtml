@@ -1,0 +1,351 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml"
+                >
+
+    <ui:define name="content">
+        <h:form enctype="multipart/form-data" id="formEstablecimientos" style="font-size: small;">
+            <p:panel id="panelEstablecimientos"  header="Administrar Establecimientos #{sesion.establecimiento.institucion.nombre}" >
+                <h:panelGrid columns="7" >
+                    <h:outputText value="Nombre"/>
+                    <h:outputText value="Municipio"/>
+                    <h:outputText value="Nit"/>
+                    <h:outputText value="Dirección"/>
+                    <h:outputText value="Telefono"/>
+                    <h:outputText value="Correo"/>
+                    <h:outputText value="Establecimiento"/>
+
+                    <p:inputText value="#{uiEstablecimiento.establecimiento.nombre}" placeholder="Nombre Establecimiento"/>
+                    <p:selectOneMenu id="somItemsMunicipios" value="#{uiEstablecimiento.establecimiento.municipios}" converter="convertidorGenerico"
+                                     style="text-align: center;width: 180px;">  
+                        <f:selectItems value="#{uiEstablecimiento.municipiosList}" var="muni" itemLabel="#{muni.nombre}" itemValue="#{muni}"/>
+                    </p:selectOneMenu>
+                    <p:inputText value="#{uiEstablecimiento.establecimiento.nit}" placeholder="Nit"/>
+                    <p:inputText value="#{uiEstablecimiento.establecimiento.direccion}" placeholder="Dirección"/>
+                    <p:inputText value="#{uiEstablecimiento.establecimiento.telefono}" placeholder="Telefono"/>
+                    <p:inputText value="#{uiEstablecimiento.establecimiento.correo}" placeholder="Correo"/>
+                    <p:selectOneMenu id="somItemsInstituciones" value="#{uiEstablecimiento.establecimiento.institucion}" converter="convertidorGenerico"
+                                     style="text-align: center;width: 180px;">  
+                        <f:selectItems value="#{uiEstablecimiento.institucionList}" var="varInstitucionEstablecimiento" itemLabel="#{varInstitucionEstablecimiento.nombre}" 
+                                       itemValue="#{varInstitucionEstablecimiento}"/>
+                    </p:selectOneMenu>
+                </h:panelGrid>
+                <p:tabView id="tvEstablecimientos" rendered="#{not empty uiEstablecimiento.establecimiento.establecimientoPK.codEstablecimiento}">
+                    <p:tab id="tabParametrosEstablecimiento" title="Parametros">
+                        <p:dataTable    value="#{uiEstablecimiento.establecimiento.establecimientoParametrosSet}" var="varParametroEstablecimiento"
+                                        emptyMessage="Establecimiento sin parametros"
+                                        styleClass="Centro">
+
+                            <p:columnGroup type="header">
+                                <div align="left">
+                                    <p:commandButton icon="ui-icon-plus" title="Crear Parametro" style="width: 100px;"
+                                                     action="#{uiEstablecimiento.cargarDialogoCrearParametro()}" update=":formEstablecimientos:dialog"/>
+                                </div>
+                                <br/>
+                                <p:row>  
+                                    <p:column headerText="Codigo"/>
+                                    <p:column  headerText="Nombre"/>
+                                    <p:column  headerText="Valor"/>
+                                    <p:column  headerText="Opciones"/>
+                                </p:row>
+                            </p:columnGroup>
+
+                            <p:column>
+                                <h:outputText value="#{varParametroEstablecimiento.parametros.codParametro}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varParametroEstablecimiento.parametros.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varParametroEstablecimiento.valor}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton icon="ui-icon-minus" update="@parent:@parent"
+                                                 actionListener="#{uiEstablecimiento.eliminarParametro(actionListener)}">
+                                    <p:confirm header="Eliminar Parametro Establecimiento" message="¿ Desea eliminar el parametro seleccionado ?" 
+                                               icon="ui-icon-alert"/>  
+                                </p:commandButton>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab id="tabTipoRecurso" title="Tipo Recurso">
+                    </p:tab>
+                    <p:tab id="tabServicios" title="Servicios">
+                        <h:panelGrid>
+                            <p:tabView id="tvServiciosEstablecimiento" orientation="left">
+                                <p:tab title="Servicios Establecimiento">
+
+                                    <p:dataTable value="#{uiEstablecimiento.serviciosList}" var="varServicioEstablecimiento"
+                                                 emptyMessage="Establecimiento sin servicios"
+                                                 styleClass="Centro">
+
+                                        <p:columnGroup type="header">
+                                            <div align="left">
+                                                <p:commandButton icon="ui-icon-plus" title="Crear Servicio" style="width: 100px;"
+                                                                 action="#{uiEstablecimiento.cargarDialogoCrearServicio()}" update=":formEstablecimientos:dialog"/>
+                                            </div>
+                                            <br/>
+                                            <p:row>  
+                                                <p:column headerText="Codigo"/>
+                                                <p:column  headerText="Nombre"/>
+                                                <p:column  headerText="Opciones"/>
+                                            </p:row>
+                                        </p:columnGroup>
+                                        <p:column>
+                                            <h:outputText value="#{varServicioEstablecimiento.serviciosPK.codServicio}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="#{varServicioEstablecimiento.nombre}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton icon="ui-icon-minus" update=":formEstablecimientos:dialog,formEstablecimientos:tvEstablecimientos:tvServiciosEstablecimiento"
+                                                             action="#{uiEstablecimiento.subirItemServicio()}" ajax="false">
+                                            </p:commandButton>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:tab>
+                                <p:tab title="Secciones Servicios">
+                                    <p:selectOneMenu value="#{uiEstablecimiento.servicios}" converter="convertidorGenerico"
+                                                     >
+                                        <f:selectItem itemLabel="Selecciona un servicio"/>
+                                        <f:selectItems value="#{uiEstablecimiento.serviciosList}"  var="varServicios"  
+                                                       itemLabel="#{varServicios.nombre}" itemValue="#{varServicios}"/>
+                                        <p:ajax listener="#{uiEstablecimiento.cargarSeccionesServicio()}" update="plSeccionesServicio"/>
+                                    </p:selectOneMenu>
+                                    <p:pickList id="plSeccionesServicio" value="#{uiEstablecimiento.seccionDualList}"
+                                                converter="primeFacesPickListConverter"
+                                                var="varDualSeccion"  
+                                                itemLabel="#{varDualSeccion.nombre}"  
+                                                itemValue="#{varDualSeccion}"
+                                                addLabel="Agregar" addAllLabel="Agregar todos"
+                                                removeLabel="Remover" removeAllLabel="Remover Todos"
+                                                > 
+                                        <p:ajax event="transfer" update="@this" listener="#{uiEstablecimiento.asignarSeccionServicio()}"/>
+                                        <f:facet name="sourceCaption">Secciones disponibles</f:facet>  
+                                        <f:facet name="targetCaption">Secciones asignados</f:facet> 
+                                    </p:pickList>
+                                </p:tab>
+                                <p:tab title="Tipo Recurso Servicios">
+                                    <p:selectOneMenu value="#{uiEstablecimiento.servicios}" converter="convertidorGenerico"
+                                                     >
+                                        <f:selectItem itemLabel="Selecciona un servicio"/>
+                                        <f:selectItems value="#{uiEstablecimiento.serviciosList}"  var="varServicios"  
+                                                       itemLabel="#{varServicios.nombre}" itemValue="#{varServicios}"/>
+                                        <p:ajax listener="#{uiEstablecimiento.cargarTipoRecursosServicio()}" update="plTipoRecursosServicio"/>
+                                    </p:selectOneMenu>
+                                    <p:pickList id="plTipoRecursosServicio" value="#{uiEstablecimiento.tipoRecursoDualList}"
+                                                converter="primeFacesPickListConverter"
+                                                var="varDualTipoRecurso"  
+                                                itemLabel="#{varDualTipoRecurso.nombre}"  
+                                                itemValue="#{varDualTipoRecurso}"
+                                                addLabel="Agregar" addAllLabel="Agregar todos"
+                                                removeLabel="Remover" removeAllLabel="Remover Todos"
+                                                > 
+                                        <p:ajax event="transfer" update="@this" listener="#{uiEstablecimiento.asignarTipoRecursoServicio()}"/>
+                                        <f:facet name="sourceCaption">Tipo recurso disponibles</f:facet>  
+                                        <f:facet name="targetCaption">Tipo recurso asignados</f:facet> 
+                                    </p:pickList>
+                                </p:tab>
+
+                                <p:tab title="Tipo Recurso Servicios Cantidad">
+                                    <p:selectOneMenu value="#{uiEstablecimiento.servicios}" converter="convertidorGenerico"
+                                                     >
+                                        <f:selectItem itemLabel="Selecciona un servicio"/>
+                                        <f:selectItems value="#{uiEstablecimiento.serviciosList}"  var="varServicios"  
+                                                       itemLabel="#{varServicios.nombre}" itemValue="#{varServicios}"/>
+                                        <p:ajax listener="#{uiEstablecimiento.cargarTipoRecursosServicio()}" update="dtTipoRecursoServicioCantidad"/>
+                                    </p:selectOneMenu>
+                                    <p:dataTable id="dtTipoRecursoServicioCantidad" value="#{uiEstablecimiento.servicios.tipoRecursoSet}" var="varTipoRecursoServicioCantidad"
+                                                 emptyMessage="Establecimiento sin servicios"
+                                                 styleClass="Centro">
+
+                                        <p:columnGroup type="header">
+                                            <p:row>
+                                                <p:column headerText="Codigo"/>
+                                                <p:column  headerText="Nombre"/>
+                                                <p:column  headerText="Cantidad"/>
+                                            </p:row>
+                                        </p:columnGroup>
+
+                                        <p:column>
+                                            <h:outputText value="#{varTipoRecursoServicioCantidad.codTipoRecurso}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <h:outputText value="#{varTipoRecursoServicioCantidad.nombre}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:inputText value="#{varTipoRecursoServicioCantidad.tipoRecursoServiciosCantidad.cantidad}"
+                                                         onkeypress="if (enter(event.keyCode)) {
+                                                                     return false;
+                                                                 }">
+                                                <p:ajax listener="#{uiEstablecimiento.guardarTipoRecursoServiciosCantidad()}" update="@this"/>
+                                            </p:inputText>
+                                        </p:column>
+                                    </p:dataTable>
+                                </p:tab>
+                            </p:tabView>
+
+
+                        </h:panelGrid>
+                    </p:tab>
+                    <p:tab id="tabPrefijosFacturacion" title="Prefijos Facturación">
+                        <p:dataTable value="#{uiEstablecimiento.establecimiento.facturasConfiguracionSet}" var="varPrefijosFacturacion"
+                                     emptyMessage="Establecimiento sin prefijos de facturación"
+                                     >
+
+                            <p:columnGroup type="header">
+                                <div align="left">
+                                    <p:commandButton icon="ui-icon-plus" title="Crear Prefijo Facturación" style="width: 100px;"
+                                                     action="#{uiEstablecimiento.cargarDialogoCrearResolucion()}" update=":formEstablecimientos:dialog"/>
+                                </div>
+                                <br/>
+                                <p:row>  
+                                    <p:column headerText="Codigo"/>
+                                    <p:column  headerText="Descripción"/>
+                                    <p:column  headerText="Fecha Cierre"/>
+                                    <p:column  headerText="Prefijo"/>
+                                    <p:column  headerText="Numero Factura"/>
+                                    <p:column  headerText="Numero Factura Limite"/>
+                                    <p:column  headerText="Tipo Resolución"/>
+                                    <p:column  headerText="Numero Inicio"/>
+                                    <p:column  headerText="Numero Fin"/>
+                                    <p:column  headerText="Fecha Limite Resolucion"/>
+                                    <p:column  headerText="Fecha Inicio Vigencia"/>
+                                    <p:column  headerText="Fecha Fin Vigencia"/>
+                                    <p:column  headerText="Opciones"/>
+                                </p:row>
+                            </p:columnGroup>
+
+                            <p:column>
+                                <h:outputText value="#{varPrefijosFacturacion.facturasConfiguracionPK.codConfiguracion}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varPrefijosFacturacion.descripcion}"/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{varPrefijosFacturacion.fechaCierre}" pattern="yyyy/MM/dd/" readonly="true" readonlyInput="true"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varPrefijosFacturacion.prefijoFactura}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varPrefijosFacturacion.numeroFactura}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varPrefijosFacturacion.numeroFacturaLimite}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varPrefijosFacturacion.tipoResolucion}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varPrefijosFacturacion.numeroInicio}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varPrefijosFacturacion.numeroFin}"/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{varPrefijosFacturacion.fechaLimiteResolucion}" pattern="yyyy/MM/dd/" readonly="true" readonlyInput="true"/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{varPrefijosFacturacion.fechaInicioVigencia}" pattern="yyyy/MM/dd/" readonly="true" readonlyInput="true"/>
+                            </p:column>
+                            <p:column>
+                                <p:calendar value="#{varPrefijosFacturacion.fechaFinVigencia}" pattern="yyyy/MM/dd/" readonly="true" readonlyInput="true"/>
+                            </p:column>
+
+                            <p:column>
+                                <p:commandButton icon="ui-icon-minus" action="#{uiEstablecimiento.cargarDialogoModificarResolucion()}"
+                                                 update=":formEstablecimientos:dialog"/>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </p:tab>
+                </p:tabView>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Crear / Modificar" action="#{uiEstablecimiento.guardarEstablecimiento()}"
+                                     icon="ui-icon-disk"
+                                     update="formEstablecimientos"/>
+                    <p:commandButton value="Limpiar" action="#{uiEstablecimiento.limpiar()}"
+                                     icon="ui-icon-cancel"
+                                     update="formEstablecimientos"/>
+                </h:panelGrid>
+                <p:dataTable  value="#{uiEstablecimiento.establecimientoList}" var="varEstablecimiento" emptyMessage="No hay establecimientos"
+                              rowStyleClass="Centro">
+
+                    <p:columnGroup type="header">  
+                        <p:row>  
+                            <p:column headerText="Institucion"/>
+                            <p:column headerText="Codigo"/>
+                            <p:column  headerText="Nombre"/>
+                            <p:column  headerText="Municipio"/>
+                            <p:column  headerText="Nit" />
+                            <p:column  headerText="Dirección" />
+                            <p:column  headerText="Telefono" />
+                            <p:column  headerText="Correo" />
+                            <p:column  headerText="Fecha Cierre Diario" />
+                            <p:column  headerText="Tipo Establecimiento" />
+                            <p:column  headerText="Modificar" />
+                        </p:row> 
+                    </p:columnGroup>
+
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.institucion.nombre}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.establecimientoPK.codEstablecimiento}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.nombre}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.municipios.nombre}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.nit}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.direccion}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.telefono}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.correo}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.fechaCierreDiario}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varEstablecimiento.tipoEstablecimiento}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-plus" title="Modificar Establecimiento" update="formEstablecimientos"
+                                         action="#{uiEstablecimiento.subirItemEstablecimiento()}"/>
+                    </p:column>
+                </p:dataTable>
+
+                <!--                <h:panelGrid>
+                                    <ui:include src="/barra.xhtml">
+                                        <ui:param name="bean" value="#{uiHistoria}"/>
+                                    </ui:include>
+                                </h:panelGrid>-->
+            </p:panel>
+
+            <p:dialog id="dialog" widgetVar="dialog" header="#{sesion.dialogo.header}" showEffect="#{sesion.dialogo.effect}" hideEffect="#{sesion.dialogo.effect}"
+                      onHide="limpiarModal()">
+                <ui:include src="#{sesion.dialogo.src}"/>
+            </p:dialog>
+            <p:remoteCommand name="limpiarModal" action="#{uiSesion.limpiarDialogo()}" update="dialog,tvEstablecimientos" />
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

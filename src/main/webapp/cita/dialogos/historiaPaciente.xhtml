@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+    <h:form enctype="multipart/form-data" id="formHistoriaPaciente" style="font-size: small;" >
+
+        <!--            <p:accordionPanel id="apHistoriaPaciente" multiple="true" var="varHistoriaPaciente" 
+                                      dynamic="true"
+                                      value="#{uiHistoria.seccionList}"
+                                      >
+                        <p:tab title="- #{varHistoriaPaciente.nombre} -">
+                            <ui:repeat var="sd" value="#{listItem.seccionDetalleSet.toArray()}">
+                                <h:panelGrid>
+                                    <f:facet name="header">
+                                        <h:outputText value= "#{sd.nombre}"/>
+                                    </f:facet>
+                                    <br/>
+                                    <p:selectOneMenu value="#{sd.valorIngresado}" style="width: 150px;">
+                                        <f:selectItems value="#{sd.seccionDetalleCombosSet.toArray()}" var="i" itemLabel="#{i.detalle}" itemValue="#{i.seccionDetalleCombosPK.codCombo}"/>
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                            </ui:repeat>
+                        </p:tab>
+                    </p:accordionPanel>-->
+
+<!--            <p:tabView value="#{uiHistoria.seccionList.toArray()}" var="car" >
+        <p:tab title="Car - #{car.nombre}">
+            <h:panelGrid columns="2" cellpadding="5">
+                <f:facet name="header">
+                    <h:outputText  value="#{car.nombre}"/>
+                </f:facet>                   
+                <h:outputText value="Color:" style="font-weight: bold"/>
+                <h:outputText value="#{car.seccionPK.codSeccion}" />
+            </h:panelGrid>
+        </p:tab>
+    </p:tabView>-->
+
+        <h3>Historia Clinica</h3>
+        <p:tabView value="#{uiHistoria.seccionList}" var="s" orientation="left" >
+            <p:tab id="tab_#{s.seccionPK.codSeccion}" title="#{s.nombre}">
+
+                <p:dataList value="#{s.seccionDetalleSet}" var="sd" >
+                    <p:panel toggleTitle="#{sd.nombre}" header="#{sd.nombre}" 
+                             toggleable="true" closable="false" toggleSpeed="500" closeSpeed="500" 
+                             style="margin-bottom:20px" >
+
+                        <h:panelGrid rendered="#{sd.tipoComponentes.nombre eq 'selectOneMenu'}" styleClass="panelGrid">
+                            <p:selectOneMenu value="#{sd.valorIngresado}"  styleClass="selectOneMenu">
+                                <f:selectItem itemValue="" itemLabel=" Selecciona Una Opción " noSelectionOption="true"/>
+                                <f:selectItems value="#{sd.seccionDetalleCombosSet.toArray()}" var="i" itemLabel="#{i.detalle}" itemValue="#{i.seccionDetalleCombosPK.codCombo.toString()}"/>
+                                <p:ajax event="change" process="@parent:@parent"/>
+                            </p:selectOneMenu>
+                            <p:dataList value="#{sd.seccionDetalleCombosSet.toArray()}" var="l" style="font-size: 8px;">
+                                <p:column>#{l.seccionDetalleCombosPK.codCombo} - #{l.detalle}</p:column>
+                            </p:dataList>
+                        </h:panelGrid>
+
+                        <h:panelGrid rendered="#{sd.tipoComponentes.nombre eq 'inputText'}" styleClass="panelGrid">
+                            <p:inputText  value="#{sd.valorIngresado}" placeholder="#{sd.seccionDetalleCombosSet.toArray()[0].detalle}"
+                                          title="#{sd.seccionDetalleCombosSet.toArray()[0].detalle}"
+                                          style="width: 100%">
+                                <p:ajax event="change" process="@parent:@parent"/>
+                            </p:inputText>
+                        </h:panelGrid>
+
+                        <h:panelGrid rendered="#{sd.tipoComponentes.nombre eq 'inputTextarea'}" styleClass="panelGrid">
+                            <p:inputTextarea value="#{sd.valorIngresado}" placeholder="#{sd.seccionDetalleCombosSet.toArray()[0].detalle}"
+                                             title="#{sd.seccionDetalleCombosSet.toArray()[0].detalle}"
+                                             style="width: 100%" >
+                                <p:ajax event="change" process="@parent:@parent"/>
+                            </p:inputTextarea>
+                        </h:panelGrid>
+
+                    </p:panel>
+                </p:dataList>
+            </p:tab>
+        </p:tabView>
+
+<!--        <ui:repeat var="s" value="#{uiHistoria.seccionList}" >
+            <p:tabView scrollable="true" dynamic="true" >
+
+                <p:tab title="#{s.nombre}" >
+                    <ui:repeat var="sd" value="#{s.seccionDetalleSet.toArray()}" varStatus="status">
+
+                        <p:panel toggleTitle="#{sd.nombre}" header="#{sd.nombre}" 
+                                 toggleable="true" closable="true" toggleSpeed="500" closeSpeed="500" widgetVar="panel#{sd.seccionDetallePK.codDetalle}#{status.index}" style="margin-bottom:20px">
+                            <h:panelGrid rendered="#{sd.tipoComponentes.nombre eq 'selectOneMenu'}" styleClass="panelGrid">
+
+                                <p:selectOneMenu value="#{sd.valorIngresado}" style="width: 150px;">
+                                    <f:selectItems value="#{sd.seccionDetalleCombosSet.toArray()}" var="i" itemLabel="#{i.detalle}" itemValue="#{i.seccionDetalleCombosPK.codCombo}"/>
+                                </p:selectOneMenu>
+                            </h:panelGrid>
+                            <h:panelGrid rendered="#{sd.tipoComponentes.nombre eq 'inputText'}" styleClass="panelGrid">
+                                <p:inputText value="#{sd.valorIngresado}" placeholder="#{sd.seccionDetalleCombosSet.toArray()[0].detalle}"
+                                             style="width: 100%"/>
+                            </h:panelGrid>
+                            <h:panelGrid rendered="#{sd.tipoComponentes.nombre eq 'inputTextarea'}" styleClass="panelGrid">
+                                <p:inputTextarea value="#{sd.valorIngresado}" placeholder="#{sd.seccionDetalleCombosSet.toArray()[0].detalle}"
+                                                 style="width: 100%" />
+                            </h:panelGrid>
+
+                            <f:facet name="options">
+                                <p:menu>
+                                    <p:submenu label="Settings">
+                                        <p:menuitem value="Toggle" url="#" icon="ui-icon-newwin" onclick="PF('panel#{sd.seccionDetallePK.codDetalle}#{status.index}').toggle()" />
+                                    </p:submenu>
+                                </p:menu>
+                            </f:facet>
+                        </p:panel>
+                    </ui:repeat>
+                </p:tab>
+
+            </p:tabView>
+        </ui:repeat>-->
+
+        <p:commandButton id="cbGuardarHistoria" value="Guardar" action="#{uiHistoria.guardarHistoria()}" process="@parent:@parent" 
+                         update=":formHistoriaClinica:dtHistoriasPacientes"
+                         rendered="#{uiHistoria.citaSeleccionada.estado ne uiCitas.ESTADO_FINALIZADO}"/>
+        <p:commandButton id="cbFinalizarHistoria" value="Finalizar" action="#{uiHistoria.finalizarHistoria()}" process="@parent:@parent" 
+                         update=":formHistoriaClinica:dtHistoriasPacientes"
+                         rendered="#{uiHistoria.citaSeleccionada.estado ne uiCitas.ESTADO_FINALIZADO}"/>
+
+
+    </h:form>   
+    <div id="msn" align="center">
+        <br/>
+        <h:panelGrid columns="1">
+            <p:messages id="messages" showDetail="true" autoUpdate="true">
+                <p:effect type="pulsate" event="load" delay="1000"/>
+            </p:messages>
+        </h:panelGrid>
+    </div>
+</ui:composition>

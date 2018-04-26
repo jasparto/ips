@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+
+    <div style="margin-top: 10px; text-align: center;">
+        <h3>                
+            <h:outputText value="Crear Recurso - #{uiInstitucion.institucion.nombre}"/>
+        </h3>
+        <p:panelGrid columns="2">
+            <h:outputText value="Nombre: "/>
+            <h:inputText value="#{uiInstitucion.institucion.recurso.nombre}"/>
+
+            <h:outputText value="Tipo Recurso: "/>
+            <p:selectOneMenu value="#{uiInstitucion.institucion.recurso.tipoRecurso}" converter="convertidorGenerico">
+                <f:selectItems value="#{uiInstitucion.institucion.tipoRecursosSetToList}"  var="varItemTipoRecurso"  
+                               itemLabel="#{varItemTipoRecurso.nombre}" itemValue="#{varItemTipoRecurso}"/>
+            </p:selectOneMenu>
+        </p:panelGrid>
+        <p:commandButton value="Adicionar" action="#{uiInstitucion.crearRecurso()}" process="@parent"
+                         update=":formInstituciones:tvInstituciones:tabRecurso"/>
+    </div>
+
+</ui:composition>

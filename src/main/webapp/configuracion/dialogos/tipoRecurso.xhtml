@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+
+    <div style="margin-top: 10px; text-align: center;">
+        <h3>                
+            <h:outputText value="Crear Tipo Recurso - #{uiInstitucion.institucion.nombre}"/>
+        </h3>
+        <p:panelGrid columns="2">
+            <h:outputText value="Nombre: "/>
+            <h:inputText value="#{uiInstitucion.institucion.tipoRecurso.nombre}"/>
+
+            <h:outputText value="Controlado: "/>
+            <p:selectBooleanButton onLabel="SI" offLabel="NO" value="#{uiInstitucion.institucion.tipoRecurso.controlado}"/>
+
+            <h:outputText value="Clase: "/>
+            <p:selectOneMenu value="#{uiInstitucion.institucion.tipoRecurso.clase}">
+                <f:selectItem itemLabel="FISICO" itemValue="F"/>
+                <f:selectItem itemLabel="HUMANO" itemValue="H"/>
+            </p:selectOneMenu>
+        </p:panelGrid>
+        <p:commandButton value="Adicionar" action="#{uiInstitucion.crearTipoRecurso()}"
+                         update=":formInstituciones:tvInstituciones"/>
+    </div>
+
+</ui:composition>

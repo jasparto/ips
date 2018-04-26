@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                >
+
+
+    <div style="margin-top: 10px; text-align: center;">
+        <p:panelGrid columns="2">
+            <h:outputText value="Nombre: "/>
+            <p:inputText value="#{uiProgramas.programas.nombre}"/>
+
+            <h:outputText value="Cliente: "/>
+            <p:selectOneMenu id="somItemsClientes" value="#{uiProgramas.programas.clientes}" converter="convertidorGenerico"
+                             effect="fade" style="text-align: center;width: 180px;">
+                <f:selectItems value="#{uiProgramas.institucionSeleccionado.clientesSetToList}" var="varClientes" 
+                               itemLabel="#{varClientes.nombre}" itemValue="#{varClientes}"/>
+                <p:ajax event="change" process="@this"/>
+            </p:selectOneMenu>
+
+            <h:outputText value="Aseguradora: "/>
+            <p:selectOneMenu id="somItemsEntidad" value="#{uiProgramas.programas.entidades}" converter="convertidorGenerico"
+                             effect="fade" style="text-align: center;width: 180px;">
+                <f:selectItems value="#{uiProgramas.institucionSeleccionado.entidadesSetToList}" var="varEntidades" 
+                               itemLabel="#{varEntidades.nombre}" itemValue="#{varEntidades}"/>
+                <p:ajax event="change" process="@this"/>
+            </p:selectOneMenu>
+
+            <h:outputText value="Tipo Contrato: "/>
+            <p:selectOneMenu id="somItemsTiposContrato" value="#{uiProgramas.programas.tiposContrato}" converter="convertidorGenerico"
+                             effect="fade" style="text-align: center;width: 180px;">
+                <f:selectItems value="#{uiProgramas.institucionSeleccionado.tiposContratoSetToList}" var="varTiposContrato" 
+                               itemLabel="#{varTiposContrato.nombre}" itemValue="#{varTiposContrato}"/>
+                <p:ajax event="change" process="@this"/>
+            </p:selectOneMenu>
+
+            <h:outputText value="Subcuenta: "/>
+            <p:selectOneMenu id="somItemsSubcuenta" value="#{uiProgramas.programas.subcuentas}" converter="convertidorGenerico"
+                             effect="fade" style="text-align: center;width: 180px;">
+                <f:selectItems value="#{uiProgramas.institucionSeleccionado.subcuentasSetToList}" var="varSubcuentas" 
+                               itemLabel="#{varSubcuentas.nombre}" itemValue="#{varSubcuentas}"/>
+                <p:ajax event="change" process="@this"/>
+            </p:selectOneMenu>
+            
+<!--            <h:outputText value="Programa Configuración: "/>
+            <p:selectOneMenu id="somProgramaConfiguracion" value="#{uiProgramas.programas.programasConfiguracion}" 
+                             converter="convertidorGenerico"
+                             effect="fade" style="text-align: center;width: 180px;">
+                <f:selectItems value="#{uiProgramas.institucionSeleccionado.programasConfiguracionSetToList}" var="varItemProgramasConfiguracion" 
+                               itemLabel="#{varItemProgramasConfiguracion.nombre}" itemValue="#{varItemProgramasConfiguracion}"/>
+                <p:ajax event="change" process="@this"/>
+            </p:selectOneMenu>-->
+        </p:panelGrid>
+        <p:commandButton value="Crear Programa" action="#{uiProgramas.crearProgramas()}" 
+                         process="@parent" update="@parent:@parent" />
+    </div>
+</ui:composition>

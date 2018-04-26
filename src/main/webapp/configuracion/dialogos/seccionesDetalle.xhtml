@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+
+    <div style="margin-top: 10px; text-align: center;">
+        <h3>                
+            <h:outputText value="Crear Detalle - #{uiAdministrarSecciones.seccion.nombre}"/>
+        </h3>
+        <p:panelGrid columns="2">
+            <h:outputText value="Nombre: "/>
+            <h:inputText value="#{uiAdministrarSecciones.seccion.seccionDetalle.nombre}"/>
+            <h:outputText value="Tipo Componente: "/>
+            <p:selectOneMenu id="somTipoComponente" value="#{uiAdministrarSecciones.seccion.seccionDetalle.tipoComponentes}" converter="convertidorGenerico"
+                             effect="fade" style="text-align: center;width: 180px;"
+                             >  
+                <f:selectItems value="#{sesion.tipoComponentesList}" var="tipoComponente" itemLabel="#{tipoComponente.nombre}" itemValue="#{tipoComponente}"/>
+                <p:ajax event="change" update="pgSugerencia" process="@this"/>
+            </p:selectOneMenu>
+        </p:panelGrid>
+        <p:panelGrid columns="2" id="pgSugerencia">
+            <h:outputText value="Item Sugerencia: " rendered="#{uiAdministrarSecciones.itemRequiereSugerencia}"/>
+            <h:inputText value="#{uiAdministrarSecciones.detalleItemSugerencia}" rendered="#{uiAdministrarSecciones.itemRequiereSugerencia}"/>    
+        </p:panelGrid>
+        <p:commandButton value="Guardar" action="#{uiAdministrarSecciones.crearSeccionDetalle()}" update=":formAdministrarSecciones:tvSeccionesEstablecimiento" />
+
+    </div>
+
+</ui:composition>

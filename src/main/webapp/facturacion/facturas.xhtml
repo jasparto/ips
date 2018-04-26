@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml"
+                >
+
+    <ui:define name="content">
+        <h:form enctype="multipart/form-data" id="formFacturas" style="font-size: small;">
+            <p:panel id="panelFacturas"  header="Rango Facturas" >
+                <h:panelGrid columns="5">
+                    <h:outputLabel for="calFechaInicialFacturas" value="Fecha Inicial:" />
+                    <p:calendar id="calFechaInicialFacturas" value="#{uiFacturas.fechaInicial}"/>
+                    <h:outputLabel for="calFechaFinalFacturas" value="Fecha Final:" />
+                    <p:calendar id="calFechaFinalFacturas" value="#{uiFacturas.fechaFinal}"/>
+                    <p:commandButton action="#{uiFacturas.consultarFacturas()}" icon="ui-icon-search" 
+                                     process="calFechaInicialFacturas,calFechaFinalFacturas" update="dtFacturas,dialog"/>
+                </h:panelGrid>
+
+                <p:dataTable id="dtFacturas" value="#{uiFacturas.facturasList}" 
+                             var="varFacturas" emptyMessage="No hay historico de rips generados">
+                    <f:facet name="header">  
+                        RIPS LOG GENERACIÓN
+                    </f:facet>
+
+                    <p:columnGroup type="header">  
+                        <p:row>  
+                            <p:column headerText="Número de la factura" />
+                            <p:column headerText="Tipo Documento Paciente" />
+                            <p:column headerText="Documento del paciente" />
+                            <p:column  headerText="Fecha Factura" />
+                            <p:column  headerText="Fecha Registro" />
+                            <p:column  headerText="Nombre del paciente" />
+                            <p:column  headerText="Estado" />
+                            <p:column  headerText="Opciones" />
+                        </p:row>  
+                    </p:columnGroup>
+
+                    <p:column>
+                        <h:outputText value="#{varFacturas.prefijoFactura} - #{varFacturas.numeroFactura}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varFacturas.pacientes.documentosIdentidad.iniciales}"/>
+                    </p:column>
+                    <p:column >
+                        <h:outputText value="#{varFacturas.pacientes.pacientesPK.documentoBeneficiario}"/>
+                    </p:column>
+                    <p:column >
+                        <h:outputText value="#{varFacturas.fecha}"/>
+                    </p:column>
+                    <p:column >
+                        <h:outputText value="#{varFacturas.fechaRegistro}"/>
+                    </p:column>
+                    <p:column >
+                        <h:outputText value="#{varFacturas.detallePaciente}"/>
+                    </p:column>
+                    <p:column >
+                        <h:outputText value="#{varFacturas.estado}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-search" title="Visualizar"/>
+                        <p:commandButton icon="ui-icon-trash" title="Anular"/>
+                    </p:column>
+                </p:dataTable>
+
+                <h:panelGrid>
+                    <ui:include src="/barra.xhtml">
+                        <ui:param name="bean" value="#{uiFacturas}"/>
+                    </ui:include>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:dialog id="dialog" widgetVar="dialog" header="#{sesion.dialogo.header}" showEffect="#{sesion.dialogo.effect}" hideEffect="#{sesion.dialogo.effect}"
+                      width="80%"
+                      onHide="limpiarModal()">
+                <ui:include src="#{sesion.dialogo.src}"/>
+            </p:dialog>
+            <p:remoteCommand name="limpiarModal" action="#{uiSesion.limpiarDialogo()}" update="dialog" />
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

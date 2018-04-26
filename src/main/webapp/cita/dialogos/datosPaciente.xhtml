@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+    <h:form enctype="multipart/form-data" id="formDatosPaciente" style="font-size: small;">
+
+        <h:panelGrid  columns="4" title="Datos Paciente">
+            <h:outputLabel for="itNombrePaciente" value="Nombre:" />
+            <p:inputText id="itNombrePaciente" value="#{uiIngreso.pacientes.nombre}" readonly="true" />
+            <h:outputLabel for="itApellidoPaciente" value="Apellido:" />
+            <p:inputText id="itApellidoPaciente" value="#{uiIngreso.pacientes.apellido}" readonly="true" />
+
+            <h:outputLabel for="somSexo" value="Sexo:" />
+            <p:selectOneMenu id="somSexo" value="#{uiIngreso.pacientes.sexo}" style="width: 150px;">
+                <f:selectItems value="#{uiPaciente.listaSexo}" var="i" itemLabel="#{i.detalle}" itemValue="#{i.nombre}"/>
+            </p:selectOneMenu>
+            <h:outputLabel for="calFechaNacimiento" value="Fecha Nacimiento:" />
+            <p:calendar id="calFechaNacimiento" value="#{uiIngreso.pacientes.fechaNacimiento}"  navigator="true"/>
+
+            <h:outputLabel for="somEstadoCivil" value="Estado Civil:" />
+            <p:selectOneMenu id="somEstadoCivil" value="#{uiIngreso.pacientes.estadoCivil}" style="width: 150px;">
+                <f:selectItems value="#{uiPaciente.listaEstadosCiviles}" var="i" itemLabel="#{i.nombre}" itemValue="#{i.nombre}"/>
+            </p:selectOneMenu>
+        </h:panelGrid>
+        <h:panelGrid id="pgTelefonos" style="width: 100%">
+            <!--            <p:accordionPanel>-->
+            <p:tabView>
+            <!--<ui:repeat var="l" value="#{uiIngreso.telefonosPacienteLista}">-->
+<!--                    <p:panel header="#{l.nombre}">
+                    <h:column>
+                        <ui:repeat var="dl" value="#{l.detalleListaSet.toArray()}">
+                            <br/>
+                            <p:panelGrid columns="2">
+                                <h:outputLabel value="#{dl.nombre}"/>
+                                <h:inputText value="#{dl.valorIngresado}"/>
+                            </p:panelGrid>
+                        </ui:repeat>
+                    </h:column>
+                </p:panel>-->
+                <p:tab title="#{uiIngreso.telefonosPacienteLista.nombre}">
+                    <ui:repeat var="dl" value="#{uiIngreso.telefonosPacienteLista.detalleListaSet.toArray()}">
+                        <br/>
+                        <p:panelGrid columns="2">
+                            <h:outputLabel value="#{dl.detalle}"/>
+                            <h:inputText value="#{dl.valorIngresado}"/>
+                        </p:panelGrid>
+                    </ui:repeat>
+                </p:tab>
+                <p:tab title="#{uiIngreso.direccionesPacienteLista.nombre}">
+                    <ui:repeat var="dl" value="#{uiIngreso.direccionesPacienteLista.detalleListaSet.toArray()}">
+                        <br/>
+                        <p:panelGrid columns="2">
+                            <h:outputLabel value="#{dl.detalle}"/>
+                            <h:inputText value="#{dl.valorIngresado}"/>
+                        </p:panelGrid>
+                    </ui:repeat>
+                </p:tab>
+
+                <p:tab title="FACTURA">
+                    <h:panelGrid id="pgDatosFactura" columns="4" style="width: auto">
+                        <p:outputLabel for="somItemsClientes" value="Cliente"/>
+                        <p:selectOneMenu id="somItemsClientes" value="#{uiIngreso.clientesSeleccionado}" converter="convertidorGenerico"
+                                         effect="fade" style="text-align: center;width: 180px;">
+                            <f:selectItems value="#{uiIngreso.clientesList}" var="clientesIngreso" itemLabel="#{clientesIngreso.nombre}" itemValue="#{clientesIngreso}"/>
+                            <p:ajax event="change" process="@this" listener="#{uiIngreso.asignarProgramaCliente()}" update="somItemsPrograma,olEntidad,olSubcuenta"/>
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="somItemsPrograma" value="Programa"/>
+                        <p:selectOneMenu id="somItemsPrograma" value="#{uiIngreso.programasSeleccionado}" converter="convertidorGenerico" widgetVar="varItemsPrograma" 
+                                         effect="fade" style="text-align: center;">
+                            <f:selectItems value="#{uiIngreso.clientesSeleccionado.programasList}" var="programasIngreso" 
+                                           itemLabel="#{programasIngreso.entidades.nombre} - #{programasIngreso.subcuentas.nombre}" itemValue="#{programasIngreso}"/>
+                            <p:ajax event="change" process="@this" update="olEntidad,olSubcuenta" />
+                        </p:selectOneMenu>
+
+                        <p:outputLabel for="olEntidad" value="Aseguradora"/>
+                        <p:inputText id="olEntidad" value="#{uiIngreso.programasSeleccionado.entidades.nombre}" readonly="true"/>
+
+                        <p:outputLabel for="olSubcuenta" value="Subcuenta"/>
+                        <p:inputText id="olSubcuenta" value="#{uiIngreso.programasSeleccionado.subcuentas.nombre}" readonly="true"/>
+                    </h:panelGrid>
+                </p:tab>
+                <!--</ui:repeat>-->
+            </p:tabView>
+            <!--            </p:accordionPanel>-->
+        </h:panelGrid>
+        <br/>
+
+        <p:commandButton id="cbIngresarCita" value="Registrar Ingreso" action="#{uiIngreso.registrarIngreso()}" update="@form"
+                         process="calFechaNacimiento,@parent" />
+    </h:form>       
+</ui:composition>

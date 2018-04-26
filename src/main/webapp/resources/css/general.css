@@ -1,0 +1,99 @@
+input:focus {
+    border: 2px solid #62C6CE;
+}
+
+input[type="button"]:focus {
+    border: 2px solid #62C6CE;
+}
+
+input[type="submit"]:focus {
+    border: 2px solid #62C6CE;
+}
+
+select:focus {
+    border: 2px solid #62C6CE;
+}
+
+input[type="button"],input[type="submit"] {
+    background-image: url('./../imagenes/comun/boton.gif');
+    background-repeat: repeat-x;
+    background-position: center center;
+    border-top: solid 1px #4982A3;
+    border-left: solid 1px #266386;
+    border-right: solid 1px #266386;
+    border-bottom: solid 1px #026EA4;
+    color: #000;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9px;
+}
+
+input[type="text"],input[type="password"] {
+    background-color: #e3f5f7;
+    background-position: center center;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    height: 14px;
+    font-size: 10px;
+}
+
+select {
+    background-color: #e3f5f7;
+    background-position: center center;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+span {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+div{
+    font-family: Verdana, Arial, Helvetica, sans-serif; 
+    font-size: 10px;
+}
+
+.subtitulo{
+    font-weight: bold;
+    text-align: center; 
+    background-color: #D8F0F3;
+}
+
+.encabezado{
+    background-color: #D8F0F3;
+    font-weight: bold;
+}
+
+.Centro {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: small;
+    text-align: center;
+}
+
+.filaPar{
+    background-color: #FFFFE1;
+}
+
+.filaImpar{
+    background-color: #F0FFF0;
+}
+
+.filaSeleccionada {
+    background-color: #62C6CE;
+}
+
+table.formulario {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+}
+
+table.formulario th {
+    background-color: #D8F0F3;
+}
+
+body {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    background-color: #94B6CF;
+}

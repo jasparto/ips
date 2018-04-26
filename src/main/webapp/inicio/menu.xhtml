@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <p:commandButton id="cbCasa" action="/inicio/principal.xhtml" icon="ui-icon-home"
+                     onmouseover="PF('smConfiguracion').hide();
+                             PF('smUsuario').hide();
+                             PF('smCitas').hide();
+                             PF('smPacientes').hide();
+                             PF('smFacturacion').hide();
+                             PF('smReportes').hide();"/>
+
+    <p:commandButton id="cbConfiguracion" value="Configuracion" type="button" icon="ui-icon-wrench"
+                     onmouseover="PF('smConfiguracion').show();
+                             PF('smUsuario').hide();
+                             PF('smCitas').hide();
+                             PF('smPacientes').hide();
+                             PF('smFacturacion').hide();
+                             PF('smReportes').hide();"/>
+    <p:slideMenu overlay="true" trigger="cbConfiguracion" my="left top" at="left bottom" style="width:350px;"
+                 widgetVar="smConfiguracion" >
+
+        <p:menuitem value="Administrar Clientes y Programas" action="/configuracion/programas.xhtml" icon="ui-icon-wrench"/>
+        <p:menuitem value="Administrar Establecimientos" action="/configuracion/establecimientos.xhtml" icon="ui-icon-wrench"/>
+        <p:menuitem value="Administrar Instituciones" action="/configuracion/instituciones.xhtml" icon="ui-icon-wrench"/>
+        <p:menuitem value="Administrar Usuarios" action="/usuario/usuarios.xhtml" icon="ui-icon-wrench"/>
+        <p:menuitem value="Administrar Secciones HC" action="/configuracion/secciones.xhtml" icon="ui-icon-wrench"/>
+
+        <p:separator style="height: 30px;"/>
+    </p:slideMenu>
+
+    <p:commandButton id="cbUsuarios" value="Usuarios" type="button" icon="ui-icon-gear"
+                     onmouseover="PF('smConfiguracion').hide();
+                             PF('smUsuario').show();
+                             PF('smCitas').hide();
+                             PF('smPacientes').hide();
+                             PF('smFacturacion').hide();
+                             PF('smReportes').hide();"/>
+    <p:slideMenu overlay="true" trigger="cbUsuarios" my="left top" at="left bottom" style="width:350px;"
+                 widgetVar="smUsuario">
+        <p:submenu label="Aplicativo" icon="ui-icon-gear">
+            <p:menuitem value="Disponibilidad" actionListener="#" icon="ui-icon-gear"/>
+        </p:submenu>
+        <p:submenu label="Configuracion" icon="ui-icon-gear">
+            <p:submenu label="Mi Usuario" icon="ui-icon-gear">
+                <p:menuitem value="Actualizar Mis Datos" url="#" icon="ui-icon-gear"/>
+                <p:menuitem value="PrimeFaces" url="http://www.primefaces.org" icon="ui-icon-gear"/>
+            </p:submenu>
+        </p:submenu>
+        <p:separator style="height: 30px;"/>
+    </p:slideMenu>
+
+    <p:commandButton id="cbCitas" value="Citas" type="button" icon="ui-icon-clipboard"
+                     onmouseover="PF('smConfiguracion').hide();
+                             PF('smUsuario').hide();
+                             PF('smCitas').show();
+                             PF('smPacientes').hide();
+                             PF('smFacturacion').hide();
+                             PF('smReportes').hide();"/>
+    <p:slideMenu overlay="true" trigger="cbCitas" my="left top" at="left bottom" style="width:350px;"
+                 widgetVar="smCitas">
+        <p:menuitem value="Agenda (Calendario)" action="#{uiAgenda.cargarAgendaMenu()}" icon="ui-icon-clipboard"/>
+        <p:menuitem value="Ingreso Paciente" action="/cita/ingreso.xhtml" icon="ui-icon-clipboard"/>
+        <p:menuitem value="Historia Clinica" action="/cita/historiaClinica.xhtml" icon="ui-icon-clipboard"/>
+        <p:separator style="height: 30px;"/>
+    </p:slideMenu>
+
+    <p:commandButton id="cbPacientes" value="Pacientes" type="button" icon="ui-icon-person"
+                     onmouseover="PF('smConfiguracion').hide();
+                             PF('smUsuario').hide();
+                             PF('smCitas').hide();
+                             PF('smPacientes').show();
+                             PF('smFacturacion').hide();
+                             PF('smReportes').hide();"/>
+    <p:slideMenu overlay="true" trigger="cbPacientes" my="left top" at="left bottom" style="width:350px;"
+                 widgetVar="smPacientes">
+        <p:menuitem value="Administrar Pacientes" action="/paciente/pacientes.xhtml" icon="ui-icon-person"/>
+        <p:submenu label="Opciones" icon="ui-icon-person">
+            <p:menuitem value="Registros" action="#" />
+        </p:submenu>
+        <p:separator style="height: 30px;"/>
+    </p:slideMenu>
+
+    <p:commandButton id="cbFacturacion" value="Facturación" type="button" icon="ui-icon-script"
+                     onmouseover="PF('smConfiguracion').hide();
+                             PF('smUsuario').hide();
+                             PF('smCitas').hide();
+                             PF('smPacientes').hide();
+                             PF('smFacturacion').show();
+                             PF('smReportes').hide();"/>
+    <p:slideMenu overlay="true" trigger="cbFacturacion" my="left top" at="left bottom" style="width:350px;"
+                 widgetVar="smFacturacion">
+        <p:menuitem value="Facturas" action="/facturacion/facturas.xhtml" icon="ui-icon-script"/>
+        <p:menuitem value="Rips" action="/facturacion/rips.xhtml" icon="ui-icon-script"/>
+        <p:separator style="height: 30px;"/>
+    </p:slideMenu>
+
+    <p:commandButton id="cbReportes" value="Reportes" type="button" icon="ui-icon-document"
+                     onmouseover="PF('smConfiguracion').hide();
+                             PF('smUsuario').hide();
+                             PF('smCitas').hide();
+                             PF('smPacientes').hide();
+                             PF('smFacturacion').hide();
+                             PF('smReportes').show();"/>
+    <p:slideMenu overlay="true" trigger="cbReportes" my="left top" at="left bottom" style="width:350px;"
+                 widgetVar="smReportes">
+        <p:menuitem value="Historia Clinica" action="#" icon="ui-icon-document"/>
+        <p:menuitem value="Citas Agendadas" action="#" icon="ui-icon-document"/>
+
+        <p:separator style="height: 30px;"/>
+    </p:slideMenu>
+
+    <p:commandButton value="Cerrar Sesión" action="#{uiUsuario.cerrarSesion()}" icon="ui-icon-extlink"
+                     onmouseover="PF('smConfiguracion').hide();
+                             PF('smUsuario').hide();
+                             PF('smCitas').hide();
+                             PF('smPacientes').hide();
+                             PF('smFacturacion').hide();
+                             PF('smReportes').hide();"/>
+
+
+</ui:composition>

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+
+    <div style="margin-top: 10px; text-align: center;">
+        <p:panelGrid columns="2">
+            <h:outputText value="Nombre: "/>
+            <p:inputText value="#{uiProgramas.entidades.nombre}"/>
+
+            <h:outputText value="Dirección: "/>
+            <h:inputText value="#{uiProgramas.entidades.direccion}"/>
+
+            <h:outputText value="Telefono: "/>
+            <h:inputText value="#{uiProgramas.entidades.telefono}"/>
+
+            <h:outputText value="Activo: "/>
+            <p:selectBooleanButton onLabel="SI" offLabel="NO" value="#{uiProgramas.entidades.activo}"/>
+
+        </p:panelGrid>
+        <p:commandButton value="Crear Aseguradora" action="#{uiProgramas.crearEntidad()}"
+                         update=":formProgramas:tvProgramasInstitucion"/>
+    </div>
+</ui:composition>

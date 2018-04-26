@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>    
+    <class name="com.sinergia.paciente.modelo.Pacientes" table="pacientes"
+           schema="paciente">
+        
+        <composite-id class="com.sinergia.paciente.modelo.PacientesPK" name="pacientesPK" >
+            <key-property name="codIdentidad" type="int" column="cod_identidad"/>
+            <key-property name="documentoBeneficiario" type="java.lang.String" column="documento_beneficiario"/>
+        </composite-id>
+        
+        <property name="nombre" type="java.lang.String">
+            <column name="nombre" length="40" not-null="true" />
+        </property>
+        <property name="apellido" type="java.lang.String">
+            <column name="apellido" length="40" not-null="true" />
+        </property>
+        <property name="sexo" type="java.lang.String">
+            <column name="sexo" length="1"  />
+        </property>
+        <property name="fechaNacimiento" type="date">
+            <column name="fecha_nacimiento" />
+        </property>
+        <property name="regimen" type="string">
+            <column name="regimen" length="1" />
+        </property>
+        <property name="codCategoria" type="int">
+            <column name="cod_categoria" not-null="true"/>
+        </property>
+        <property name="activo" type="string">
+            <column name="activo" length="1" />
+        </property>
+        <property name="porcentajeDescuento" type="float">
+            <column name="porcentaje_descuento"/>
+        </property>
+        <property name="estadoCivil" type="string">
+            <column name="estado_civil" length="10" />
+        </property>
+        <property name="codIdentidadCotizante" type="int">
+            <column name="cod_identidad_cotizante" not-null="true"/>
+        </property>
+        <property name="documentoCotizante" type="string">
+            <column name="documento_cotizante"/>
+        </property>
+        <property name="codPaisNacimiento" type="string">
+            <column name="cod_pais_nacimiento" length="10" />
+        </property>
+        <property name="codDepartamentoNacimiento" type="string">
+            <column name="cod_departamento_nacimiento" length="10" />
+        </property>
+        <property name="codMunicipioNacimiento" type="string">
+            <column name="cod_municipio_nacimiento" length="10" />
+        </property>
+        <property name="fechaActualizacion" type="timestamp">
+            <column name="fecha_actualizacion"/>
+        </property>
+        <property name="fechaRegistro" type="timestamp">
+            <column name="fecha_registro"/>
+        </property>
+        
+        <many-to-one name="documentosIdentidad" class="com.sinergia.paciente.modelo.DocumentosIdentidad" update="false" insert="false" fetch="select">
+            <column name="cod_identidad" not-null="true" />
+        </many-to-one>
+        
+        <set name="direccionesPacienteSet" table="direcciones_paciente" inverse="true" lazy="true" fetch="select"
+             schema="paciente">
+            <key>
+                <column name="cod_identidad" not-null="true" />
+                <column name="documento_beneficiario" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.paciente.modelo.DireccionesPaciente" />
+        </set>
+        
+        <set name="telefonosPacienteSet" table="telefonos_paciente" inverse="true" lazy="true" fetch="select"
+             schema="paciente">
+            <key>
+                <column name="cod_identidad" not-null="true" />
+                <column name="documento_beneficiario" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.paciente.modelo.TelefonosPaciente" />
+        </set>
+        
+        <set name="citasSet" table="citas" inverse="true" lazy="true" fetch="select"
+             schema="atencion">
+            <key>
+                <column name="cod_identidad" />
+                <column name="documento_beneficiario" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.Citas" />
+        </set>
+        
+        <set name="contexturasPacienteSet" table="contexturas_paciente" inverse="true" lazy="true" fetch="select"
+             schema="paciente">
+            <key>
+                <column name="cod_identidad" not-null="true" />
+                <column name="documento_beneficiario" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.paciente.modelo.ContexturasPaciente" />
+        </set>
+        
+        
+        
+        <!--        <component name="documentosIdentidad" class="com.sinergia.paciente.modelo.DocumentosIdentidad">
+            <property name="codIdentidad" type="int">
+                <column name="cod_identidad" not-null="true" />
+            </property>
+            <property name="nombre" type="string">
+                <column name="nombre"/>
+            </property>
+            <property name="iniciales" type="string">
+                <column name="iniciales"/>
+            </property>
+        </component>-->
+    </class>
+    
+    <class name="com.sinergia.paciente.modelo.DocumentosIdentidad" table="documentos_identidad"
+           schema="paciente">
+        <id name="codIdentidad" type="int" column="cod_identidad"/>
+        <property name="nombre" type="string">
+            <column name="nombre" length="30" />
+        </property>
+        <property name="iniciales" type="string">
+            <column name="iniciales" length="4" />
+        </property>
+        
+        <set name="pacientesSet" table="pacientes" inverse="true" lazy="true" fetch="select"
+             schema="paciente">
+            <key>
+                <column name="cod_identidad" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.paciente.modelo.Pacientes" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.paciente.modelo.DireccionesPaciente" table="direcciones_paciente"
+           schema="paciente">
+        <composite-id name="direccionesPacientePK" class="com.sinergia.paciente.modelo.DireccionesPacientePK">
+            <key-property name="codIdentidad" type="int">
+                <column name="cod_identidad" />
+            </key-property>
+            <key-property name="documentoBeneficiario" type="string">
+                <column name="documento_beneficiario" />
+            </key-property>
+            <key-property name="direccion" type="string">
+                <column name="direccion" length="40" />
+            </key-property>
+            <key-property name="codLista" type="int">
+                <column name="cod_lista" />
+            </key-property>
+            <key-property name="descripcionCodDetalle" type="int">
+                <column name="descripcion_cod_detalle" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="pacientes" class="com.sinergia.paciente.modelo.Pacientes" update="false" insert="false" fetch="select">
+            <column name="cod_identidad" not-null="true" />
+            <column name="documento_beneficiario" not-null="true" />
+        </many-to-one>
+        <property name="fechaRegistro" type="timestamp">
+            <column name="fecha_registro" />
+        </property>
+        <property name="fechaActualizacion" type="timestamp">
+            <column name="fecha_actualizacion" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="usuario" />
+        </property>
+        <property name="aplicacion" type="string">
+            <column name="aplicacion" />
+        </property>
+    </class>
+    
+    <class name="com.sinergia.paciente.modelo.TelefonosPaciente" table="telefonos_paciente"
+           schema="paciente">
+        <composite-id name="telefonosPacientePK" class="com.sinergia.paciente.modelo.TelefonosPacientePK">
+            <key-property name="codIdentidad" type="int">
+                <column name="cod_identidad" />
+            </key-property>
+            <key-property name="documentoBeneficiario" type="string">
+                <column name="documento_beneficiario" />
+            </key-property>
+            <key-property name="numero" type="string">
+                <column name="numero" length="45" />
+            </key-property>
+            <key-property name="codLista" type="int">
+                <column name="cod_lista" />
+            </key-property>
+            <key-property name="descripcionCodDetalle" type="int">
+                <column name="descripcion_cod_detalle" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="pacientes" class="com.sinergia.paciente.modelo.Pacientes" update="false" insert="false" fetch="select">
+            <column name="cod_identidad" not-null="true" />
+            <column name="documento_beneficiario" not-null="true" />
+        </many-to-one>
+        <property name="fechaRegistro" type="timestamp">
+            <column name="fecha_registro" not-null="true">
+                <comment>fecha en la que se realizo el registro</comment>
+            </column>
+        </property>
+        <property name="fechaActualizacion" type="timestamp">
+            <column name="fecha_actualizacion" not-null="true" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="usuario">
+                <comment>Indica el usuario que realizo la ultima actualizacion</comment>
+            </column>
+        </property>
+        <property name="aplicacion" type="string">
+            <column name="aplicacion">
+                <comment>Indica la aplicacion por la cual se realizo la ultima actualizacion</comment>
+            </column>
+        </property>
+    </class>
+    
+    <class name="com.sinergia.paciente.modelo.ContexturasPaciente" table="contexturas_paciente"
+           schema="paciente">
+        <composite-id name="contexturasPacientePK" class="com.sinergia.paciente.modelo.ContexturasPacientePK">
+            <key-property name="codIdentidad" type="int">
+                <column name="cod_identidad" />
+            </key-property>
+            <key-property name="documentoBeneficiario" type="string">
+                <column name="documento_beneficiario" />
+            </key-property>
+            <key-property name="codLista" type="int">
+                <column name="cod_lista" />
+            </key-property>
+            <key-property name="descripcionCodDetalle" type="int">
+                <column name="descripcion_cod_detalle" />
+            </key-property>
+            <key-property name="fechaRegistro" type="timestamp">
+                <column name="fecha_registro" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="pacientes" class="com.sinergia.paciente.modelo.Pacientes" update="false" insert="false" fetch="select">
+            <column name="cod_identidad" not-null="true" />
+            <column name="documento_beneficiario" not-null="true" />
+        </many-to-one>
+        <!--        <many-to-one name="detalleLista" class="DetalleLista" update="false" insert="false" fetch="select">
+            <column name="descripcion_cod_detalle" not-null="true" />
+            <column name="cod_lista" not-null="true" />
+        </many-to-one>-->
+        <property name="valor" type="string">
+            <column name="valor" length="40" not-null="true" />
+        </property>
+        <property name="usuario" type="string">
+            <column name="usuario" />
+        </property>
+        <property name="aplicacion" type="string">
+            <column name="aplicacion" />
+        </property>
+    </class>
+    
+    
+</hibernate-mapping>

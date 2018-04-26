@@ -1,0 +1,311 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>    
+    <class name="com.sinergia.facturacion.modelo.Facturas" table="facturas"
+           schema="facturacion">
+        <composite-id name="facturasPK" class="com.sinergia.facturacion.modelo.FacturasPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codFactura" type="long">
+                <column name="cod_factura" />
+            </key-property>
+            <key-property name="codIdentidad" type="int">
+                <column name="cod_identidad" />
+            </key-property>
+            <key-property name="documentoBeneficiario" type="string">
+                <column name="documento_beneficiario" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="citas" class="com.sinergia.atencion.modelo.Citas" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+            <column name="cod_cita" />
+        </many-to-one>
+        <many-to-one name="pacientes" class="com.sinergia.paciente.modelo.Pacientes" update="false" insert="false" fetch="select">
+            <column name="cod_identidad" not-null="true" />
+            <column name="documento_beneficiario" not-null="true" />
+        </many-to-one>
+        <many-to-one name="facturasConfiguracion" class="com.sinergia.facturacion.modelo.FacturasConfiguracion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+            <column name="cod_configuracion" not-null="true" />
+        </many-to-one>
+        <property name="codConfiguracion" type="long">
+            <column name="cod_configuracion" not-null="true" />
+        </property>
+        <property name="prefijoFactura" type="string">
+            <column name="prefijo_factura" length="4" not-null="true" />
+        </property>
+        <property name="numeroFactura" type="string">
+            <column name="numero_factura" length="20" />
+        </property>
+        <property name="codCliente" type="int">
+            <column name="cod_cliente" not-null="true" />
+        </property>
+        <property name="codEntidad" type="int">
+            <column name="cod_entidad" not-null="true" />
+        </property>
+        <property name="codSubcuenta" type="int">
+            <column name="cod_subcuenta" not-null="true" />
+        </property>
+        <property name="codLista" type="int">
+            <column name="cod_lista" not-null="true" />
+        </property>
+        <property name="totalFactura" type="java.lang.Integer">
+            <column name="total_factura" />
+        </property>
+        <property name="totalAnticipo" type="java.lang.Integer">
+            <column name="total_anticipo" />
+        </property>
+        <property name="totalIva" type="int">
+            <column name="total_iva" not-null="true" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="fecha" length="13" not-null="true" />
+        </property>
+        <property name="fechaVencimiento" type="date">
+            <column name="fecha_vencimiento" length="13" not-null="true" />
+        </property>
+        <property name="documentoUsuario" type="string">
+            <column name="documento_usuario" />
+        </property>
+        <property name="documentoFacturador" type="string">
+            <column name="documento_facturador" />
+        </property>
+        <property name="fechaRegistro" type="timestamp">
+            <column name="fecha_registro" />
+        </property>
+        <property name="texto" type="string">
+            <column name="texto" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="1" not-null="true" />
+        </property>
+        <property name="codContrato" type="int">
+            <column name="cod_contrato" not-null="true" />
+        </property>
+        <property name="totalAnulado" type="java.lang.Integer">
+            <column name="total_anulado" />
+        </property>
+        <property name="totalDescuento" type="int">
+            <column name="total_descuento" not-null="true" />
+        </property>
+        <property name="numeroCopias" type="java.lang.Integer">
+            <column name="numero_copias" />
+        </property>
+        <property name="resolucion" type="string">
+            <column name="resolucion" length="254" />
+        </property>
+        <property name="sincroniza" type="string">
+            <column name="sincroniza" length="1" />
+        </property>
+        <property name="monto" type="string">
+            <column name="monto" length="250" />
+        </property>
+        <property name="detallePaciente" type="string">
+            <column name="detalle_paciente" length="120" />
+        </property>
+        <property name="codCita" type="long">
+            <column name="cod_cita" />
+        </property>
+        <property name="numeroAutorizacion" type="string">
+            <column name="numero_autorizacion" length="25" />
+        </property>
+        <set name="facturasDetalleSet" table="facturas_detalle" 
+             schema="facturacion"  cascade="save-update">
+            <!--inverse="true" lazy="true" fetch="select"-->
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_factura" not-null="true" />
+                <column name="cod_identidad" not-null="true" />
+                <column name="documento_beneficiario" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.facturacion.modelo.FacturasDetalle" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.facturacion.modelo.FacturasDetalle" table="facturas_detalle"
+           schema="facturacion">
+        <composite-id name="facturasDetallePK" class="com.sinergia.facturacion.modelo.FacturasDetallePK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codFactura" type="long">
+                <column name="cod_factura" />
+            </key-property>
+            <key-property name="codServicio" type="long">
+                <column name="cod_servicio" />
+            </key-property>
+            <key-property name="codIdentidad" type="int">
+                <column name="cod_identidad" />
+            </key-property>
+            <key-property name="documentoBeneficiario" type="string">
+                <column name="documento_beneficiario" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="facturas" class="com.sinergia.facturacion.modelo.Facturas" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+            <column name="cod_factura" not-null="true" />
+            <column name="cod_identidad" not-null="true" />
+            <column name="documento_beneficiario" not-null="true" />
+        </many-to-one>
+        <property name="cantidad" type="int">
+            <column name="cantidad" not-null="true" />
+        </property>
+        <property name="valorCosto" type="float">
+            <column name="valor_costo" precision="8" scale="8" not-null="true" />
+        </property>
+        <property name="valorVenta" type="float">
+            <column name="valor_venta" precision="8" scale="8" not-null="true" />
+        </property>
+        <property name="valorIva" type="float">
+            <column name="valor_iva" precision="8" scale="8" not-null="true" />
+        </property>
+        <property name="iva" type="float">
+            <column name="iva" precision="8" scale="8" not-null="true" />
+        </property>
+    </class>
+    
+    <class name="com.sinergia.facturacion.modelo.FacturasConfiguracion" table="facturas_configuracion"
+           schema="facturacion">
+        <composite-id name="facturasConfiguracionPK" class="com.sinergia.facturacion.modelo.FacturasConfiguracionPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codConfiguracion" type="long">
+                <column name="cod_configuracion" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="establecimiento" class="com.sinergia.publico.modelo.Establecimiento" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+        </many-to-one>
+        <property name="descripcion" type="string">
+            <column name="descripcion" length="20" />
+        </property>
+        <property name="prefijoFactura" type="string">
+            <column name="prefijo_factura" length="4" not-null="true" />
+        </property>
+        <property name="numeroFactura" type="java.lang.Integer">
+            <column name="numero_factura" />
+        </property>
+        <property name="fechaCierre" type="date">
+            <column name="fecha_cierre" length="13" />
+        </property>
+        <property name="numeroInicio" type="java.lang.Integer">
+            <column name="numero_inicio" />
+        </property>
+        <property name="numeroFin" type="java.lang.Integer">
+            <column name="numero_fin" />
+        </property>
+        <property name="fechaLimiteResolucion" type="date">
+            <column name="fecha_limite_resolucion" length="13" />
+        </property>
+        <property name="numeroFacturaLimite" type="java.lang.Integer">
+            <column name="numero_factura_limite" />
+        </property>
+        <property name="tipoResolucion" type="string">
+            <column name="tipo_resolucion" length="1" not-null="true" />
+        </property>
+        <property name="Resolucion" type="string">
+            <column name="resolucion" not-null="true"/>
+        </property>
+        
+        <property name="fechaInicioVigencia" type="date">
+            <column name="fecha_inicio_vigencia" not-null="true"/>
+        </property>
+        <property name="fechaFinVigencia" type="date">
+            <column name="fecha_fin_vigencia" not-null="true"/>
+        </property>
+        
+        <set name="facturasSet" table="facturas" inverse="true" lazy="true" fetch="select"
+             schema="facturacion">
+            <key>
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_configuracion" not-null="true" />
+                <column name="cod_institucion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.facturacion.modelo.Facturas" />
+        </set>
+    </class>
+
+    <class name="com.sinergia.facturacion.modelo.RipsGeneracion" table="rips_generacion"
+           schema="facturacion">
+        <id name="codGeneracion" type="long">
+            <column name="cod_generacion" />
+            <generator class="assigned" />
+        </id>
+        <property name="codInstitucion" type="int">
+            <column name="cod_institucion" />
+        </property>
+        <property name="codEstablecimiento" type="int">
+            <column name="cod_establecimiento" not-null="true" />
+        </property>
+        <property name="codEapb" type="string">
+            <column name="cod_eapb" length="6" not-null="true" />
+        </property>
+        <property name="nombreResponsable" type="string">
+            <column name="nombre_responsable" length="50" />
+        </property>
+        <property name="usuarioResponsable" type="string">
+            <column name="usuario_responsable" length="30" not-null="true" />
+        </property>
+        <property name="totalRegistros" type="int">
+            <column name="total_registros" not-null="true" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="fecha" length="13" not-null="true" />
+        </property>
+        <property name="fechaInicio" type="date">
+            <column name="fecha_inicio" length="13" not-null="true" />
+        </property>
+        <property name="fechaFinal" type="date">
+            <column name="fecha_final" length="13" not-null="true" />
+        </property>
+        <property name="totalRegistrosCt" type="int">
+            <column name="total_registros_ct" not-null="true" />
+        </property>
+        <property name="totalRegistrosAf" type="int">
+            <column name="total_registros_af" not-null="true" />
+        </property>
+        <property name="totalRegistrosUs" type="int">
+            <column name="total_registros_us" not-null="true" />
+        </property>
+        <property name="totalRegistrosAd" type="int">
+            <column name="total_registros_ad" not-null="true" />
+        </property>
+        <property name="totalRegistrosAc" type="int">
+            <column name="total_registros_ac" not-null="true" />
+        </property>
+        <property name="totalRegistrosAp" type="int">
+            <column name="total_registros_ap" not-null="true" />
+        </property>
+        <property name="codigoArchivo" type="string">
+            <column name="codigo_archivo" length="6" not-null="true" />
+        </property>
+        <property name="nombreEapb" type="string">
+            <column name="nombre_eapb" length="50" not-null="true" />
+        </property>
+        <property name="nombreCaf" type="string">
+            <column name="nombre_caf" length="50" not-null="true" />
+        </property>
+        <property name="totalRegistrosAm" type="int">
+            <column name="total_registros_am" not-null="true" />
+        </property>
+    </class>
+
+</hibernate-mapping>

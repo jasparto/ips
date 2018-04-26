@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+
+    <div style="margin-top: 10px; text-align: center;">
+        <h3>                
+            <h:outputText value="Crear Tipo Recurso - #{usuarios.nombre} #{usuarios.apellido}"/>
+        </h3>
+        <p:panelGrid columns="2" id="pgTipoRecursoInstitucion">
+
+            <h:outputText value="Institucion: "/>
+            <p:selectOneMenu id="somInstitucionTipoRecurso" value="#{uiUsuario.institucion}" converter="convertidorGenerico">
+                <f:selectItem itemLabel="Selecciona una institucion" itemValue="" noSelectionOption="true"/>
+                <f:selectItems value="#{usuarios.institucionSetToList}" var="varInstitucionUsuario" itemLabel="#{varInstitucionUsuario.nombre}" 
+                               itemValue="#{varInstitucionUsuario}" />
+                <p:ajax update="pgTipoRecursoInstitucion"/>
+            </p:selectOneMenu>
+
+            <h:outputText value="Tipo Recurso: " rendered="#{not empty uiUsuario.institucion}"/>
+            <p:selectOneMenu id="somTipoRecursoInstitucion" value="#{uiUsuario.institucion.tipoRecurso}" converter="convertidorGenerico" 
+                             rendered="#{not empty uiUsuario.institucion}">
+                <f:selectItems value="#{uiUsuario.institucion.tipoRecursosHumanoSetToList}" var="varTipoRecursoUsuario" itemLabel="#{varTipoRecursoUsuario.nombre}" 
+                               itemValue="#{varTipoRecursoUsuario}"/>
+            </p:selectOneMenu>
+        </p:panelGrid>
+        <p:commandButton value="Adicionar Tipo Recurso" action="#{uiUsuario.asignarTipoRecursoUsuario()}"
+                         update="dtTipoRecursoUsuario" process="@parent"/>
+
+        <p:dataTable id="dtTipoRecursoUsuario" value="#{usuarios.recursoSet}" var="varTipoRecursoUsuario">
+            <p:columnGroup type="header">  
+                <p:row>  
+                    <p:column headerText="Institucion"/>
+                    <p:column headerText="Codigo Recurso"/>
+                    <p:column  headerText="Tipo Recurso"/>
+                </p:row> 
+            </p:columnGroup>
+
+            <p:column>
+                <h:outputText value="#{varTipoRecursoUsuario.institucion.nombre}"/>
+            </p:column>
+            <p:column>
+                <h:outputText value="#{varTipoRecursoUsuario.recursoPK.codRecurso}"/>
+            </p:column>
+            <p:column>
+                <h:outputText value="#{varTipoRecursoUsuario.tipoRecurso.nombre}"/>
+            </p:column>
+
+        </p:dataTable>
+    </div>
+
+</ui:composition>

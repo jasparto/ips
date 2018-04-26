@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml"
+                >
+
+    <ui:define name="content">
+        <h:form enctype="multipart/form-data" id="formAgenda" style="font-size: small;">
+
+            <p:panel id="panelAgenda"  header="Agenda de Citas" >
+                <h:panelGrid columns="2">
+                    <h:panelGrid id="pgServicio" style="width: auto">
+                        <p:outputLabel for="smmServicio" value="Servicio:" />
+                        <p:selectManyMenu id="smmServicio" value="#{uiAgenda.servicio}" style="width: auto"
+                                          converter="convertidorGenerico"
+                                          var="s" filter="true" filterMatchMode="contains">
+                            <f:selectItems value="#{uiAgenda.listaServicios}" var="servicio" itemLabel="#{servicio.nombre}" itemValue="#{servicio}" />
+                            <p:column>
+                                <h:outputText value="#{s.nombre}"/>
+                            </p:column>
+                            <p:ajax event="change" process="@this" listener="#{uiAgenda.listarRecursosServicio()}" update="pgRecursos"/>
+                        </p:selectManyMenu>
+                    </h:panelGrid>
+
+                    <h:panelGrid id="pgRecursos" style="font-size: x-small">
+                        <p:dataList value="#{uiAgenda.tipoRecursoList}" var="tr" >
+                            #{tr.nombre}
+                            <p:pickList value="#{tr.recursoDualList}" var="itemPlRecurso" effect="bounce"
+                                        itemValue="#{itemPlRecurso}" itemLabel="#{itemPlRecurso.nombre}" showSourceControls="true" 
+                                        showTargetControls="true" showCheckbox="true"
+                                        showSourceFilter="true" showTargetFilter="true" filterMatchMode="contains" converter="primeFacesPickListConverter">
+                                <f:facet name="sourceCaption">Disponible</f:facet>
+                                <f:facet name="targetCaption">Asignado</f:facet>    
+
+                                <p:column style="width:10%">
+                                    <span class="ui-icon #{tr.icon}"/>
+                                    <span class="ui-icon ui-icon-clock"/>
+                                </p:column>
+                                <p:column style="width:90%;">
+                                    <h:outputText value="#{itemPlRecurso.nombre}" />
+                                </p:column>
+                            </p:pickList>
+                        </p:dataList>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="3">
+                        <p:outputLabel for="somCodigoIdentidad" value="Tipo Documento Identidad" />
+                        <p:selectOneMenu id="somCodigoIdentidad" value="#{uiAgenda.pacientes.pacientesPK.codIdentidad}" style="width: auto"
+                                         >
+                            <f:selectItems value="#{uiPaciente.listaDocumentosIdentidad}" var="d" itemLabel="#{d.nombre}" itemValue="#{d.codIdentidad}"/>
+                        </p:selectOneMenu>
+                        <p:spacer/>
+
+                        <p:outputLabel for="itDocumentoPaciente" value="Documento Paciente" />
+                        <p:inputText id="itDocumentoPaciente" value="#{uiAgenda.pacientes.pacientesPK.documentoBeneficiario}" onkeypress="if (enter(event.keyCode)) {
+                                    return siguiente(this);
+                                }" autocomplete="on">
+                            <p:ajax event="change" process="somCodigoIdentidad,@this"/>
+                        </p:inputText>
+                        <p:commandButton action="#{uiAgenda.consultarPaciente()}" icon="ui-icon-search" update="olNombre,olApellido,dialog"/>
+
+                        <h:panelGrid columns="2">
+                            <p:outputLabel id="olNombre" for="itDocumentoPaciente" value="#{uiAgenda.pacientes.nombre}" styleClass="letra"/>
+                            <p:outputLabel id="olApellido" for="itDocumentoPaciente" value="#{uiAgenda.pacientes.apellido}" styleClass="letra"/>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <h:panelGrid>
+
+                    <h:panelGrid columns="4">
+                        <p:outputLabel for="itDuracion" value="Duración Minutos" />
+                        <p:inputText id="itDuracion" value="#{citas.duracion}" >
+                            <p:ajax event="change" process="@this" update="itDuracionHoras"/>
+                        </p:inputText>
+                        <p:outputLabel for="itDuracionHoras" value="Duración Horas" />
+                        <p:inputText id="itDuracionHoras" value="#{uiAgenda.duracionHoras}" >
+                            <f:convertNumber pattern="#,###,##0.00"/>
+                            <p:ajax event="change" update="itDuracion" process="@this"/>
+                        </p:inputText>
+                    </h:panelGrid>
+
+                    <p:slider for="itDuracion" style="width: 200px;" maxValue="120">
+                        <p:ajax event="slideEnd" update="itDuracion,itDuracionHoras" process="itDuracion" />
+                    </p:slider>
+
+
+                    <h:panelGrid columns="3">
+                        <p:outputLabel for="itIntervalo" value="Intervalo Calendario" />
+                        <p:inputText id="itIntervalo" value="#{uiAgenda.slotMinutes}" >
+                            <p:ajax event="change" update="schedule" />
+                        </p:inputText>
+                        <p:slider for="itIntervalo" style="width: 200px" maxValue="60">
+                            <p:ajax event="slideEnd" update="itIntervalo" process="itIntervalo" />
+                        </p:slider>
+                    </h:panelGrid>
+
+                </h:panelGrid>
+                <h:panelGrid columnClasses="value">
+                    <h3 style="margin-top: 0">Editable Schedule</h3>
+                    <p:schedule id="schedule" value="#{uiAgenda.eventModel}" widgetVar="myschedule" locale="co" slotMinutes="#{uiAgenda.slotMinutes}"
+                                view="agendaDay" timeZone="GMT-5" allDaySlot="false" styleClass="value" 
+                                >
+                        <p:ajax event="dateSelect" listener="#{uiAgenda.onDateSelect}" update="dialog" />
+                        <p:ajax event="eventSelect" listener="#{uiAgenda.onEventSelect}" update="dialog" oncomplete="PF('eventDialog').show();"/>
+
+                    </p:schedule>
+                </h:panelGrid>
+                <h:panelGrid>
+                    <ui:include src="/barra.xhtml">
+                        <ui:param name="bean" value="#{uiAgenda}"/>
+                    </ui:include>
+                </h:panelGrid>
+            </p:panel>
+
+            <p:dialog id="dialog" widgetVar="dialog" header="#{sesion.dialogo.header}" showEffect="#{sesion.dialogo.effect}" hideEffect="#{sesion.dialogo.effect}"
+                      onHide="limpiarModal()">
+                <ui:include src="#{sesion.dialogo.src}"/>
+            </p:dialog>
+            <p:remoteCommand name="limpiarModal" action="#{uiSesion.limpiarDialogo()}" update="dialog" />
+
+        </h:form>
+
+
+    </ui:define>
+
+</ui:composition>

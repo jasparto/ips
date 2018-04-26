@@ -1,0 +1,345 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/template.xhtml"
+                >
+
+    <ui:define name="content">
+        <h:form enctype="multipart/form-data" id="formInstituciones" style="font-size: small;">
+            <p:panel id="panelInstituciones"  header="Administrar Instituciones" >
+                <h:panelGrid columns="5" >
+                    <h:outputText value="Nombre"/>
+                    <h:outputText value="Nit"/>
+                    <h:outputText value="Dirección"/>
+                    <h:outputText value="Razon Social"/>
+                    <h:outputText value="Telefono"/>
+
+
+                    <p:inputText value="#{uiInstitucion.institucion.nombre}" placeholder="Nombre Institucion"/>
+                    <p:inputText value="#{uiInstitucion.institucion.nit}" placeholder="Nit"/>
+                    <p:inputText value="#{uiInstitucion.institucion.direccion}" placeholder="Dirección"/>
+                    <p:inputText value="#{uiInstitucion.institucion.razonSocial}" placeholder="Razón Social"/>
+                    <p:inputText value="#{uiInstitucion.institucion.telefono}" placeholder="Telefono"/>
+                </h:panelGrid>
+
+                <p:tabView id="tvInstituciones" rendered="#{not empty uiInstitucion.institucion.codInstitucion}">
+                    <p:tab id="tabParametrosInstitucion" title="Parametros">
+                        <p:dataTable value="#{uiInstitucion.institucion.institucionParametrosSet}" var="varParametroInstitucion"
+                                     emptyMessage="Institucion sin parametros" styleClass="Centro">
+
+                            <p:columnGroup type="header">
+                                <div align="left">
+                                    <p:commandButton icon="ui-icon-plus" title="Crear Parametro" style="width: 100px;"
+                                                     action="#{uiInstitucion.cargarDialogoCrearParametro()}" update=":formInstituciones:dialog"/>
+                                </div>
+                                <br/>
+                                <p:row>  
+                                    <p:column headerText="Codigo"/>
+                                    <p:column  headerText="Nombre"/>
+                                    <p:column  headerText="Valor"/>
+                                    <p:column  headerText="Opciones"/>
+                                </p:row>
+                            </p:columnGroup>
+
+                            <p:column>
+                                <h:outputText value="#{varParametroInstitucion.parametros.codParametro}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varParametroInstitucion.parametros.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varParametroInstitucion.valor}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton icon="ui-icon-minus"/>
+                            </p:column>
+
+
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab id="tabTipoRecurso" title="Tipo Recurso">
+                        <p:dataTable value="#{uiInstitucion.institucion.tipoRecursosSet}" var="varTipoRecurso"
+                                     emptyMessage="Institucion sin clasificación de recursos" styleClass="Centro">
+                            <p:columnGroup type="header">
+                                <div align="left">
+                                    <p:commandButton icon="ui-icon-plus" title="Crear Tipo Recurso" style="width: 100px;"
+                                                     action="#{uiInstitucion.cargarDialogoCrearTipoRecurso()}" update=":formInstituciones:dialog"/>
+                                </div>
+                                <br/>
+                                <p:row>  
+                                    <p:column headerText="Codigo"/>
+                                    <p:column  headerText="Nombre"/>
+                                    <p:column  headerText="Controlado"/>
+                                    <p:column  headerText="Clase"/>
+                                    <p:column  headerText="Opciones"/>
+                                </p:row>
+                            </p:columnGroup>
+                            <p:column>
+                                <h:outputText value="#{varTipoRecurso.codTipoRecurso}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varTipoRecurso.nombre}"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectBooleanButton onLabel="SI" offLabel="NO" value="#{varTipoRecurso.controlado}" disabled="true"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varTipoRecurso.clase}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton icon="ui-icon-minus" title="Modificar Tipo Recurso" update=":formInstituciones:dialog"
+                                                 action="#{uiInstitucion.subirItemTipoRecurso()}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab id="tabRecurso" title="Recurso Institucion">
+                        <p:tabView orientation="left">
+                            <p:tab title="Recursos Fisicos">
+                                <p:dataTable value="#{uiInstitucion.institucion.recursoSet}" var="varRecurso"
+                                             emptyMessage="Institucion sin recursos" styleClass="Centro">
+                                    <p:columnGroup type="header">
+                                        <div align="left">
+                                            <p:commandButton icon="ui-icon-plus" title="Crear Recurso" style="width: 100px;"
+                                                             action="#{uiInstitucion.cargarDialogoCrearRecurso()}" update=":formInstituciones:dialog"/>
+                                        </div>
+                                        <br/>
+                                        <p:row>  
+                                            <p:column headerText="Codigo"/>
+                                            <p:column  headerText="Tipo Recurso"/>
+                                            <p:column  headerText="Nombre"/>
+                                            <p:column  headerText="Clase"/>
+                                            <p:column  headerText="Opciones"/>
+                                        </p:row>
+                                    </p:columnGroup>
+                                    <p:column>
+                                        <h:outputText value="#{varRecurso.recursoPK.codRecurso}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varRecurso.tipoRecurso.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varRecurso.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <h:outputText value="#{varRecurso.tipoRecurso.clase}"/>
+                                    </p:column>
+
+                                    <p:column>
+                                        <p:commandButton icon="ui-icon-minus" title="Modificar Tipo Recurso" update=":formInstituciones:dialog"
+                                                         action="#{uiInstitucion.subirItemRecurso()}" rendered="#{varRecurso.tipoRecurso.clase ne 'H'}"/>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:tab>
+                            <p:tab title="Recursos Establecimiento">
+                                <h:panelGrid columns="2">
+                                    <h:outputText value="Recurso"/>
+                                    <p:selectOneMenu value="#{uiInstitucion.institucion.recurso}" converter="convertidorGenerico">
+                                        <f:selectItem itemLabel="Selecciona un recurso"/>
+                                        <f:selectItems value="#{uiInstitucion.institucion.recursoSetToArray}"  var="varItemRecurso"  
+                                                       itemLabel="#{varItemRecurso.nombre}" itemValue="#{varItemRecurso}"/>
+                                        <p:ajax listener="#{uiInstitucion.cargarEstablecimientosRecurso()}" update="plEstablecimientoRecurso" />
+                                    </p:selectOneMenu>
+                                </h:panelGrid>
+                                <p:pickList id="plEstablecimientoRecurso" value="#{uiInstitucion.establecimientoDualList}"
+                                            converter="primeFacesPickListConverter"
+                                            var="varDualEstablecimiento"  
+                                            itemLabel="#{varDualEstablecimiento.nombre}"  
+                                            itemValue="#{varDualEstablecimiento}"
+                                            addLabel="Agregar" addAllLabel="Agregar todos"
+                                            removeLabel="Remover" removeAllLabel="Remover Todos"
+                                            > 
+                                    <p:ajax event="transfer" listener="#{uiInstitucion.asignarEstablecimientoRecurso()}" />
+                                    <f:facet name="sourceCaption">Establecimientos disponibles</f:facet>  
+                                    <f:facet name="targetCaption">Establecimientos asignados</f:facet> 
+                                </p:pickList> 
+                            </p:tab>
+                        </p:tabView>
+                    </p:tab>
+
+                    <p:tab id="tabMenus" title="Menus">
+                        <p:dataTable id="dtMenus" value="#{uiInstitucion.institucion.menusSet}" var="varMenus"
+                                     emptyMessage="Institucion sin menus creados" styleClass="Centro">
+                            <p:columnGroup type="header">
+                                <div align="left">
+                                    <p:commandButton icon="ui-icon-plus" title="Crear Menu" style="width: 100px;"
+                                                     action="#{uiInstitucion.cargarDialogoCrearMenu()}" update=":formInstituciones:dialog"/>
+                                </div>
+                                <br/>
+                                <p:row>
+                                    <p:column headerText="Codigo"/>
+                                    <p:column  headerText="Descripción"/>
+                                    <p:column  headerText="Eliminar"/>
+                                </p:row>
+                            </p:columnGroup>
+                            <p:column>
+                                <h:outputText value="#{varMenus.menusPK.codMenu}"/>
+                            </p:column>
+                            <p:column>
+                                <h:outputText value="#{varMenus.descripcion}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandButton icon="ui-icon-trash" title="Modificar Tipo Recurso" update="@parent:@parent"
+                                                 action="#{uiInstitucion.eliminarMenu()}">
+                                    <p:confirm header="Eliminar Menú" message="¿ Estas seguro que deseas eliminar menú indicado ?" 
+                                               icon="ui-icon-alert"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:tab>
+                    <p:tab id="tabRoles" title="Roles">
+                            <p:dataTable value="#{uiInstitucion.institucion.rolesSet}" var="varRoles"
+                                         emptyMessage="Institucion sin roles asignados" styleClass="Centro">
+                                <p:columnGroup type="header">
+                                    <div align="left">
+                                        <p:commandButton icon="ui-icon-plus" title="Crear Rol" style="width: 100px;"
+                                                         action="#{uiInstitucion.cargarDialogoCrearRol()}" update=":formInstituciones:dialog"/>
+                                    </div>
+                                    <br/>
+                                    <p:row>
+                                        <p:column headerText="Codigo"/>
+                                        <p:column  headerText="Nombre"/>
+                                        <p:column  headerText="Eliminar"/>
+                                    </p:row>
+                                </p:columnGroup>
+                                <p:column>
+                                    <h:outputText value="#{varRoles.rolesPK.codigoRol}"/>
+                                </p:column>
+                                <p:column>
+                                    <h:outputText value="#{varRoles.nombre}"/>
+                                </p:column>
+                                <p:column>
+                                    <p:commandButton icon="ui-icon-trash" title="Eliminar Rol" update="@parent:@parent"
+                                                     action="#{uiInstitucion.eliminarRol()}">
+                                        <p:confirm header="Eliminar Rol" message="¿ Estas seguro que deseas eliminar rol indicado ?" 
+                                                   icon="ui-icon-alert"/>
+                                    </p:commandButton>
+                                </p:column>
+                            </p:dataTable>
+                    </p:tab>
+
+
+                    <p:tab id="tabRolesMenu" title="Roles Menu">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Rol"/>
+                            <p:selectOneMenu value="#{uiInstitucion.institucion.roles}" converter="convertidorGenerico">
+                                <f:selectItem itemLabel="Selecciona un rol"/>
+                                <f:selectItems value="#{uiInstitucion.institucion.rolesSetToList}"  var="varItemRol"  
+                                               itemLabel="#{varItemRol.nombre}" itemValue="#{varItemRol}"/>
+                                <p:ajax listener="#{uiInstitucion.cargarMenusRol()}" update="plMenus" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <p:pickList id="plMenus" value="#{uiInstitucion.menusDualList}"
+                                    converter="primeFacesPickListConverter"
+                                    var="varDualMenus"  
+                                    itemLabel="#{varDualMenus.descripcion}"  
+                                    itemValue="#{varDualMenus}"
+                                    addLabel="Agregar" addAllLabel="Agregar todos"
+                                    removeLabel="Remover" removeAllLabel="Remover Todos"
+                                    > 
+                            <p:ajax event="transfer" listener="#{uiInstitucion.asignarMenuRol()}" />
+                            <f:facet name="sourceCaption">Menus disponibles</f:facet>  
+                            <f:facet name="targetCaption">Menus asignados</f:facet> 
+                        </p:pickList> 
+                    </p:tab>
+
+                    <p:tab id="tabRolesMenuPermisos" title="Roles Menu Permisos">
+                        <h:panelGrid columns="2">
+                            <h:outputText value="Rol"/>
+                            <p:selectOneMenu value="#{uiInstitucion.institucion.roles}" converter="convertidorGenerico">
+                                <f:selectItem itemLabel="Selecciona un rol"/>
+                                <f:selectItems value="#{uiInstitucion.institucion.rolesSetToList}"  var="varItemRol"  
+                                               itemLabel="#{varItemRol.nombre}" itemValue="#{varItemRol}"/>
+                                <p:ajax listener="#{uiInstitucion.cargarMenusRol()}" process="@this" update="somMenusRol" />
+                            </p:selectOneMenu>
+
+                            <h:outputText value="Menu"/>
+                            <p:selectOneMenu id="somMenusRol" value="#{uiInstitucion.institucion.roles.menus}" converter="convertidorGenerico" 
+                                             rendered="#{not empty uiInstitucion.institucion.roles}">
+                                <f:selectItem itemLabel="Selecciona un menu"/>
+                                <f:selectItems value="#{uiInstitucion.institucion.roles.menusList}"  var="varItemMenu"  
+                                               itemLabel="#{varItemMenu.descripcion}" itemValue="#{varItemMenu}"/>
+                                <p:ajax listener="#{uiInstitucion.cargarPermisosMenusRol()}" update="plPermisos" />
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <p:pickList id="plPermisos" value="#{uiInstitucion.permisosBinariosDualList}"
+                                    converter="primeFacesPickListConverter"
+                                    var="varDualPermisos"  
+                                    itemLabel="#{varDualPermisos.nombre}"  
+                                    itemValue="#{varDualPermisos}"
+                                    addLabel="Agregar" addAllLabel="Agregar todos"
+                                    removeLabel="Remover" removeAllLabel="Remover Todos"
+                                    > 
+                            <p:ajax event="transfer" listener="#{uiInstitucion.asignarPermisoMenuRol()}" />
+                            <f:facet name="sourceCaption">Permisos disponibles</f:facet>  
+                            <f:facet name="targetCaption">Permisos asignados</f:facet> 
+                        </p:pickList>
+                    </p:tab>
+
+                </p:tabView>
+                <br/>
+                <h:panelGrid columns="2">
+                    <p:commandButton value="Crear / Modificar" action="#{uiInstitucion.guardarInstitucion()}"
+                                     update="formInstituciones" icon="ui-icon-disk"/>
+                    <p:commandButton value="Limpiar" action="#{uiInstitucion.limpiar()}"
+                                     update="formInstituciones" icon="ui-icon-cancel"/>
+                </h:panelGrid>
+                <p:dataTable  value="#{uiInstitucion.institucionsList}" var="varInstitucion" emptyMessage="No hay instituciones"
+                              rowStyleClass="Centro">
+                    <p:columnGroup type="header">  
+                        <p:row>  
+                            <p:column headerText="Codigo"/>
+                            <p:column  headerText="Nombre"/>
+                            <p:column  headerText="Nit"/>
+                            <p:column  headerText="Dirección"/>
+                            <p:column headerText="Razon Social"/>
+                            <p:column  headerText="Telefono"/>
+                            <p:column  headerText="Opciones"/>
+                        </p:row> 
+                    </p:columnGroup>
+
+                    <p:column>
+                        <h:outputText value="#{varInstitucion.codInstitucion}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varInstitucion.nombre}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varInstitucion.nit}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varInstitucion.direccion}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varInstitucion.razonSocial}"/>
+                    </p:column>
+                    <p:column>
+                        <h:outputText value="#{varInstitucion.telefono}"/>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton icon="ui-icon-plus" title="Modificar Institucion" update="formInstituciones"
+                                         action="#{uiInstitucion.subirItemInstitucion()}"/>
+                    </p:column>
+                </p:dataTable>
+
+                <!--                <h:panelGrid>
+                                    <ui:include src="/barra.xhtml">
+                                        <ui:param name="bean" value="#{uiHistoria}"/>
+                                    </ui:include>
+                                </h:panelGrid>-->
+            </p:panel>
+
+            <p:dialog id="dialog" widgetVar="dialog" header="#{sesion.dialogo.header}" showEffect="#{sesion.dialogo.effect}" hideEffect="#{sesion.dialogo.effect}"
+                      onHide="limpiarModal()">
+                <ui:include src="#{sesion.dialogo.src}"/>
+            </p:dialog>
+            <p:remoteCommand name="limpiarModal" action="#{uiSesion.limpiarDialogo()}" update="dialog" process="@this"
+                             ignoreAutoUpdate="true"/>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

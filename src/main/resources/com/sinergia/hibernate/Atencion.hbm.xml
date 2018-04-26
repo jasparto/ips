@@ -1,0 +1,487 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>    
+    <class name="com.sinergia.atencion.modelo.Citas" table="citas"
+           schema="atencion">
+        
+        <composite-id class="com.sinergia.atencion.modelo.Citas_PK" name="pk" >
+            <key-property name="codInstitucion" type="int" column="cod_institucion"/>
+            <key-property name="codEstablecimiento" type="int" column="cod_establecimiento"/>
+            <key-property name="codCita" type="long" column="cod_cita"/>
+        </composite-id>
+        
+        
+        <property name="codIdentidad" type="int">
+            <column name="cod_identidad"/>
+        </property>
+        <property name="documentoBeneficiario" type="java.lang.String">
+            <column name="documento_beneficiario" length="20" not-null="false" />
+        </property>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" not-null="true" />
+        </property>
+        <property name="duracion" type="int">
+            <column name="duracion" not-null="true"/>
+        </property>
+        <property name="estado" type="java.lang.String">
+            <column name="estado" length="30" not-null="false" />
+        </property>
+        <property name="observacion" type="java.lang.String">
+            <column name="observacion" length="150" not-null="false" />
+        </property>
+        <property name="sincroniza" type="java.lang.String">
+            <column name="sincroniza" length="1" default="N"/>
+        </property>
+        <property name="codServicio" type="long">
+            <column name="cod_servicio" not-null="true"/>
+        </property>
+        
+        <many-to-one name="pacientes" class="com.sinergia.paciente.modelo.Pacientes" fetch="select" insert="false" update="false">
+            <column name="cod_identidad" />
+            <column name="documento_beneficiario" not-null="true" />
+        </many-to-one>
+         
+        <set name="recursoSet" table="citas_recurso" schema="atencion" >
+            <!--inverse="false" lazy="true" fetch="select" cascade="all">-->
+        
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_cita" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.atencion.modelo.Recurso" not-found="ignore" >
+                <column name="cod_recurso" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="seccionDetalleCombosList" table="seccion_detalle_combo_seleccion" schema="atencion">
+            <!--             inverse="false" lazy="true" fetch="select" cascade="all"-->
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_cita" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.atencion.modelo.SeccionDetalleCombos">
+                <column name="cod_seccion" not-null="true" />
+                <column name="cod_detalle" not-null="true" />
+                <column name="cod_combo" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="facturasSet" table="facturas" inverse="true" lazy="true" fetch="select"
+             schema="facturacion">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_cita" />
+            </key>
+            <one-to-many class="com.sinergia.facturacion.modelo.Facturas" />
+        </set>
+        <set name="seccionDetalleCombosCitasTextoSet" table="seccion_detalle_combos_citas_texto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_cita" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.SeccionDetalleCombosCitasTexto" />
+        </set>
+        
+    </class>
+    
+    
+    <class name="com.sinergia.atencion.modelo.SeccionDetalleCombos" table="seccion_detalle_combos"
+           schema="atencion">
+        
+        
+        <composite-id class="com.sinergia.atencion.modelo.SeccionDetalleCombosPK" name="seccionDetalleCombosPK" >
+            <key-property name="codSeccion" type="long" column="cod_seccion"/>
+            <key-property name="codDetalle" type="long" column="cod_detalle"/>
+            <key-property name="codCombo" type="long" column="cod_combo"/>
+        </composite-id>
+        <property name="codInstitucion" type="int">
+            <column name="cod_institucion" not-null="true" />
+        </property>
+        <property name="codEstablecimiento" type="int">
+            <column name="cod_establecimiento" not-null="true" />
+        </property>
+        
+        <property name="detalle" type="string">
+            <column name="detalle" length="20" not-null="false" />
+        </property>
+        
+
+        <set name="citasSet" table="seccion_detalle_combo_seleccion" 
+             schema="atencion" inverse="true">
+            <key>
+                <column name="cod_seccion" not-null="true" />   
+                <column name="cod_detalle" not-null="true" />
+                <column name="cod_combo" not-null="true" /> 
+            </key>
+            <many-to-many class="com.sinergia.atencion.modelo.Citas">
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_cita" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <many-to-one name="seccionDetalle" class="com.sinergia.atencion.modelo.SeccionDetalle" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+            <column name="cod_seccion" not-null="true" />
+            <column name="cod_detalle" not-null="true" />
+        </many-to-one>
+        
+       
+        
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.Servicios" table="servicios"
+           schema="atencion">
+        <composite-id class="com.sinergia.atencion.modelo.ServiciosPK" name="serviciosPK" >
+            <key-property name="codInstitucion" type="int" column="cod_institucion"/>
+            <key-property name="codEstablecimiento" type="int" column="cod_establecimiento"/>
+            <key-property name="codServicio" type="long" column="cod_servicio"/>
+        </composite-id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40"/>
+        </property>
+        
+        <set name="tipoRecursoSet" schema="atencion" table="tipo_recurso_servicios">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_servicio" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.atencion.modelo.TipoRecurso">
+                <!--<column name="cod_institucion" not-null="true" />-->
+                <column name="cod_tipo_recurso" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <set name="seccionServiciosSet" table="seccion_servicios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_servicio" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.SeccionServicios" />
+        </set>
+        
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.Recurso" table="recurso"
+           schema="atencion">
+        <composite-id class="com.sinergia.atencion.modelo.RecursoPK" name="recursoPK" >
+            <!--<key-property name="codInstitucion" type="int" column="cod_institucion"/>-->
+            <key-property name="codRecurso" type="long" column="cod_recurso"/>
+        </composite-id>
+        <!--        <property name="codInstitucion" type="int"  insert="false" update="false">
+            <column name="cod_institucion"/>
+        </property>-->
+        <!--        Al asignar el tipo de recurso requiere el cod institucion-->
+        <property name="nombre" type="string">  
+            <column name="nombre" length="120"/>
+        </property>
+        <property name="codTipoRecurso" type="long">
+            <column name="cod_tipo_recurso" />
+        </property>
+        
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="true" insert="true" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        
+        <many-to-one  name="tipoRecurso" class="com.sinergia.atencion.modelo.TipoRecurso"
+                      column="cod_tipo_recurso" insert="false" update="false"
+                      cascade="save-update" unique="true" unique-key="true">
+        </many-to-one>
+        
+        <set name="citasSet" table="citas_recurso" 
+             schema="atencion" inverse="true">
+            <key>
+                <column name="cod_recurso" not-null="true" />   
+            </key>
+            <many-to-many class="com.sinergia.atencion.modelo.Citas">
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_cita" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <set name="usuariosSet" table="recurso_usuarios" inverse="false" lazy="true" fetch="select"
+             schema="atencion">
+            <key>
+                <!--<column name="cod_institucion" not-null="true"  />-->
+                <column name="cod_recurso" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.usuario.modelo.Usuarios" >
+                <column name="cod_documento" not-null="true" />
+                <column name="documento_usuario" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        <set name="establecimientoSet" table="establecimiento_recurso" cascade="save-update" lazy="true" fetch="select"
+             schema="atencion">
+            <key>
+                <!--<column name="cod_institucion" not-null="true" />-->
+                <column name="cod_recurso" not-null="true" />
+            </key>
+            <many-to-many class="com.sinergia.publico.modelo.Establecimiento">
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+            </many-to-many>
+        </set>
+        
+        
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.TipoRecurso" table="tipo_recurso"
+           schema="atencion">
+        <id name="codTipoRecurso" type="long" column="cod_tipo_recurso"/>
+        <!--        <composite-id class="com.sinergia.atencion.modelo.TipoRecursoPK" name="tipoRecursoPK" >
+                        <key-property name="codInstitucion" type="int" column="cod_institucion"/>
+            <key-property name="codTipoRecurso" type="int" column="cod_tipo_recurso"/>
+        </composite-id>-->
+        <!--        <property name="codInstitucion" type="int">
+            <column name="cod_institucion"/>
+        </property>-->
+        <property name="nombre" type="string">
+            <column name="nombre" length="120"/>
+        </property>
+        <property name="controlado" type="boolean">
+            <column name="controlado" />
+        </property>
+        <property name="clase" type="string">
+            <column name="clase" />
+        </property>
+        
+        <many-to-one name="institucion" class="com.sinergia.publico.modelo.Institucion" update="true" insert="true" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>
+        
+        <!--        <many-to-one  name="recurso" class="com.sinergia.atencion.modelo.Recurso"
+                          property-ref="codTipoRecurso" column="cod_tipo_recurso" insert="false" update="false"
+                          cascade="save-update" unique="true" unique-key="true">
+        </many-to-one>-->
+        
+        <set name="recursoSet" table="recurso" schema="atencion"
+             lazy="true" fetch="select" >
+            <key>
+                <column name="cod_tipo_recurso" not-null="true"/>
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.Recurso" />
+        </set>
+        
+        
+        <set name="serviciosSet" schema="atencion" table="tipo_recurso_servicios">
+            <!--             inverse="false" lazy="true" fetch="select" cascade="all"-->
+            <key>
+                <!--<column name="cod_institucion" not-null="true" />-->
+                <column name="cod_tipo_recurso" not-null="true" />
+            </key>
+            <many-to-many  class="com.sinergia.atencion.modelo.Servicios">
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_servicio" not-null="true" />
+            </many-to-many>
+        </set>
+        
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.Seccion" table="seccion"
+           schema="atencion">
+        <composite-id name="seccionPK" class="com.sinergia.atencion.modelo.SeccionPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codSeccion" type="long">
+                <column name="cod_seccion" />
+            </key-property>
+        </composite-id>
+        <!--        <many-to-one name="institucion" class="Institucion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+        </many-to-one>-->
+        <property name="nombre" type="string">
+            <column name="nombre" length="30" />
+        </property>
+        <property name="activo" type="boolean">
+            <column name="activo"  />
+        </property>
+        <set name="seccionDetalleSet" table="seccion_detalle" inverse="true" lazy="true" fetch="select"
+             schema="atencion">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_seccion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.SeccionDetalle" />
+        </set>
+        <set name="seccionServiciosSet" table="seccion_servicios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_seccion" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.SeccionServicios" />
+        </set>
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.SeccionDetalle" table="seccion_detalle"
+           schema="atencion">
+        <composite-id name="seccionDetallePK" class="com.sinergia.atencion.modelo.SeccionDetallePK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codSeccion" type="long">
+                <column name="cod_seccion" />
+            </key-property>
+            <key-property name="codDetalle" type="long">
+                <column name="cod_detalle" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="seccion" class="com.sinergia.atencion.modelo.Seccion" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+            <column name="cod_seccion" not-null="true" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="40" />
+        </property>
+        <property name="orden" type="int">
+            <column name="orden" />
+        </property>
+        <set name="seccionDetalleCombosSet" table="seccion_detalle_combos" inverse="true" lazy="true" fetch="select"
+             schema="atencion" cascade="save-update">
+            <key>
+                <column name="cod_institucion" not-null="true" />
+                <column name="cod_establecimiento" not-null="true" />
+                <column name="cod_seccion" not-null="true" />
+                <column name="cod_detalle" not-null="true" />
+            </key>
+            <one-to-many class="com.sinergia.atencion.modelo.SeccionDetalleCombos" />
+        </set>
+        <many-to-one name="tipoComponentes" class="com.sinergia.publico.modelo.TipoComponentes" fetch="select">
+            <column name="cod_componente" />
+        </many-to-one>
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.SeccionDetalleCombosCitasTexto" table="seccion_detalle_combos_citas_texto"
+           schema="atencion">
+        <composite-id name="seccionDetalleCombosCitasTextoPK" class="com.sinergia.atencion.modelo.SeccionDetalleCombosCitasTextoPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codCita" type="long">
+                <column name="cod_cita" />
+            </key-property>
+            <key-property name="codSeccion" type="long">
+                <column name="cod_seccion" />
+            </key-property>
+            <key-property name="codDetalle" type="long">
+                <column name="cod_detalle" />
+            </key-property>
+            <key-property name="codCombo" type="long">
+                <column name="cod_combo" />
+            </key-property>
+        </composite-id>
+        <property name="texto" type="string">
+            <column name="texto" />
+        </property>
+        
+        <many-to-one name="citas" class="com.sinergia.atencion.modelo.Citas" update="false" insert="false" fetch="select">
+            <column name="cod_cita" not-null="true" />
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+        </many-to-one>
+        
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.RecursoUsuarios" table="recurso_usuarios"
+           schema="atencion">
+        <composite-id name="recursoUsuariosPK" class="com.sinergia.atencion.modelo.RecursoUsuariosPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codRecurso" type="long">
+                <column name="cod_recurso" />
+            </key-property>
+            <key-property name="codDocumento" type="int">
+                <column name="cod_documento" />
+            </key-property>
+            <key-property name="documentoUsuario" type="string">
+                <column name="documento_usuario" length="40" />
+            </key-property>
+        </composite-id>
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.TipoRecursoServiciosCantidad" table="tipo_recurso_servicios_cantidad"
+           schema="atencion">
+        <composite-id name="tipoRecursoServiciosCantidadPK" class="com.sinergia.atencion.modelo.TipoRecursoServiciosCantidadPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codTipoRecurso" type="long">
+                <column name="cod_tipo_recurso" />
+            </key-property>
+            <key-property name="codServicio" type="long">
+                <column name="cod_servicio" />
+            </key-property>
+        </composite-id>
+        <property name="cantidad" type="int">
+            <column name="cantidad" not-null="true" />
+        </property>
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.TipoRecursoServicios" table="tipo_recurso_servicios"
+           schema="atencion">
+        <composite-id name="tipoRecursoServiciosPK" class="com.sinergia.atencion.modelo.TipoRecursoServiciosPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codTipoRecurso" type="long">
+                <column name="cod_tipo_recurso" />
+            </key-property>
+            <key-property name="codServicio" type="long">
+                <column name="cod_servicio" />
+            </key-property>
+        </composite-id>
+    </class>
+    
+    <class name="com.sinergia.atencion.modelo.SeccionServicios" table="seccion_servicios"
+           schema="atencion">
+        <composite-id name="seccionServiciosPK" class="com.sinergia.atencion.modelo.SeccionServiciosPK">
+            <key-property name="codInstitucion" type="int">
+                <column name="cod_institucion" />
+            </key-property>
+            <key-property name="codEstablecimiento" type="int">
+                <column name="cod_establecimiento" />
+            </key-property>
+            <key-property name="codSeccion" type="long">
+                <column name="cod_seccion" />
+            </key-property>
+            <key-property name="codServicio" type="long">
+                <column name="cod_servicio" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="servicios" class="com.sinergia.atencion.modelo.Servicios" update="false" insert="false" fetch="select">
+            <column name="cod_institucion" not-null="true" />
+            <column name="cod_establecimiento" not-null="true" />
+            <column name="cod_servicio" not-null="true" />
+        </many-to-one>
+    </class>
+    
+</hibernate-mapping>

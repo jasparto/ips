@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"                
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"                
+                xmlns:f="http://java.sun.com/jsf/core"
+
+                >
+
+
+    <div style="margin-top: 10px; text-align: center;">
+        <h3>                
+            <h:outputText value="Crear Resolución - #{uiEstablecimiento.establecimiento.nombre}"/>
+        </h3>
+
+        <p:panelGrid columns="2">
+            <p:outputLabel value="Descripción"/>
+            <h:inputText value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.descripcion}"
+                         style="width: 170px;"/>
+            <h:outputText  value="Fecha Cierre"/>
+            <p:calendar value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.fechaCierre}"
+                        showOn="button" navigator="true"
+                        disabled="#{empty uiEstablecimiento.establecimiento.facturasConfiguracion.facturasConfiguracionPK.codConfiguracion}" />
+
+            <h:outputText  value="Prefijo"/>
+            <h:inputText value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.prefijoFactura}"
+                         style="width: 170px;"/>
+
+            <h:outputText  value="Numero Factura"/>
+            <h:inputText value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.numeroFactura}"
+                         disabled="#{empty uiEstablecimiento.establecimiento.facturasConfiguracion.facturasConfiguracionPK.codConfiguracion}" />
+
+            <h:outputText  value="Numero Factura Limite"/>
+            <h:inputText value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.numeroFacturaLimite}"
+                         style="width: 170px;"/>
+
+            <h:outputText  value="Tipo Resolución"/>
+            <p:selectOneMenu value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.tipoResolucion}" style="width: 170px;">
+                <f:selectItems value="#{uiFacturas.tiposResolucion.detalleListaSet}" var="i" itemLabel="#{i.detalle}" itemValue="#{i.nombre}"/>
+            </p:selectOneMenu>
+
+            <h:outputText  value="Texto Resolución"/>
+            <h:inputText value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.resolucion}"
+                         style="width: 170px;"/>
+
+            <h:outputText  value="Numero Inicio"/>
+            <h:inputText value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.numeroInicio}"
+                         style="width: 170px;"/>
+
+            <h:outputText  value="Numero Fin"/>
+            <h:inputText value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.numeroFin}"
+                         style="width: 170px;"/>
+
+            <h:outputText  value="Fecha Limite Resolucion"/>
+            <p:calendar value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.fechaLimiteResolucion}"
+                        showOn="button" navigator="true"/>
+
+            <h:outputText  value="Fecha Inicio Vigencia"/>
+            <p:calendar value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.fechaInicioVigencia}"
+                        showOn="button" navigator="true"/>
+
+            <h:outputText  value="Fecha Fin Vigencia"/>
+            <p:calendar value="#{uiEstablecimiento.establecimiento.facturasConfiguracion.fechaFinVigencia}"
+                        showOn="button" navigator="true"/>
+        </p:panelGrid>
+        <p:commandButton value="#{empty uiEstablecimiento.establecimiento.facturasConfiguracion.facturasConfiguracionPK.codConfiguracion?'Guardar':'Modificar'}" 
+                         action="#{uiEstablecimiento.asignarResolucion()}" 
+                         update=":formEstablecimientos:tvEstablecimientos"/>
+
+    </div>
+
+</ui:composition>
