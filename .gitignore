@@ -1,1 +1,3 @@
 /target/
+/src/main/resources/.gitkeep
+/src/main/java/.gitkeep

@@ -32,7 +32,7 @@ public class UISesion {
      */
     public String getVersion() {
         version="Ver. ";
-        version += "17.5.4.2";
+        version += "18.10.4.3";
         return version;
     }
 
