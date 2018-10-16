@@ -103,15 +103,16 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0;
     line-height: 1;
     font-family: "Montserrat", sans-serif;
-    font-weight: 700;
+/*    font-family: Herculanum, "Eras Light ITC", sans-serif;*/
+    font-weight: 900;
     letter-spacing: 3px;
 }
 
 #header #logo h1 a {
+    /*color: #fff;*/
     color: #fff;
     padding-left: 10px;
     border-left: 4px solid #C70F1A;
-    -webkit-text-stroke: 2px #C70F1A;
 }
 
 #header #logo h1 a:hover {
@@ -180,11 +181,10 @@ h1, h2, h3, h4, h5, h6 {
 
 #intro h2 {
     color: #fff;
-    border: 2px;
+    color: #C70F1A;
     margin-bottom: 30px;
     font-size: 48px;
     font-weight: 700;
-    -webkit-text-stroke: 2px #C70F1A;
 }
 
 @media (max-width: 768px) {
