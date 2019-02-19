@@ -15,63 +15,63 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup, 
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
-	display: block;
+    display: block;
 }
 body {
-	line-height: 1.7;
-	font-family: 'Open Sans', sans-serif;
+    line-height: 1.7;
+    font-family: 'Open Sans', sans-serif;
     overflow-x: hidden; 
 }
 h1, h2, h3, h4, h5, h6
 {
-	font-family: 'Raleway', sans-serif;
+    font-family: 'Raleway', sans-serif;
 }
 ol, ul {
-	list-style: none;
+    list-style: none;
 }
 blockquote, q {
-	quotes: none;
+    quotes: none;
 }
 blockquote:before, blockquote:after,
 q:before, q:after {
-	content: '';
-	content: none;
+    content: '';
+    content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+    border-collapse: collapse;
+    border-spacing: 0;
 }
 /**************************************
 link & button
 **************************************/
 .white
 {
-	color:#fff !important;
+    color:#fff !important;
 }
 h1.cta-title
 {
-	font-size: 43px;
+    font-size: 43px;
 }
 h1
 {
-	font-size: 36px;
+    font-size: 36px;
 }
 /**************************************
 Header
 **************************************/
 .section-padding
 {
-	padding: 40px 0px;
+    padding: 40px 0px;
 }
 .main-navigation
 {
@@ -87,40 +87,40 @@ Header
 }
 .navbar-default .navbar-nav > .active > a,.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus
 {
-	border-bottom: 2px solid #2779b1;
+    border-bottom: 2px solid #2779b1;
 }
 .navbar
 {
-	min-height: inherit;
-	margin-bottom: 0px;
+    min-height: inherit;
+    margin-bottom: 0px;
 }
 .navbar-brand
 {
-	padding: 0px;
-	height: inherit;
-	font-family: 'Josefin Slab', serif;
-	font-weight: 700;
-	text-transform: uppercase;
-	padding: 5px;
+    padding: 0px;
+    height: inherit;
+    font-family: 'Josefin Slab', serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 5px;
 }
 .navbar-default .navbar-brand {
     color: #2779b1;
 }
 .navbar-brand i
 {
-	padding-left: 3px;
+    padding-left: 3px;
 }
 .navbar-default .navbar-nav > li > a {
-	color: #354242;
-	font-weight: 600;
-	text-transform: uppercase;
-	margin: 0px 10px;
-	padding-bottom: 5px;
-	font-size: 14px;
+    color: #354242;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0px 10px;
+    padding-bottom: 5px;
+    font-size: 14px;
 }
 .nav > li > a
 {
-	padding: 0px;
+    padding: 0px;
 }
 .jumbotron
 {
@@ -220,18 +220,18 @@ a.btn-banner:hover, a.btn-banner:focus
 }
 .cta-1, .cta2
 {
-	background-color: #2779b1;
-	padding: 40px 0px;
+    background-color: #2779b1;
+    padding: 40px 0px;
 }
 p.cta-sub-title
 {
-	font-size: 28px;
+    font-size: 28px;
 }
 .pg-titl-bdr-btm
 {
-	width: 100px;
-	height: 3px;
-	background-color: #2779b1;
+    width: 100px;
+    height: 3px;
+    background-color: #2779b1;
 }
 .service-box {
     margin: 0 0 60px;
@@ -273,107 +273,118 @@ p.cta-sub-title
 }
 .page-title
 {
-	margin-bottom: 40px;
+    margin-bottom: 40px;
 }
 #portfolio
 {
-	background-color: RGBA(236, 240, 241, 0.04);
+    background-color: RGBA(236, 240, 241, 0.04);
 }
 #Container .mix{
-	display: none;
+    display: none;
 }
 .fil-btn
 {
-	margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 .filter
 {
-	background-color: #2C3E50;
-	color: #fff;
-	padding: 15px 30px;
-	border-right: 1px solid #fff;
-	display: inline-block;
-	position: relative;
+    background-color: #2C3E50;
+    color: #fff;
+    padding: 15px 30px;
+    border-right: 1px solid #fff;
+    display: inline-block;
+    position: relative;
 }
+.item-padre
+{
+    background-color: #2C3E50;
+    color: #fff;
+    margin-bottom: 3px;
+    padding: 15px 30px;
+    border-right: 1px solid #fff;
+    display: inline-block;
+    position: relative;
+}
+
 .filimg
 {
-	margin-bottom: 30px;
+    margin-bottom: 30px;
 }
 .fil-btn .active
 {
-	background-color: #2779b1;
+    background-color: #2779b1;
 }
 .img-sec, .fig-caption
 {
-	width: 50%;
-	float: left;
+    width: 50%;
+    float: left;
 }
 .team-info
 {
-	border: 1px solid rgba(204, 204, 204, 0.33);
-	float: left;
-	width: 100%;
-	border-radius: 3px;
+    border: 1px solid rgba(204, 204, 204, 0.33);
+    float: left;
+    width: 100%;
+    border-radius: 3px;
 }
 .fig-caption
 {
-	padding: 56px 20px 0px;
+    padding: 56px 20px 0px;
 }
 .fig-caption h3
 {
-	font-size: 20px;
-	font-family: 'Josefin Slab', serif;
+    font-size: 20px;
+    font-family: 'Josefin Slab', serif;
 }
 .fig-caption p
 {
-	font-size: 14px;
+    font-size: 14px;
 }
 .team-social li
 {
-	display: inline-block;
+    display: inline-block;
 }
 .team-social li
 {
-	width: 30px;
-	height: 30px;
-	line-height: 30px;
-	text-align: center;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
 }
 .team-social li a
 {
-	color: #fff;
+    color: #fff;
 }
 .blue-light{
-	background-color: #3498DB;
+    background-color: #3498DB;
 }
 .blue-dark
 {
-	background-color: #2C3E50;
+    background-color: #2C3E50;
 }
 .red
 {
-	background-color: #2779b1;
+    background-color: #2779b1;
 }
 .marb-20
 {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 .wd75
 {
-	width: 75%;
-	float: left;
+    width: 75%;
+    float: left;
 }
 .cta2 a
 {
-margin-top: 5px;
+    margin-top: 5px;
 }
 .fnt-24
 {
-	font-size: 24px;
+    font-size: 24px;
 }
 .fnt-23
 {
-	font-size: 23px;
+    font-size: 23px;
 }
 .text-field-box {
     background: #fff;
@@ -480,128 +491,136 @@ cta
 /** media queries**/
 @media (min-width: 480px) and (max-width: 1023px) {
     .img-sec, .fig-caption {
-    width: 100%;
-    float: left;
-}
-.fig-caption {
-    padding: 56px 20px 20px;
-}
+        width: 100%;
+        float: left;
+    }
+    .fig-caption {
+        padding: 56px 20px 20px;
+    }
 }
 @media (min-width: 451px) and (max-width: 768px) {
-.filter {
-    padding: 5px 18px;
-    margin-bottom: 3px;
-}
-.wd75
-{
-    width: 100%;
-}
-.fig-caption {
-    padding: 56px 20px 20px;
-}
+    .filter {
+        padding: 5px 18px;
+        margin-bottom: 3px;
+    }
+    .wd75
+    {
+        width: 100%;
+    }
+    .fig-caption {
+        padding: 56px 20px 20px;
+    }
 }
 @media (min-width: 301px) and (max-width: 450px) {
-.filter {
-    padding: 3px 14px;
-    margin-bottom: 3px;
-}
-.jumbotron
-{
-    padding-right: 30px;
-    padding-left: 30px;
-}
-.fig-caption {
-    padding: 13px 20px 0px;
-}
-.team-social li {
-    width: 20px;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-}
-.fig-caption h3 {
-    font-size: 19px;
-    font-family: 'Josefin Slab', serif;
-}
-.wd75
-{
-    width: 100%;
-}
-.service-box .service-text h3
-{
-    padding-top: 15px;
-}
-.jumbotron h1.small {
-    font-size: 44px;
-}
-h1.cta-title {
-    font-size: 30px;
-}
-p.cta-sub-title {
-    font-size: 20px;
-}
-.button-medium {
-    font-size: 15px;
-    height: 40px;
-    line-height: 40px;
-    width: 150px;
-}
-.jumbotron
-{
-    padding: 90px 0px 0px 20px !important;
-}
+    .filter {
+        padding: 3px 14px;
+        margin-bottom: 3px;
+    }
+    .item-padre {
+        padding: 3px 14px;
+        margin-bottom: 3px;
+    }
+    .jumbotron
+    {
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+    .fig-caption {
+        padding: 13px 20px 0px;
+    }
+    .team-social li {
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+    }
+    .fig-caption h3 {
+        font-size: 19px;
+        font-family: 'Josefin Slab', serif;
+    }
+    .wd75
+    {
+        width: 100%;
+    }
+    .service-box .service-text h3
+    {
+        padding-top: 15px;
+    }
+    .jumbotron h1.small {
+        font-size: 44px;
+    }
+    h1.cta-title {
+        font-size: 30px;
+    }
+    p.cta-sub-title {
+        font-size: 20px;
+    }
+    .button-medium {
+        font-size: 15px;
+        height: 40px;
+        line-height: 40px;
+        width: 150px;
+    }
+    .jumbotron
+    {
+        padding: 90px 0px 0px 20px !important;
+    }
 }
 .footer_copyright p a
 {
     text-decoration: none;
 }
 @media (min-width: 100px) and (max-width: 300px) {
-.filter {
-    padding: 3px 14px;
-    margin-bottom: 3px;
-}
-.img-sec, .fig-caption {
-    width: 100%;
-    float: left;
-}
-.fig-caption {
-    padding: 56px 20px 20px;
-}
-.jumbotron h1.small {
-    font-size: 44px;
-}
-h1.cta-title {
-    font-size: 30px;
-}
-p.cta-sub-title {
-    font-size: 20px;
-}
-.button-medium {
-    font-size: 15px;
-    height: 40px;
-    line-height: 40px;
-    width: 150px;
-}
-.jumbotron
-{
-    padding: 90px 0px 0px 20px !important;
-}
-.service-box .service-text h3 {
-    padding-top: 15px;
-}
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > li > a{
-    text-align: center;
-}
+    .filter {
+        padding: 3px 14px;
+        margin-bottom: 3px;
+    }
+    .item-padre {
+        padding: 3px 14px;
+        margin-bottom: 3px;
+    }
+    .img-sec, .fig-caption {
+        width: 100%;
+        float: left;
+    }
+    .fig-caption {
+        padding: 56px 20px 20px;
+    }
+    .jumbotron h1.small {
+        font-size: 44px;
+    }
+    h1.cta-title {
+        font-size: 30px;
+    }
+    p.cta-sub-title {
+        font-size: 20px;
+    }
+    .button-medium {
+        font-size: 15px;
+        height: 40px;
+        line-height: 40px;
+        width: 150px;
+    }
+    .jumbotron
+    {
+        padding: 90px 0px 0px 20px !important;
+    }
+    .service-box .service-text h3 {
+        padding-top: 15px;
+    }
+    .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > li > a{
+        text-align: center;
+    }
 }
 @media (min-width: 300px) and (max-width: 768px) {
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > li > a{
-    text-align: center;
-    border: 0px;
-}
-.navbar-default .navbar-nav > li > a:hover
-{
-    border: 0px;
-}
+    .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > li > a{
+        text-align: center;
+        border: 0px;
+    }
+    .navbar-default .navbar-nav > li > a:hover
+    {
+        border: 0px;
+    }
 }
 /**************************************
 form element
