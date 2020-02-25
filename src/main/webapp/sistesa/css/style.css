@@ -1533,7 +1533,7 @@ body.mobile-nav-active #mobile-nav-toggle {
     cursor: pointer;
 }
 
-#footer .footer-top .footer-newsletter input[type="submit"]:hover {
+#footer .footer-top .footer-newsletter input[type="submit"]:hover{
     /*background: #13a456;*/
     background: #af050f;
 }

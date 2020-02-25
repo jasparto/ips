@@ -1,0 +1,57 @@
+.section-header-cupola h3 {
+    font-size: 32px;
+    /*color: #111;*/
+    color:#FF0100;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 700;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-header-cupola h3::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 120px;
+    height: 1px;
+    background: #ddd;
+    bottom: 1px;
+    left: calc(50% - 60px);
+}
+
+.section-header-cupola h3::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: #FF0100;
+    bottom: 0;
+    left: calc(50% - 20px);
+}
+
+.section-header-cupola p {
+    text-align: center;
+    padding-bottom: 30px;
+    color: #333;
+}
+
+.section-bg-cupola {
+    background: #ffffff;
+}
+
+#contact .form button[type="button"] {
+    background: #FF0100;
+    border: 0;
+    padding: 10px 30px;
+    color: #fff;
+    transition: 0.4s;
+    cursor: pointer;
+}
+
+#contact .form button[type="button"]:hover {
+    background: #af050f;
+    -webkit-transform: translateY(-5px);
+    transform: translateY(-5px);
+}
