@@ -55,3 +55,100 @@
     -webkit-transform: translateY(-5px);
     transform: translateY(-5px);
 }
+
+#header #logo-cupola {
+    float: left;
+}
+
+@media (min-width: 1024px) {
+    #header #logo-cupola {
+        padding-left: 60px;
+    }
+}
+
+#header #logo-cupola h1 {
+    font-size: 50px;
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    /*font-family: "Montserrat", sans-serif;*/
+    font-family: sistesaFontBold;
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+#header #logo-cupola h1 a {
+    color: #000;
+    padding-left: 10px;
+    /*border-left: 3px solid #fff;*/
+}
+
+#header.header-scrolled #logo-cupola h1 a {
+    color: #EEEEEE;
+    padding-left: 10px;
+    /*border-left: 3px solid #fff;*/
+}
+
+
+#header #logo-cupola h1 a hr {
+    display: block;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    /*border-color: #fff;*/
+    border-color: #FF0100;
+    border-width: 2px;
+} 
+
+#header.header-scrolled #logo-cupola h1 a hr {
+    display: block;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: solid;
+    /*border-color: #fff;*/
+    border-color: #FF0100;
+    border-width: 2px;
+}
+
+#header #logo-cupola h1 a:hover hr {
+    border-color: #000;
+}
+
+#header #logo-cupola h3 {
+    font-family: sistesaFontDemi;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+#header #logo-cupola h3 a:hover {
+    color:  #FF0100;
+}
+
+#header #logo-cupola h1 a:hover {
+    color:  #FF0100;
+    /*color: #FF0100;*/
+    /*border-left: 4px solid #fff;*/
+    /*border-left: 3px solid #FF0100;*/
+}
+
+#header #logo-cupola img {
+    padding: 0;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    #header #logo-cupola h1 {
+        font-size: 30px;
+    }
+    #header #logo-cupola h3 {
+        font-size: 14px;
+    }
+    #header #logo-cupola img {
+        max-height: 40px;
+    }
+}
