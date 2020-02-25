@@ -1,4 +1,12 @@
 jQuery(document).ready(function ($) {
+
+    $("#txt_pwd").keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $("#but_submit").click();
+        }
+    });
+
     $("#but_submit").click(function () {
         var username = $("#txt_uname").val().trim();
         var password = $("#txt_pwd").val().trim();
@@ -70,7 +78,7 @@ jQuery(document).ready(function ($) {
                 success: function (response) {
                     var msg = "hola";
                     if (response == 1) {
-                        window.location = "home.php";
+                        window.location = "view";
                     } else {
                         msg = "Invalid username and password!";
                     }
