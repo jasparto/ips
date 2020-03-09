@@ -21,12 +21,75 @@ if (isset($_POST['but_logout'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="css/estilos.css">
-    <title>MVC</title>
-</head>
-<body>
-	<div class="panel">
-	<h1> SISTEMA DE PRODUCTOS</h1>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Sistesa</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+
+        <!-- Favicons -->
+        <link href="../../img/s.png" rel="icon">
+        <link href="../../img/apple-touch-icon.png" rel="apple-touch-icon">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+
+        <!-- Bootstrap CSS File -->
+        <link href="../../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Libraries CSS Files -->
+        <link href="../../lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../lib/animate/animate.min.css" rel="stylesheet">
+        <link href="../../lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+        <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="../../lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+
+        <!-- Main Stylesheet File -->
+        <link href="../../css/style.css" rel="stylesheet">
+        <link href="../../css/cupola.css" rel="stylesheet">
+
+
+    </head>
+
+    <body>
+
+        <!--==========================
+         Header
+       ============================-->
+
+        <header id="header">
+            <div class="container-fluid">
+
+                <div id="logo-cupola" class="pull-left">
+                    <h1><a href="#intro" class="scrollto" >SISTESA<hr><h3>DA CONFIANZA</h3></a></h1>
+
+                    <!-- Uncomment below if you prefer to use an image logo -->
+                    <!-- <a href="#intro"><img src="img/logo.png" alt="" title="" /></a>-->
+                </div>
+
+                <!--                <nav id="nav-menu-container">
+                                    <ul class="nav-menu">
+                                        <li class="menu-active"><a href="#intro">Inicio</a></li>
+                                        <li><a href="#about">La Empresa</a></li>
+                                        <li><a href="#services">Servicios</a></li>
+                                        <li><a href="#portfolio">Proyectos</a></li>
+                                        <li><a href="#clients">Clientes</a></li>
+                                        <li><a href="#contact">Contactanos</a></li>
+                                                                <li class="menu-has-children"><a href="blog.html">Blog</a>
+                                                                    <ul>
+                                                                        <li><a href="#">Articulo 1</a></li>
+                                                                        <li><a href="#">Articulo 2</a></li>
+                                                                        <li><a href="#">Articulo 3</a></li>
+                                                                        <li><a href="#">Articulo 4</a></li>
+                                                                    </ul>
+                                                                </li>
+                
+                                    </ul>
+                                </nav>-->
+                <!-- #nav-menu-container -->
+            </div>
+        </header>
+        
+        <main id="main">
