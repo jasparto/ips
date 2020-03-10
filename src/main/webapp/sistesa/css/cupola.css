@@ -57,8 +57,9 @@
 }
 
 #header #logo-cupola {
-    float: left;
+    float: right;
 }
+
 
 @media (min-width: 1024px) {
     #header #logo-cupola {

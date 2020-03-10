@@ -16,17 +16,23 @@ file_put_contents('./debug_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
 ?>
 
 
-    
-    <!--==========================
-      Contact Section
-    ============================-->
-    <section id="contact" class="section-bg-cupola wow fadeInUp" >
-        <div class="container" >
-            <div class="section-header-cupola" style="margin-top: 100px;">
-                <h3>Sistema Integrado de Cotizaciones</h3>
-            </div>
 
-            <div class="form">
+<!--==========================
+  Contact Section
+============================-->
+<!--<section id="contact" class="section-bg-cupola wow fadeInUp" >-->
+    
+
+
+
+        <div class="container" >
+            
+
+<!--            <div class="section-header-cupola" style="margin-top: 100px;">
+                <h3>Sistema Integrado de Cotizaciones</h3>
+            </div>-->
+
+            <div class="form" style="margin-top: 100px;">
                 <div id="sendmessage">Mensaje enviado con éxito.</div>
                 <div id="errormessage"></div>
 
@@ -71,7 +77,8 @@ file_put_contents('./debug_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
             </div>
 
         </div>
-    </section><!-- #contact -->
+    
+<!--</section> #contact -->
 
 
 

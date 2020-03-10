@@ -13,11 +13,6 @@ if (!isset($_SESSION['uname'])) {
     header('Location: ../index.html');
 }
 
-// logout
-if (isset($_POST['but_logout'])) {
-    session_destroy();
-    header('Location: ../index.html');
-}
 ?>
 
 <!DOCTYPE html>
@@ -49,6 +44,7 @@ if (isset($_POST['but_logout'])) {
         <!-- Main Stylesheet File -->
         <link href="../../css/style.css" rel="stylesheet">
         <link href="../../css/cupola.css" rel="stylesheet">
+        <link href="../../css/aside.css" rel="stylesheet">
 
 
     </head>
@@ -61,6 +57,11 @@ if (isset($_POST['but_logout'])) {
 
         <header id="header">
             <div class="container-fluid">
+                <div id="logo-menu" class="pull-left">
+                    <button type="button" id="sidebarCollapse" class="btn">
+                        <i class="ion-android-menu"></i>
+                    </button>
+                </div>
 
                 <div id="logo-cupola" class="pull-left">
                     <h1><a href="#intro" class="scrollto" >SISTESA<hr><h3>DA CONFIANZA</h3></a></h1>
@@ -69,27 +70,88 @@ if (isset($_POST['but_logout'])) {
                     <!-- <a href="#intro"><img src="img/logo.png" alt="" title="" /></a>-->
                 </div>
 
-                <!--                <nav id="nav-menu-container">
-                                    <ul class="nav-menu">
-                                        <li class="menu-active"><a href="#intro">Inicio</a></li>
-                                        <li><a href="#about">La Empresa</a></li>
-                                        <li><a href="#services">Servicios</a></li>
-                                        <li><a href="#portfolio">Proyectos</a></li>
-                                        <li><a href="#clients">Clientes</a></li>
-                                        <li><a href="#contact">Contactanos</a></li>
-                                                                <li class="menu-has-children"><a href="blog.html">Blog</a>
-                                                                    <ul>
-                                                                        <li><a href="#">Articulo 1</a></li>
-                                                                        <li><a href="#">Articulo 2</a></li>
-                                                                        <li><a href="#">Articulo 3</a></li>
-                                                                        <li><a href="#">Articulo 4</a></li>
-                                                                    </ul>
-                                                                </li>
-                
-                                    </ul>
-                                </nav>-->
-                <!-- #nav-menu-container -->
             </div>
-        </header>
-        
-        <main id="main">
+
+
+
+
+            <!--                                <nav id="nav-menu-container">
+                                                <ul class="nav-menu">
+                                                    <li class="menu-active"><a href="#intro">Inicio</a></li>
+                                                    <li><a href="#about">La Empresa</a></li>
+                                                    <li><a href="#services">Servicios</a></li>
+                                                    <li><a href="#portfolio">Proyectos</a></li>
+                                                    <li><a href="#clients">Clientes</a></li>
+                                                    <li><a href="#contact">Contactanos</a></li>
+                                                                            <li class="menu-has-children"><a href="blog.html">Blog</a>
+                                                                                <ul>
+                                                                                    <li><a href="#">Articulo 1</a></li>
+                                                                                    <li><a href="#">Articulo 2</a></li>
+                                                                                    <li><a href="#">Articulo 3</a></li>
+                                                                                    <li><a href="#">Articulo 4</a></li>
+                                                                                </ul>
+                                                                            </li>
+                            
+                                                </ul>
+                                            </nav>
+                             #nav-menu-container -->
+        </div>
+    </header>
+
+    <main id="main">
+
+        <div class="wrapper">
+            <!-- Sidebar  -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>SISTESA</h3>
+                    <strong>S</strong>
+                </div>
+
+                <ul class="list-unstyled components">
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="ion-ios-home"></i>
+                            Home
+                        </a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li>
+                                <a href="#">Home 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Home 2</a>
+                            </li>
+                            <li>
+                                <a href="#">Home 3</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <i class="ion-ios-list"></i>
+                            About
+                        </a>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="ion-log-out"></i>
+                            Pages
+                        </a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a href="#">Page 1</a>
+                            </li>
+                            <li>
+                                <a href="#">Page 2</a>
+                            </li>
+                            <li>
+                                <a href="#">Page 3</a>
+                            </li>
+                        </ul>
+                        <a href="logOut.php" >
+                            <i class="ion-log-out"></i>
+                            Salir
+                        </a>
+
+                    </li>
+                </ul>
+
+            </nav>

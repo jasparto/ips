@@ -1,4 +1,6 @@
 jQuery(document).ready(function ($) {
+    $('#sidebar').toggleClass('active');
+    $('#logo-menu').toggleClass('active');
 
     $("#txt_pwd").keypress(function (event) {
         var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -76,7 +78,7 @@ jQuery(document).ready(function ($) {
                 type: 'post',
                 data: {username: username, password: password},
                 success: function (response) {
-                    var msg = "hola";
+                    var msg = "Hola " + username;
                     if (response == 1) {
                         window.location = "view";
                     } else {
@@ -86,6 +88,11 @@ jQuery(document).ready(function ($) {
                 }
             });
         }
+    });
+
+    $('#sidebarCollapse').on('click', function () {
+        $('#sidebar').toggleClass('active');
+        $('#logo-menu').toggleClass('active');
     });
 
 });
