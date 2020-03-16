@@ -212,6 +212,11 @@ a[data-toggle="collapse"] {
         -ms-transform: translateX(50%);
         transform: translateX(50%);
     }
+
+    #header #logo-menu.active #sidebarCollapse {
+        margin-left: -90px;
+    }
+
 }
 
 #header #logo-menu {
