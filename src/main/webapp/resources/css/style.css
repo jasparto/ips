@@ -1,0 +1,81 @@
+.ui-column-title{
+    font-weight: bold;
+    text-align: center;
+}
+
+.ui-treetable tbody td, .ui-datatable tbody td{
+    padding: 0px 10px !important;
+}
+
+.azul{
+    background-color: #3C8DBC;
+}
+
+.ui-inputswitch .ui-inputswitch-on, .ui-inputswitch .ui-inputswitch-off {
+    padding-top: unset !important;
+    height: unset !important;
+}
+
+.graph_container canvas{
+    width:100% !important;
+    height:390px !important;
+}
+
+body,.size-font{   
+    font-size: 12px;
+}
+
+.box-header .box-title{
+    font-size: 14px;
+}
+
+.navbar-nav > li > a {
+    font-size: 15px;
+}
+
+.color-ok, .color-A{
+    background-color: #00CC00;
+}
+
+.color-fail, .color-C{
+    background-color: #FF0000;
+}
+
+.color-slow, .color-L{
+    background-color: #FFCC00;
+}
+
+.color-timeout, .color-T{ 
+    background-color: #00C0EF;
+}
+
+.nav-bar-title{
+    border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.skin-blue .sidebar a {
+    font-size: 14px;
+}
+
+.skin-blue .sidebar li {
+   cursor: pointer;
+}
+
+.logo{
+    cursor: pointer;
+}
+
+tbody tr .badge{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger{
+    
+  width: 20px !important;  
+}

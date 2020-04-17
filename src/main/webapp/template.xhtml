@@ -6,78 +6,63 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 
-    <h:head>         
+    <h:head>      
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
-        <title>IPS</title>
-        <link rel="shortcut icon" href="../resources/imagenes/icono.ico"/>
+        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"/>
+        <title>Administrador Pacientes</title>
+
+        <h:outputStylesheet library="css" name="bootstrap.min.css"/>
+        <h:outputStylesheet library="css" name="aside.css"/>
+        <!--<h:outputStylesheet library="css" name="jquery-ui.min.css"/>-->
+        <h:outputStylesheet library="css" name="style.css"/>
+        <h:outputStylesheet library="css" name="global.css"/> 
+
+        <h:outputScript library="js" name="general.js"/>
+        <h:outputScript library="js" name="general.js"/>
+        <h:outputScript library="js" name="aside.js"/>
+        <h:outputScript library="js"  name="bootstrap.min.js" />
+
     </h:head>
 
     <f:view >
-            <h:body id="template">
-                <h:outputScript library="js" name="general.js"/>
-                <h:outputStylesheet library="css" name="global.css"/> 
-                <br/>
-                <div align="center">
-                    <h:outputText id="title" value="#{sesion.establecimiento.nombre.subSequence(0, sesion.establecimiento.nombre.length()*0.50)}" style="font-family: fantasy; font-size: xx-large; color: yellow"
-                                  rendered="f"/>  
-                    <h:outputText id="title2" value="#{sesion.establecimiento.nombre.subSequence(sesion.establecimiento.nombre.length()*0.50, sesion.establecimiento.nombre.length()*0.50+sesion.establecimiento.nombre.length()*0.25)}" style="font-family: fantasy; font-size: xx-large; color: blue"
-                                  rendered="f"/>  
-                    <h:outputText id="title3" value="#{sesion.establecimiento.nombre.subSequence(sesion.establecimiento.nombre.length()*0.50+sesion.establecimiento.nombre.length()*0.25, sesion.establecimiento.nombre.length())}" style="font-family: fantasy; font-size: xx-large; color: red"
-                                  rendered="f"/>  
-                    <p:separator style="height: 3px"/>
-                </div>
-                <div style="width: 80%; margin:auto auto">
-                    <h:form id="menu" style="font-size: 15px;">
-                        <ui:include src="/inicio/menu.xhtml"/>
-                        <div align="right">
-                            <h:outputText value="#{sesion.establecimiento.nombre}" styleClass="letra"/>
-                            <br></br>
-                            <p:outputLabel value="#{sesion.usuario.nombre} " styleClass="letra"/>
-                            <p:outputLabel value="#{sesion.usuario.apellido}" styleClass="letra"/>
+        <h:body id="template">
+            <ui:include src="/layouts/dialogos.xhtml" />
+            <main id="main">
+
+                <div class="wrapper">
+
+                    <aside class="main-sidebar">
+                        <ui:include src="/layouts/sidebar.xhtml" />
+                    </aside>
+                    
+                    <div class="container" align="center">
+                        <div id="logo-menu" class="pull-left">
+                            <button type="button" id="sidebarCollapse" class="btn">
+                                <i class="fa fa-bars"></i>
+                            </button>
                         </div>
+                        <section class="content">
+                            <div class="row">
+                                <ui:insert name="content"></ui:insert>
+                            </div>
+                        </section>
+
+                    </div>
+                    <h:form styleClass="footer">
+                        <p:remoteCommand name="salir" action="#{uiUsuario.cerrarSesion()}" />
+                        <p:remoteCommand name="updateNav" action="#{utilPages.updateNav()}"/>
+                        <p:remoteCommand name="lastNav" action="#{utilPages.lastNav()}" autoRun="true"/>
                     </h:form>
                 </div>
 
-                <p:outputPanel id="contenido">
-                    <div id="msnUp" align="center">
-                        <h:panelGrid columns="1">
-                            <p:messages id="messagesUp" showDetail="true" autoUpdate="true">
-                                <p:effect type="pulsate" event="load" delay="1000"/>
-                            </p:messages>
-                        </h:panelGrid>
+                <footer class="footer">
+                    <div>
+                        <strong>V - 20.4.1.0</strong>
                     </div>
-                    <div id="content" align="center">
-                        <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">
-                            <f:facet name="start">  
-                                <h:graphicImage value="./../resources/imagenes/barra.gif" />  
-                            </f:facet>        
-                            <f:facet name="complete">  
-                                <h:outputText value="" />  
-                            </f:facet>
-                        </p:ajaxStatus> 
-                        <br/>
-                        <p:confirmDialog global="true" showEffect="fade" hideEffect="explode" style="font-size: small;">
-                            <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check"/>  
-                            <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close"/>       
-                        </p:confirmDialog>
-                        <ui:insert name="content">Contenido sin definir</ui:insert>
-                    </div>
-                    <div id="msn" align="center">
-                        <br/>
-                        <h:panelGrid columns="1">
-                            <p:messages id="messages" showDetail="true" autoUpdate="true">
-                                <p:effect type="pulsate" event="load" delay="1000"/>
-                            </p:messages>
-                        </h:panelGrid>
-                    </div>
-                    <div align="center">
-                        <p:commandButton id="cbApagarServidor" icon="ui-icon-power" style="width: 200px;"
-                                         action="#{uiSesion.apagarServidor}" disabled="#{uiUsuario.rol('SUPER')}">
-                            <p:confirm header="Apagar" message="¿ Apagar el Servidor ?" icon="ui-icon-lightbulb"/>  
-                        </p:commandButton>
-                        <p:tooltip for="cbApagarServidor" value="Apagar Servidor" rendered="false"/>
-                    </div>
-                </p:outputPanel>
-            </h:body>
+                </footer>
+
+            </main>
+
+        </h:body>
     </f:view>
 </html>

@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition>
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+
+            <div class="sidebar-header">
+                <h3>O<b>asys</b></h3>
+                <strong>O<b>S</b></strong>
+            </div>
+
+            <ul class="list-unstyled components">
+                <!--home-->
+                <li class="active">
+                    <a href="#/inicio/principal.xhtml" class="pageNav">
+                        <i class="fa fa-home"></i>
+                        Home
+                    </a>    
+                </li>
+                
+                <!--configuracion-->
+                <li>
+                    <a href="#configMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-wrench"></i>
+                        Configuracion
+                    </a>    
+                    <ul class="collapse list-unstyled" id="configMenu">
+                        <li>
+                            <strong><a href="#/configuracion/programas.xhtml" class="fa fa-wrench pageNav"> Administrar Clientes y Programas</a></strong> 
+                            <b><a href="#/configuracion/programas.xhtml" class="pageNav"> Clientes y Programas</a></b>
+                        </li>
+                        <li>
+                            <strong><a href="#" class="fa fa-wrench"> Administrar Establecimientos</a></strong> 
+                            <b><a href="#"> Establecimi entos</a></b>
+                        </li>
+                        <li>
+                            <strong><a href="#" class="fa fa-wrench"> Administrar Instituciones</a></strong> 
+                            <b><a href="#"> Instituciones</a></b>
+                        </li>
+                        <li>
+                            <strong><a href="#" class="fa fa-wrench"> Administrar Usuarios</a></strong> 
+                            <b><a href="#"> Usuarios</a></b>
+                        </li>
+                        <li>
+                            <strong><a href="#" class="fa fa-wrench"> Administrar Secciones HC</a></strong> 
+                            <b><a href="#" > Secciones HC</a></b>
+                        </li>
+                    </ul>
+                </li>
+                
+                
+                <li>
+                    <a href="#">
+                        <i class="fa fa-calendar"></i>
+                        About
+                    </a>
+                    <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-certificate"></i>
+                        Pages
+                    </a>
+                    <ul class="collapse list-unstyled" id="pageSubmenu">
+                        <li>
+                            <a href="#">Page 1</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Page 3</a>
+                        </li>
+                    </ul>
+                    <a onclick="salir()" role="button">
+                        <i class="fa fa-external-link"></i>
+                        Salir
+                    </a>
+
+                </li>
+
+            </ul>
+        </nav>
+    </ui:composition>
+</html>
