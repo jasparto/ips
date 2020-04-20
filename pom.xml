@@ -222,10 +222,12 @@
             <artifactId>primefaces</artifactId>
             <version>6.0</version>
         </dependency>
-        
-    
-        
-                
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
+            <type>jar</type>
+        </dependency>
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>

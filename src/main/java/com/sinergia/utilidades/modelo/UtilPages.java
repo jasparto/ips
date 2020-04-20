@@ -4,10 +4,11 @@
  * and open the template in the editor.
  */
 package com.sinergia.utilidades.modelo;
+//
 
+import com.google.common.base.Strings;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -16,7 +17,7 @@ import javax.faces.context.FacesContext;
  * @author Julian D Osorio G
  */
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class UtilPages {
 
     private String currentNav;
@@ -30,12 +31,16 @@ public class UtilPages {
         Map map = context.getExternalContext().getRequestParameterMap();
         currentNav = (String) map.get("currentNav");
         currentNav = currentNav.replace("#", "");
-        System.out.println("nav::" + currentNav);
-        return (currentNav + "?faces-redirect=false");
+
+        if (Strings.isNullOrEmpty(currentNav)) {
+            return "";
+        } else {
+            return (currentNav + "?faces-redirect=true");
+        }
     }
-    
+
     public String lastNav() {
-        return (currentNav + "?faces-redirect=false");
+        return (currentNav + "?faces-redirect=true");
     }
 
     public String getCurrentNav() {
