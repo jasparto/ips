@@ -1,6 +1,6 @@
 <?php
 
-include "../lib/config.php";
+require "../lib/config.php";
 require "../controller/ControlUser.php";
 
 $auth = $_SERVER['HTTP_AUTHORIZATION'];
