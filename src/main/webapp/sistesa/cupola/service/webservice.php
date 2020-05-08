@@ -15,7 +15,7 @@ if ($uname != "" && $password != "") {
             "-------------------------" . PHP_EOL;
     //-
     file_put_contents('./log_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
-
+    
     header('Content-type: application/json');
-    echo '{"user":"' . $uname . '","pwd":"' . $password . '","count":"' . $count . $auth . $security[0] . $security[1] . '"}';
+    echo '{"user":"' . $uname . '", "Count":"' . $count . '", "Status":"'.$uname.($count >= '1' ? 'Success' : 'Failed').'"}';
 }
