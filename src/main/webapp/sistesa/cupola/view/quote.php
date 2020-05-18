@@ -22,12 +22,14 @@ $dato = $control->index();
     <div class="form">
 
 
-        <!--<form action="http://rs-pvapp.rhcloud.com/webresources/generic/post/correo" target="_blank" method="post" role="form" class="contactForm">-->
-        <!--<form action="http://186.147.244.139:8180/apache/webresources/generic/post/correoAsunto" target="_blank" method="post" role="form" >-->
+        <div class="section-header-cupola" style="margin-top: 100px;">
+            <h3>Nueva Cotización</h3>
+        </div>
+        
         <form action="" method="post" role="form" class="quoteForm">
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <input type="text" name="nombre" class="form-control" id="name" placeholder="Nombre Contacto" data-rule="minlen:4" data-msg="Ingresa tu nombre" />
+                    <input type="text" name="nombre" class="form-control" id="name" placeholder="Nombre Cliente" data-rule="minlen:4" data-msg="Ingresa el nombre del cliente" />
                     <div class="validation"></div>
                 </div>
                 <div class="form-group col-md-6">
@@ -40,7 +42,7 @@ $dato = $control->index();
                 <div class="validation"></div>
             </div>
             <div class="form-group">
-                <textarea class="form-control" id="mensaje" name="mensaje" rows="5" data-rule="required" data-msg="Escribe tus comentarios" placeholder="Mensaje"></textarea>
+                <textarea class="form-control" id="mensaje" name="mensaje" rows="5" data-rule="required" data-msg="Escribe las observaciones" placeholder="Observaciones"></textarea>
                 <div class="validation"></div>
             </div>
             <div class="text-center"><button type="submit" style="width: 200px;">Guardar</button></div>

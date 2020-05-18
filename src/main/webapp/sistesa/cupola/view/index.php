@@ -43,8 +43,10 @@ file_put_contents('./debug_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
             <table class="table table-striped table-responsive-md btn-table">
                 <tr>
                     <th>Id</th>
-                    <td>Nombre</td>
+                    <td>Cliente</td>
+                    <td>Descripcion</td>
                     <td>Precio</td>
+                    <td>Estado</td>
                     <td>Acción</td>
                 </tr>
                 <?php
@@ -59,7 +61,10 @@ file_put_contents('./debug_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
                     //file_put_contents('./debug_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
 
                     foreach ($value as $va) {
-                        echo "<tr><th>" . $va['id'] . "</th><td>" . $va['nombre'] . "</td><td>S./" . $va['precio'] . "</td>";
+                        echo "<tr><th>" . $va['id'] . "</th>";
+                        echo "<td>Cliente " . $va['id'] . "</td>";
+                        echo "<td>" . $va['nombre'] . "</td><td>S./" . $va['precio'] . "</td>";
+                        echo "<td>Pendiente</td>";
                         echo "<td><button onclick=\"location.href='index.php?m=consultar&id=" . $va['id'] . "'\" type='button' class='btn btn-indigo btn-sm m-0 ion-search'> Consultar</button></td>";
                         echo "</tr>";
                     }
