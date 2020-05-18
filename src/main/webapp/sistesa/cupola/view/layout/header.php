@@ -109,12 +109,12 @@ if (!isset($_SESSION['uname'])) {
                 </div>
 
                 <ul class="list-unstyled components">
-                    <li class="active">
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <li>
+                        <a  href="index.php" aria-expanded="false" class="dropdown-toggle">
                             <i class="ion-ios-home"></i>
                             Home
                         </a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
+<!--                        <ul class="collapse list-unstyled" id="homeSubmenu">
                             <li>
                                 <a href="#">Home 1</a>
                             </li>
@@ -124,27 +124,27 @@ if (!isset($_SESSION['uname'])) {
                             <li>
                                 <a href="#">Home 3</a>
                             </li>
-                        </ul>
+                        </ul>-->
                     </li>
                     <li>
-                        <a href="#">
+                        <a href="quote.php">
                             <i class="ion-ios-list"></i>
-                            About
+                            Cotizar
                         </a>
                         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="ion-log-out"></i>
-                            Pages
+                            <i class="ion-clipboard"></i>
+                            Seguimiento
                         </a>
                         <ul class="collapse list-unstyled" id="pageSubmenu">
                             <li>
-                                <a href="#">Page 1</a>
+                                <a href="#">Cotizaciones</a>
                             </li>
                             <li>
-                                <a href="#">Page 2</a>
+                                <a href="#">Facturas</a>
                             </li>
-                            <li>
+<!--                            <li>
                                 <a href="#">Page 3</a>
-                            </li>
+                            </li>-->
                         </ul>
                         <a href="logOut.php" >
                             <i class="ion-log-out"></i>

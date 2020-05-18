@@ -57,5 +57,6 @@
 <!-- Template Main Javascript File -->
 <script src="../../js/main.js"></script>
 <script src="../js/login.js"></script>
+<script src="js/quote.js"></script>
 </body>
 </html>
