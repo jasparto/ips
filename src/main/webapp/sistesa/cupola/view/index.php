@@ -65,7 +65,7 @@ file_put_contents('./debug_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
                         echo "<td>" . $va['nombre'] . "</td>";
                         echo "<td>" . $va['nombre'] . "</td><td>S./" . $va['valor_total'] . "</td>";
                         echo "<td>" . $va['estado'] ."</td>";
-                        echo "<td><button onclick=\"location.href='index.php?m=consultar&id=" . $va['id'] . "'\" type='button' class='btn btn-indigo btn-sm m-0 ion-search'> Consultar</button></td>";
+                        echo "<td><button onclick=\"location.href='index.php?m=consultar&id=" . $va['cod_cotizacion'] . "'\" type='button' class='btn btn-indigo btn-sm m-0 ion-search'> Consultar</button></td>";
                         echo "</tr>";
                     }
                 }
