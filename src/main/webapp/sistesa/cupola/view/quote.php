@@ -7,15 +7,9 @@ $control = new modeloController();
 $dato = $control->index();
 ?>
 
-
-
 <!--==========================
   Quotes Section
 ============================-->
-<!--<section id="contact" class="section-bg-cupola wow fadeInUp" >-->
-
-
-
 
 <div class="container" >
 
@@ -25,15 +19,15 @@ $dato = $control->index();
         <div class="section-header-cupola" style="margin-top: 100px;">
             <h3>Nueva Cotización</h3>
         </div>
-        
+
         <form action="" method="post" role="form" class="quoteForm">
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <input type="text" name="nombre" class="form-control" id="name" placeholder="Nombre Cliente" data-rule="minlen:4" data-msg="Ingresa el nombre del cliente" />
+                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo" data-rule="email" data-msg="Ingresa un correo valido" />
                     <div class="validation"></div>
                 </div>
                 <div class="form-group col-md-6">
-                    <input type="email" class="form-control" id="correo" name="correo" placeholder="Correo" data-rule="email" data-msg="Ingresa un correo valido" />
+                    <input type="text" name="nombre" class="form-control" id="name" placeholder="Nombre Cliente" data-rule="minlen:4" data-msg="Ingresa el nombre del cliente" />
                     <div class="validation"></div>
                 </div>
             </div>
@@ -52,12 +46,5 @@ $dato = $control->index();
     </div>
 
 </div>
-
-<!--</section> #contact -->
-
-
-
-
-
 
 <?php require "layout/footer.php" ?>

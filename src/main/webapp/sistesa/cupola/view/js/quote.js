@@ -1,9 +1,34 @@
 jQuery(document).ready(function ($) {
     "use strict";
 
-    //Contact
     $('form.quoteForm').submit(function () {
-        var f = $(this).find('.form-group'),
+        if (validate($(this).find('.form-group')))
+            return false;
+        else
+            var str = $(this).serialize();
+        $.ajax({
+            type: "POST",
+            url: "service/quote.php",
+            data: str,
+            success: function (msg) {
+                // alert(msg);
+                if (msg == 'OK') {
+                    $("#sendmessage").addClass("show");
+                    $("#errormessage").removeClass("show");
+                    $('.contactForm').find("input, textarea").val("");
+                } else {
+                    $("#sendmessage").removeClass("show");
+                    $("#errormessage").addClass("show");
+                    $('#errormessage').html(msg);
+                }
+
+            }
+        });
+        return false;
+    });
+    
+    var validate = function (formGroup) {
+        var f = formGroup,
                 ferror = false,
                 emailExp = /^[^\s()<>@,;:\/]+@\w[\w\.-]+\.[a-z]{2,}$/i;
 
@@ -88,29 +113,10 @@ jQuery(document).ready(function ($) {
                 i.next('.validation').html((ierror ? (i.attr('data-msg') != undefined ? i.attr('data-msg') : 'wrong Input') : '')).show('blind');
             }
         });
-        if (ferror)
-            return false;
-        else
-            var str = $(this).serialize();
-        $.ajax({
-            type: "POST",
-            url: "service/quote.php",
-            data: str,
-            success: function (msg) {
-                // alert(msg);
-                if (msg == 'OK') {
-                    $("#sendmessage").addClass("show");
-                    $("#errormessage").removeClass("show");
-                    $('.contactForm').find("input, textarea").val("");
-                } else {
-                    $("#sendmessage").removeClass("show");
-                    $("#errormessage").addClass("show");
-                    $('#errormessage').html(msg);
-                }
+        return ferror;
+    };
 
-            }
-        });
-        return false;
-    });
+
+
 
 });
