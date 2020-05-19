@@ -27,16 +27,22 @@ $dato = $control->index();
                     <div class="validation"></div>
                 </div>
                 <div class="form-group col-md-6">
+                    <input type="number" class="form-control" id="telefono" name="telefono" placeholder="Teléfono" data-rule="minlen:4" data-msg="Ingresa número de contacto" />    
+                    <div class="validation"></div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
                     <input type="text" name="nombre" class="form-control" id="name" placeholder="Nombre Cliente" data-rule="minlen:4" data-msg="Ingresa el nombre del cliente" />
+                    <div class="validation"></div>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" name="descripcion" class="form-control" id="descripcion" placeholder="Descripción" data-rule="minlen:4" data-msg="Ingresa la descripción" />
                     <div class="validation"></div>
                 </div>
             </div>
             <div class="form-group">
-                <input type="number" class="form-control" id="telefono" name="telefono" placeholder="Teléfono" data-rule="minlen:4" data-msg="Ingresa telefono contacto" />
-                <div class="validation"></div>
-            </div>
-            <div class="form-group">
-                <textarea class="form-control" id="mensaje" name="mensaje" rows="5" data-rule="required" data-msg="Escribe las observaciones" placeholder="Observaciones"></textarea>
+                <textarea class="form-control" id="observacion" name="observacion" rows="5" data-rule="required" data-msg="Escribe las observaciones" placeholder="Observaciones"></textarea>
                 <div class="validation"></div>
             </div>
             <div class="text-center"><button type="submit" style="width: 200px;">Guardar</button></div>

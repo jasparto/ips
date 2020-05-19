@@ -45,7 +45,7 @@ file_put_contents('./debug_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
                     <th>Id</th>
                     <td>Cliente</td>
                     <td>Descripcion</td>
-                    <td>Precio</td>
+                    <td>Valor</td>
                     <td>Estado</td>
                     <td>Acción</td>
                 </tr>
@@ -61,10 +61,10 @@ file_put_contents('./debug_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
                     //file_put_contents('./debug_' . date("j.n.Y") . '.txt', $log, FILE_APPEND);
 
                     foreach ($value as $va) {
-                        echo "<tr><th>" . $va['id'] . "</th>";
-                        echo "<td>Cliente " . $va['id'] . "</td>";
-                        echo "<td>" . $va['nombre'] . "</td><td>S./" . $va['precio'] . "</td>";
-                        echo "<td>Pendiente</td>";
+                        echo "<tr><th>" . $va['cod_cotizacion'] . "</th>";
+                        echo "<td>" . $va['nombre'] . "</td>";
+                        echo "<td>" . $va['nombre'] . "</td><td>S./" . $va['valor_total'] . "</td>";
+                        echo "<td>" . $va['estado'] ."</td>";
                         echo "<td><button onclick=\"location.href='index.php?m=consultar&id=" . $va['id'] . "'\" type='button' class='btn btn-indigo btn-sm m-0 ion-search'> Consultar</button></td>";
                         echo "</tr>";
                     }

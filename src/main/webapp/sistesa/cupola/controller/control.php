@@ -13,7 +13,7 @@ class modeloController {
     // MOSTRAR
     function index() {
         $producto = new Modelo();
-        $dato = $producto->mostrar("productos", "1");
+        $dato = $producto->mostrar("cotizacion JOIN clientes ON (correo_cliente=correo)", "1");
         return $dato;
         //require_once("../view/index.php");
     }
