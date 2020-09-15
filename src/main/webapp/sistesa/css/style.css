@@ -86,6 +86,45 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
+.wapp-to-contact {
+    position:fixed;
+    width:60px;
+    height:60px;
+    bottom:65px;
+    right:10px;
+    background-color:#25d366;
+    color:#FFF;
+    border-radius:50px;
+    text-align:center;
+    font-size:30px;
+    box-shadow: 2px 2px 3px #999;
+    z-index:100;
+}
+
+.wapp-to-contact:hover {
+    color:#FFF;
+}
+
+.wapp-to-contact:focus {
+    color:#FFF;
+}
+
+.wapp-float{
+    margin-top:16px;
+}
+
+.wapp-float:hover{
+    color:#FFF;
+}
+
+@media (max-width: 768px) {
+    .wapp-to-contact {
+        bottom: 65px;
+        right:10px;
+    }
+}
+
+
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
